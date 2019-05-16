@@ -31,4 +31,16 @@ Route::group(['prefix' => 'room', 'middleware' => 'web'], function() {
         Route::post('/update', 'Room\RoomConditionController@update');
 
     });
+    Route::group(['prefix' => 'type'], function() {
+        Route::get('/', 'Room\RoomTypeController@index')->name('type');
+        Route::post('/store', 'Room\RoomTypeController@store');
+        Route::post('/update', 'Room\RoomtypeController@update');
+
+    });
+    Route::group(['prefix' => 'bed_type'], function() {
+        Route::get('/', 'Room\RoomBedTypeController@index')->name('bed_type');
+        Route::post('/store', 'Room\RoomBedTypeController@store');
+        Route::post('/update', 'Room\RoomBedtypeController@update');
+
+    });
 });
