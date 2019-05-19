@@ -1,12 +1,18 @@
 <ul class="sidebar-menu" data-widget="tree">
-    <li class="header">MAIN NAVIGATION</li>
+    <li class="header"></li>
+    <li style="treeview">
+        <a href="{{ Url::to('/') }}">
+            <i class="fa fa-puzzle-piece"></i>
+            <span>Dashboard</span>
+        </a>
+    </li>
     <li style="treeview">
         <a href="{{ Url::to('reservation') }}">
             <i class="fa fa-calendar"></i>
             <span>Reservation</span>
         </a>
     </li>
-    <li class="treeview active menu-open">
+    <li class="treeview menu-open">
         <a href="#">
             <i class="fa fa-bed"></i>
             <span>Rooms</span>

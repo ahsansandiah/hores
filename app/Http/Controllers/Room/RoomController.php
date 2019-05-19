@@ -9,6 +9,7 @@ use App\Entities\Room;
 use App\Entities\Room\RoomBedType;
 use App\Entities\Room\RoomCondition;
 use App\Entities\Room\RoomType;
+use Redirect;
 
 class RoomController extends Controller
 {
@@ -24,7 +25,7 @@ class RoomController extends Controller
 
     public function index()
     {
-        $rooms = Room::paginate(20);
+        $rooms = Room::with('roomType', 'roomCondition')->paginate(10);
         $roomBedTypes = RoomBedType::all();
         $roomConditions = RoomCondition::all();
         $roomTypes = RoomType::all();
@@ -42,10 +43,38 @@ class RoomController extends Controller
         $room->guest_total   = $request->guest_max;
         $room->fee_breakfast = $request->fee_breakfast;
         $room->condition     = $request->condition;
-        $room->is_booking    = true;
+        $room->is_booking    = false;
         $room->is_active     = true;
         $room->save();
 
         return redirect('room');
+    }
+
+    public function update(Request $request, $id)
+    {
+        $room = Room::find($id);
+        $room->room_number   = $request->room_number;
+        $room->type          = $request->type;
+        $room->price_day     = $request->price;
+        $room->bed_type      = $request->bed_type;
+        $room->guest_total   = $request->guest_max;
+        $room->fee_breakfast = $request->fee_breakfast;
+        $room->condition     = $request->condition;
+        $room->is_active     = $request->is_active;;
+        $room->save();
+
+        return redirect('room');
+    }
+
+    public function destroy($id)
+    {
+        $room = Room::find($id);
+        if ($room->is_booking == 1) {
+            return Redirect::back()->with('error_message', 'Deleted failed, Please check status room');
+        }
+
+        $room->delete();
+
+        return Redirect::back()->with('message', 'Deleted success');
     }
 }

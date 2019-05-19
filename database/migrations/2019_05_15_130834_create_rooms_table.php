@@ -26,6 +26,7 @@ class CreateRoomsTable extends Migration
             $table->string('is_booking');
             $table->integer('condition');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

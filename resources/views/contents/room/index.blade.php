@@ -81,7 +81,7 @@
                                                         <div class="form-group">
                                                             <label for="inputCondition" class="col-sm-2 control-label">Description</label>
                                                             <div class="col-sm-10">
-                                                                <textarea name="description " id="" cols="30" rows="10"></textarea>
+                                                                <textarea name="description" class="form-control" id="" cols="30" rows="10"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -100,7 +100,7 @@
                                     </div>
                                 <!-- /.modal-dialog -->
                                 </div>
-                            <!-- /.modal -->
+                                <!-- /.modal -->
                             </div>
                         </div>
                         <div class="col-sm-3 pull-right">
@@ -120,36 +120,154 @@
                             <th>Type</th>
                             <th>Price / Day</th>
                             <th>Guest Total</th>
+                            <th>Is Active</th>
+                            <th>Is Booking</th>
                             <th style="width: 40px"></th>
                         </tr>
-                        <tr>
-                            @foreach ($rooms as $room)
+                        @foreach ($rooms as $room)
+                            <tr>
                                 <td></td>
                                 <td>{{ $room->room_number }}</td>
-                                <td>{{ $room->type }}</td>
+                                <td>{{ $room->roomType->name }}</td>
                                 <td>{{ $room->price_day }}</td>
                                 <td>{{ $room->guest_total }}</td>
                                 <td>
-                                    <a class="btn btn-app" href="{{ url('room/edit'. $room->id) }}">
+                                    @if ($room->is_active == 1)
+                                        <span class="label label-success">Active</span>
+                                    @else
+                                        <span class="label label-danger">Deactive</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($room->is_booking == 0)
+                                        <span class="label label-success">Available</span>
+                                    @else
+                                        <span class="label label-warning">Unavailable</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <a class="btn btn-app-table" data-toggle="modal" data-target="#modal-edit{{ $room->id }}">
                                         <i class="fa fa-edit"></i> Edit
                                     </a>
-                                    <a class="btn btn-app" href="{{ url('room/delete'. $room->id) }}">
+                                    <div class="modal fade" id="modal-edit{{ $room->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title">Form Edit Room</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{{ url('room/store') }}" method="POST" class="form-horizontal">
+                                                        @csrf
+                                                        <div class="box-body">
+                                                            <div class="form-group">
+                                                                <label for="inputRoomNumber" class="col-sm-2 control-label">Room Number</label>
+                                                                <div class="col-sm-10">
+                                                                    <input type="text" class="form-control" name="room_number" id="inputRoomNumber" value="{{ $room->room_number }}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="inputType" class="col-sm-2 control-label">Type</label>
+                                                                <div class="col-sm-10">
+                                                                    <select name="type" id="">
+                                                                        @foreach ($roomTypes as $type)
+                                                                            <option value="{{ $type->id }}" {{ ($room->type == $type->id) ? "selected" : "" }}>{{ $type->name }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="inputPrice" class="col-sm-2 control-label">Price (/day)</label>
+                                                                <div class="col-sm-10">
+                                                                    <input type="text" class="form-control" name="price" id="inputPrice" value="{{ $room->price_day }}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="inputBadType" class="col-sm-2 control-label">Bad Type</label>
+                                                                <div class="col-sm-10">
+                                                                    <select name="bed_type" id="">
+                                                                        @foreach ($roomBedTypes as $bedType)
+                                                                            <option value="{{ $bedType->id }}" {{ ($room->bed_type == $bedType->id) ? "selected" : "" }}>{{ $bedType->name }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="inputGuestMax" class="col-sm-2 control-label">Guest Max</label>
+                                                                <div class="col-sm-10">
+                                                                    <input type="text" class="form-control" name="guest_max" id="inputGuestMax" value="{{ $room->guest_total }}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="inputFeeBreakfast" class="col-sm-2 control-label">Fee Breakfast (/day)</label>
+                                                                <div class="col-sm-10">
+                                                                    <input type="text" class="form-control" name="fee_breakfast" id="inputFreeBreakfast" value="{{ $room->fee_breakfast }}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="inputCondition" class="col-sm-2 control-label">Room Condition</label>
+                                                                <div class="col-sm-10">
+                                                                    <select name="condition" id="">
+                                                                        @foreach ($roomConditions as $condition)
+                                                                            <option value="{{ $condition->id }}" {{ ($room->condition == $condition->id) ? "selected" : "" }}>{{ $condition->name }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="inputBadType" class="col-sm-2 control-label">Is Active</label>
+                                                                <div class="col-sm-10">
+                                                                    <select name="is_active" id="">
+                                                                        <option value="true" {{ ($room->is_active == "1") ? "selected" : "" }}>Active</option>
+                                                                        <option value="false"{{ ($room->is_active == "0") ? "selected" : "" }}>Deactive</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="inputCondition" class="col-sm-2 control-label">Description</label>
+                                                                <div class="col-sm-10">
+                                                                    <textarea name="description" class="form-control" id="" cols="30" rows="10">{{ $room->description }}</textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                            <!-- /.box-body -->
+                                                        <div class="box-footer">
+                                                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-info pull-right">Save</button>
+                                                        </div>
+                                                        <!-- /.box-footer -->
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                </div>
+                                            </div>
+                                        <!-- /.modal-content -->
+                                        </div>
+                                    <!-- /.modal-dialog -->
+                                    </div>
+                                    <!-- /.modal -->
+                                    <a class="btn btn-app-table" href="{{ url('room/delete/'. $room->id) }}">
                                         <i class="fa fa-trash"></i> Delete
                                     </a>
+                                    @if ($room->is_booking == 0)
+                                        <a class="btn btn-app-table" href="{{ url('reservation/checkin/'. $room->id) }}">
+                                            <i class="fa fa-sign-in"></i> Check In
+                                        </a>
+                                    @else
+                                        <a class="btn btn-app-table" href="{{ url('reservation/checkout/'. $room->id) }}">
+                                            <i class="fa fa-sign-out"></i> Check Out
+                                        </a>
+                                    @endif
+                                    
                                 </td>
-                            @endforeach
-                        </tr>
+                            </tr>
+                        @endforeach
                     </table>
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer clearfix">
-                    <ul class="pagination pagination-sm no-margin pull-right">
-                        <li><a href="#">&laquo;</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">&raquo;</a></li>
-                    </ul>
+                    {{ $rooms->links() }}
                 </div>
             </div>
             <!-- /.box -->

@@ -25,3 +25,20 @@
 <!-- Google Font -->
 <link rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+
+<style>
+    .btn-app-table { 
+        border-radius: 3px;
+        position: relative;
+        padding: 8px 5px;
+        margin: 0 0 10px 10px;
+        min-width: 61px;
+        height: 33px;
+        text-align: center;
+        color: #666;
+        border: 1px solid #ddd;
+        background-color: #f4f4f4;
+        font-size: 12px;
+    }
+</style>

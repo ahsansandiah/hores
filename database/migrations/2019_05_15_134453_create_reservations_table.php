@@ -33,8 +33,10 @@ class CreateReservationsTable extends Migration
             $table->string('child_guest');
             $table->string('price_day');
             $table->string('total_price');
+            $table->string('status');
             $table->text('description');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

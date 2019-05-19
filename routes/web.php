@@ -25,6 +25,7 @@ Route::group(['prefix' => 'reservation', 'middleware' => 'web'], function() {
 Route::group(['prefix' => 'room', 'middleware' => 'web'], function() {
     Route::get('/', 'Room\RoomController@index')->name('room');
     Route::post('/store', 'Room\RoomController@store')->name('room.store');
+    Route::get('/delete/{id}', 'Room\RoomController@destroy')->name('room.destroy');
 
     Route::group(['prefix' => 'condition'], function() {
         Route::get('/', 'Room\RoomConditionController@index')->name('condition');

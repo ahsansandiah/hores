@@ -46,7 +46,7 @@
                                     </div>
                                 <!-- /.modal-dialog -->
                                 </div>
-                            <!-- /.modal -->
+                                <!-- /.modal -->
                             </div>
                         </div>
                         <div class="col-sm-3 pull-right">
