@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
+
 use App\Entities\Room;
 use App\Entities\Room\RoomBedType;
 use App\Entities\Room\RoomCondition;
 use App\Entities\Room\RoomType;
+use App\Entities\Reservation;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -29,18 +33,40 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $rooms = Room::with('roomType', 'roomCondition')->paginate(30);
+        $query = Room::with('roomType', 'roomCondition');
+
+        if (Input::has('search')) {
+            $query->where('room_number', Input::get('search'))
+                ->orWhere('price_day', Input::get('search'))
+                ->orWhere('guest_total', Input::get('search'));
+        }
+
+        if (Input::has('is_booking')) {
+            $query->where('is_booking', Input::get('is_booking'));
+        }
+
+        $rooms = $query->paginate(30);
+
         $countAvailableRooms = Room::where('is_booking', 0)->count();
         $roomBedTypes = RoomBedType::all();
         $roomConditions = RoomCondition::all();
         $roomTypes = RoomType::all();
+
+        // Box Information
+        $checkinToday = Reservation::where('checkin_date', Carbon::today())->count();
+        $checkoutToday = Reservation::where('checkout_date', Carbon::today())->count();
+        $countReservation = Reservation::count();
+        // End Box Information
 
         return view('contents.home.index', compact(
             'rooms', 
             'countAvailableRooms',
             'roomBedTypes',
             'roomConditions',
-            'roomTypes'
+            'roomTypes',
+            'checkinToday',
+            'checkoutToday',
+            'countReservation'
         ));
     }
 }

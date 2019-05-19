@@ -2,78 +2,160 @@
 @section('content')
     <div class="col-md-12">
         <!-- USERS LIST -->
-        <div class="box box-danger">
+        <div class="box box-success">
             <div class="box-header with-border">
-            <h3 class="box-title">List Room</h3>
-
-            <div class="box-tools pull-right">
-                <span class="label label-danger">{{ $countAvailableRooms }} Room Available</span>
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-            </div>
+                <h3 class="box-title">List Room | 
+                    <span class="label label-success">{{ $countAvailableRooms }} Room Available</span>
+                </h3>
+                <div class="box-tools">
+                    <form action="{{ url('/?search') }}" method="GET">
+                        <input type="text" name="search" placeholder="Room Number, Price, Guest Total">
+                        <button type="submit" class="btn btn-info btn-flat" style="margin-right: 90px;"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+                <div class="box-tools pull-right">
+                    
+                    <div class="btn-group">
+                        <span class="btn btn-success btn-flat">Filter</span>
+                        <button class="btn btn-success btn-flat dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{ url('/?is_booking=0') }}">Available</a></li>
+                            <li><a href="{{ url('/?is_booking=1') }}">Unavailable</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{{ url('/') }}">Clear</a></li>
+                        </ul>
+                    </div>
+                    {{-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i> --}}
+                    </button>
+                </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body no-padding">
-            <ul class="users-list clearfix" style="width: 40%;">
-                @foreach ($rooms as $room)
-                    <li>
-                        <a href="" data-toggle="modal" data-target="#modal-default{{ $room->id }}">
-                            <span class="info-box-icon {{ ($room->is_booking == '1') ? "bg-red" : "bg-blue" }}" style="font-size: 19px;">
-                                {{ $room->room_number }}
-                            </span>
-                        </a>
-                    </li>
-                    <div class="modal fade" id="modal-default{{ $room->id }}">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title">Room Number : {{ $room->room_number }} {{ ($room->is_booking == '1') ? "( Unavailable )" : "( Available )" }}</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <span>{{ $room->roomType->name }}</span> | 
-                                    <span>{{ 'Rp. ' . number_format($room->price_day, 0, ',', '.') . ' /day' }}</span>
-                                    <hr>
-                                        @if ($room->is_booking == '1')
-                                            <a href="{{ url('reservation/checkout/'.$room->id) }}" class="btn btn-app">
-                                                <i class="fa fa-sign-out"></i> Check Out
+                <ul class="users-list clearfix" style="width: 40%;">
+                    @foreach ($rooms as $room)
+                        <li>
+                            <a href="" data-toggle="modal" data-target="#modal-default{{ $room->id }}">
+                                <span class="info-box-icon {{ ($room->is_booking == '1') ? "bg-red" : "bg-blue" }}" style="font-size: 19px;">
+                                    {{ $room->room_number }}
+                                </span>
+                            </a>
+                        </li>
+                        <div class="modal fade" id="modal-default{{ $room->id }}">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title">Room Number : {{ $room->room_number }} {{ ($room->is_booking == '1') ? "( Unavailable )" : "( Available )" }}</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <span>{{ $room->roomType->name }}</span> | 
+                                        <span>{{ 'Rp. ' . number_format($room->price_day, 0, ',', '.') . ' /day' }}</span>
+                                        <hr>
+                                            @if ($room->is_booking == '1')
+                                                <a href="{{ url('reservation/checkout/'.$room->id) }}" class="btn btn-app">
+                                                    <i class="fa fa-sign-out"></i> Check Out
+                                                </a>
+                                            @else
+                                                <a href="{{ url('reservation/checkin/'.$room->id) }}" class="btn btn-app">
+                                                    <i class="fa fa-sign-in"></i> Check In
+                                                </a>
+                                            @endif
+                                            <a href="{{ url('reservation/edit/'.$room->id) }}" class="btn btn-app">
+                                                <i class="fa fa-edit"></i> Edit
                                             </a>
-                                        @else
-                                            <a href="{{ url('reservation/checkin/'.$room->id) }}" class="btn btn-app">
-                                                <i class="fa fa-sign-in"></i> Check In
+                                            <a class="btn btn-app" data-toggle="modal" data-target="#create-room">
+                                                <i class="fa fa-plus"></i> Create
                                             </a>
-                                        @endif
-                                        <a href="{{ url('reservation/edit/'.$room->id) }}" class="btn btn-app">
-                                            <i class="fa fa-edit"></i> Edit
-                                        </a>
-                                        <a class="btn btn-app" data-toggle="modal" data-target="#create-room">
-                                            <i class="fa fa-plus"></i> Create
-                                        </a>
-                                        <a href="{{ url('reservation/create/'.$room->id) }}" class="btn btn-app">
-                                            <i class="fa fa-trash"></i> Delete
-                                        </a>
-                                    <hr>
-                                        <span>Current Status : <a class="btn bg-maroon btn-flat margin">{{ $room->roomCondition->name }}</a></span>
+                                            <a href="{{ url('room/delete/'.$room->id) }}" class="btn btn-app" onclick="return confirm('Are you sure you want to delete this item?');">
+                                                <i class="fa fa-trash"></i> Delete
+                                            </a>
+                                        <hr>
+                                            <span>Current Status : <a class="btn bg-maroon btn-flat margin">{{ $room->roomCondition->name }}</a></span>
+                                    </div>
+                                    <div class="modal-footer">
+                                    </div>
                                 </div>
-                                <div class="modal-footer">
-                                </div>
+                            <!-- /.modal-content -->
                             </div>
-                        <!-- /.modal-content -->
+                        <!-- /.modal-dialog -->
                         </div>
-                    <!-- /.modal-dialog -->
-                    </div>
-                    <!-- /.modal -->
-                @endforeach
-            </ul>
-            <!-- /.users-list -->
+                        <!-- /.modal -->
+                    @endforeach
+                </ul>
+                <!-- /.users-list -->
             </div>
             <!-- /.box-body -->
+            <div class="box-footer">
+                {{ $rooms->links() }}
+            </div>
             <!-- /.box-footer -->
         </div>
         <!--/.box -->
-        </div>
-        <!-- /.col -->
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-aqua"><i class="fa fa-sign-in"></i></span>
+        
+                    <div class="info-box-content">
+                        <span class="info-box-text">Check In <br><small>(Today)</small></span>
+                        <span class="info-box-number">{{ $checkinToday }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-yellow"><i class="fa fa-sign-out"></i></span>
+    
+                    <div class="info-box-content">
+                        <span class="info-box-text">Check Out <br><small>(Today)</small></span>
+                        <span class="info-box-number">{{ $checkoutToday }}</span>
+                    </div>
+                <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+    
+            <!-- fix for small devices only -->
+            <div class="clearfix visible-sm-block"></div>
+    
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                <span class="info-box-icon bg-green"><i class="fa fa-bar-chart-o"></i></span>
+    
+                <div class="info-box-content">
+                    <span class="info-box-text">Reservation</span>
+                    <span class="info-box-number">{{ $countReservation }}</span>
+                </div>
+                <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+    
+                <div class="info-box-content">
+                    <span class="info-box-text">New Members</span>
+                    <span class="info-box-number">2,000</span>
+                </div>
+                <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            </div>
+            <!-- /.row -->
     </div>
     <!-- /.row -->
 
