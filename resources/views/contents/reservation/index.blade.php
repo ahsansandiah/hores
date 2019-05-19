@@ -11,7 +11,7 @@
                     <div class="row">
                         <div class="col-sm-3 pull-left">
                             <div class="input-group margin">
-                                <a href="" class="btn btn-block btn-success btn-flat">Create</a>
+                                <a href="{{ url('reservation/create') }}" class="btn btn-block btn-success btn-flat ">Create</a>
                             </div>
                         </div>
                         <div class="col-sm-3 pull-right">
@@ -50,6 +50,9 @@
                                     </a>
                                     <a class="btn btn-app" href="{{ url('reservation/delete'. $reservation->id) }}">
                                         <i class="fa fa-trash"></i> Delete
+                                    </a>
+                                    <a class="btn btn-app" href="{{ url('reservation/checkout') }}">
+                                        <i class="fa fa-sign-out"></i> Check Out
                                     </a>
                                 </td>
                             @endforeach

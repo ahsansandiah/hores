@@ -19,6 +19,12 @@ Route::get('/', 'HomeController@index')->name('home')->middleware('web');
 // Reservation
 Route::group(['prefix' => 'reservation', 'middleware' => 'web'], function() {
     Route::get('/', 'Reservation\ReservationController@index')->name('reservation');
+    Route::get('/create','Reservation\ReservationController@create');
+    Route::post('/store','Reservation\ReservationController@store');
+    Route::post('/update','Reservation\ReservationController@update');
+    Route::get('/checkout','Reservation\ReservationController@store');
+    
+
 });
 
 // Room
