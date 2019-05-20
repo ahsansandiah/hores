@@ -11,7 +11,7 @@
 <link media="all" type="text/css" rel="stylesheet" href='{{ url('adminLTE/dist/css/AdminLTE.min.css') }}' />
 
 <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
-<link media="all" type="text/css" rel="stylesheet" href='{{ url('adminLTE/dist/css/skins/_all-skins.min.css"') }}' />
+<link media="all" type="text/css" rel="stylesheet" href='{{ url('adminLTE/dist/css/skins/_all-skins.min.css') }}' />
 
 <link media="all" type="text/css" rel="stylesheet" href='{{ url('adminLTE/style.css') }}' />
 
@@ -21,6 +21,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 <!-- Google Font -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -41,3 +42,14 @@
         font-size: 12px;
     }
 </style>
+
+<!-- daterange picker -->
+<link rel="stylesheet" href='{{ url('adminLTE/bower_components/bootstrap-daterangepicker/daterangepicker.css') }}'>
+<!-- bootstrap datepicker -->
+<link rel="stylesheet" href='{{ url('adminLTE/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}'>
+<!-- iCheck for checkboxes and radio inputs -->
+<link rel="stylesheet" href='{{ url('adminLTE/plugins/iCheck/all.css')}}'>
+<!-- Bootstrap Color Picker -->
+<link rel="stylesheet" href='{{ url('adminLTE/bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css')}}'>
+<!-- Bootstrap time Picker -->
+<link rel="stylesheet" href='{{ url('adminLTE/plugins/timepicker/bootstrap-timepicker.min.css')}}'>
