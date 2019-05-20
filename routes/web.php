@@ -52,3 +52,8 @@ Route::group(['prefix' => 'room', 'middleware' => 'web'], function() {
 
     });
 });
+
+Route::group(['prefix' => 'service', 'middleware' => 'web'], function() {
+    Route::get('/', 'service\ServiceController@index')->name('service');
+
+});

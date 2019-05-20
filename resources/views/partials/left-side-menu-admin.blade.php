@@ -28,7 +28,7 @@
         </ul>
     </li>
     <li style="treeview">
-        <a href="{{ Url::to('admin/shortlink') }}">
+        <a href="{{ Url::to('service') }}">
             <i class="fa fa-cog"></i>
             <span>Additional Services</span>
         </a>
