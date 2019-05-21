@@ -7,7 +7,7 @@
         </div>
         <div class="pull-left info">
             <p></p>
-            <p>Hello, {{ Auth::user()->name }}</p>
+            {{-- <p>Hello, {{ Auth::user()->name }}</p> --}}
         </div>
     </div>
     <!-- sidebar menu: : style can be found in sidebar.less -->

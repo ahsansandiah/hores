@@ -31,8 +31,13 @@ class CreateReservationsTable extends Migration
             $table->integer('duration');
             $table->string('adult_guest');
             $table->string('child_guest');
-            $table->string('price_day');
-            $table->string('total_price');
+            $table->integer('price_day');
+            $table->integer('total_price');
+            $table->string('paid_by')->nullable();
+            $table->string('identity_id')->nullable();
+            $table->string('institute')->nullable();
+            $table->string('institute_address_first')->nullable();
+            $table->string('institute_address_second')->nullable();
             $table->string('status');
             $table->text('description');
             $table->timestamps();

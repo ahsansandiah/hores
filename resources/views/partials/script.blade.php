@@ -20,6 +20,8 @@
 <script src='{{ url('adminLTE/bower_components/bootstrap-daterangepicker/daterangepicker.js') }}'></script>
 <!-- bootstrap datepicker -->
 <script src='{{ url('adminLTE/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}'></script>
+<script src='{{ url('adminLTE/dist/js/bootstrap-datetimepicker.js') }}'></script>
+
 <!-- bootstrap time picker -->
 <script src='{{ url('adminLTE/plugins/timepicker/bootstrap-timepicker.min.js') }}'></script>
 <script>
@@ -50,7 +52,11 @@
 
       
       //Date picker
-      $('#checkout_date').datepicker({
+      $('#checkout_date').datetimepicker({
+          autoclose: true
+      })
+
+      $('#checkin_date').datetimepicker({
           autoclose: true
       })
 
@@ -58,9 +64,6 @@
           autoclose: true
       })
 
-      $('#checkin_date').datepicker({
-          autoclose: true
-      })
       //Timepicker
       $('.timepicker').timepicker({
         showInputs: false

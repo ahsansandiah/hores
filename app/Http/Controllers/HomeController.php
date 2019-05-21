@@ -33,8 +33,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $query = Room::with('roomType', 'roomCondition');
-
+        $query = Room::with(['roomType', 'roomCondition', 
+                    'reservations' => function ($query) {
+                        $query->where('status', Reservation::STATUS_CHECKIN);
+                    }
+                ]);
+        
         if (Input::has('search')) {
             $query->where('room_number', Input::get('search'))
                 ->orWhere('price_day', Input::get('search'))

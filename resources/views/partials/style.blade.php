@@ -47,6 +47,8 @@
 <link rel="stylesheet" href='{{ url('adminLTE/bower_components/bootstrap-daterangepicker/daterangepicker.css') }}'>
 <!-- bootstrap datepicker -->
 <link rel="stylesheet" href='{{ url('adminLTE/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}'>
+<link rel="stylesheet" href='{{ url('adminLTE/dist/css/bootstrap-datetimepicker.css') }}'>
+
 <!-- iCheck for checkboxes and radio inputs -->
 <link rel="stylesheet" href='{{ url('adminLTE/plugins/iCheck/all.css')}}'>
 <!-- Bootstrap Color Picker -->
