@@ -93,6 +93,10 @@
                                     <td>{{ 'Rp. ' . number_format($reservation->reservationCost->deposit, 0, ',', '.') }}</td>
                                 </tr>
                                 <tr>
+                                    <th>Deposit :</th>
+                                    <td>{{ number_format($reservation->reservationCost->discount, 0, ',', '.')  .' (%)' }}</td>
+                                </tr>
+                                <tr>
                                     <th>Total :</th>
                                     <td>{{ 'Rp. ' . number_format($reservation->reservationCost->total_price, 0, ',', '.') }}</td>
                                 </tr>
@@ -105,6 +109,7 @@
                     <!-- this row will not appear when printing -->
                     <div class="row no-print">
                         <div class="col-xs-12">
+                            <a href="{{ url('reservation/edit/'.$reservation->id) }}" class="btn btn-default">Edit</a>
                             <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
                             @if ($reservation->status == $reservation::STATUS_CHECKIN)
                                 <a class="btn btn-success pull-right" data-toggle="modal" data-target="#payment-method"><i class="fa fa-credit-card"></i> Payment Method </a>
@@ -131,13 +136,13 @@
                     <h4 class="modal-title">Payment Method</h4>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ url('room/store') }}" method="POST" class="form-horizontal">
+                    <form action="{{ url('reservation/check-out/'.$reservation->reservation_number ) }}" method="POST" class="form-horizontal">
                         @csrf
                         <div class="box-body">
                             <div class="form-group">
                                 <label for="inputRoomNumber" class="col-sm-2 control-label">Price Total</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="price_total" id="inputRoomNumber" value="{{ $reservation->total_price }}" disabled>
+                                    <input type="text" class="form-control" name="price_total" id="inputRoomNumber" value="{{ $reservation->total_price }}">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -185,27 +190,21 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputRoomNumber" class="col-sm-2 control-label">Name (Personal/Institute)</label>
+                                <label for="inputRoomNumber" class="col-sm-2 control-label">Name</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="name" id="inputName" value="{{ $reservation->name }}" disabled>
+                                    <input type="text" class="form-control" name="institute" id="inputName" value="{{ $reservation->name }}">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputRoomNumber" class="col-sm-2 control-label">Address 1</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="address" id="inputAddress" value="{{ $reservation->address }}" disabled>
+                                    <input type="text" class="form-control" name="address_first" id="inputAddress">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputRoomNumber" class="col-sm-2 control-label">Address 2</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="institute_address_first" id="inputInstituteAddressFirst" value="{{ $reservation->institute_address_first }}">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputRoomNumber" class="col-sm-2 control-label">Phone Number</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="phone_number" id="inputPhoneNumber" value="{{ $reservation->phone_number }}" disabled>
+                                    <input type="text" class="form-control" name="address_second" id="inputInstituteAddressFirst">
                                 </div>
                             </div>
                         </div>

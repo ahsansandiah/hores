@@ -20,6 +20,7 @@ class CreateReservationsTable extends Migration
             $table->string('type_identitiy_card');
             $table->string('name');
             $table->string('address');
+            $table->string('city');
             $table->string('phone_number');
             $table->string('gender');
             $table->string('email');

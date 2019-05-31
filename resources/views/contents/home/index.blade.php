@@ -68,7 +68,7 @@
                                                 </a>
                                             @endif
                                               | 
-                                            <a href="{{ url('reservation/edit/'.$room->id) }}" class="btn btn-app">
+                                            <a href="{{ url('room/edit/'.$room->id) }}" class="btn btn-app">
                                                 <i class="fa fa-edit"></i> Edit
                                             </a>
                                             <a class="btn btn-app" data-toggle="modal" data-target="#create-room">

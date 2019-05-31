@@ -20,6 +20,11 @@ class Reservation extends Model
         return $this->hasOne('App\Entities\ReservationCost', 'reservation_number', 'reservation_number');
     }
 
+    public function roomByRoomNumber()
+    {
+        return $this->hasOne('App\Entities\Room', 'room_number', 'room_number');
+    }
+
     public function createReservation($reservation)
     {
         

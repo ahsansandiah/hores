@@ -131,4 +131,20 @@ class ReservationController extends Controller
 
         return view('contents.reservation.detail', compact('reservation', 'room'));
     }
+
+    public function edit($id)
+    {
+        $reservation = Reservation::with('reservationCost')->findOrFail($id);
+        $room = Room::with('roomType', 'roomBedType')
+                    ->where('room_number', $reservation->room_number)
+                    ->first();
+        
+        return view('contents.reservation.edit', compact('room', 'reservation'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $reservation =  Reservation::findOrFail($id);
+
+    }
 }

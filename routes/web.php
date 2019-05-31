@@ -23,10 +23,11 @@ Route::group(['prefix' => 'reservation', 'middleware' => 'web'], function() {
    
     Route::get('/check-in/{roomId}','Reservation\ReservationController@checkin');
     Route::post('/check-in/{roomId}/store','Reservation\ReservationController@checkinProcess');
-    Route::get('/check-out','Reservation\ReservationController@checkout');
+    Route::post('/check-out/{reservationNumber}','Reservation\ReservationCostController@store');
 
     Route::get('/create','Reservation\ReservationController@create');
     Route::post('/store','Reservation\ReservationController@store');
+    Route::get('/edit/{id}','Reservation\ReservationController@edit');
     Route::post('/update','Reservation\ReservationController@update');
 });
 
@@ -57,6 +58,6 @@ Route::group(['prefix' => 'room', 'middleware' => 'web'], function() {
 });
 
 Route::group(['prefix' => 'service', 'middleware' => 'web'], function() {
-    Route::get('/', 'service\ServiceController@index')->name('service');
+    Route::get('/', 'Service\ServiceController@index')->name('service');
 
 });

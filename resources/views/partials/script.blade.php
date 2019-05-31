@@ -49,28 +49,23 @@
           $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
         }
       )
-
       
       //Date picker
       $('#checkout_date').datetimepicker({
-          autoclose: true
       })
 
       $('#checkin_date').datetimepicker({
-          autoclose: true
       })
 
       $('#payment_date').datepicker({
-          autoclose: true
       })
 
       //Timepicker
       $('.timepicker').timepicker({
-        showInputs: false
       })
     })
 </script>
-<script src='{{url('adminLTE/src/bootstrap-input-spinner.js')}}'></script>
+{{-- <script src='{{ url('adminLTE/src/bootstrap-input-spinner.js') }}'></script> --}}
 <script>
-    $("input[type='number']").inputSpinner()
+    // $("input[type='number']").inputSpinner()
 </script>
