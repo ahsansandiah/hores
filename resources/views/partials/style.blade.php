@@ -5,12 +5,12 @@
 <link media="all" type="text/css" rel="stylesheet" href='{{ url('adminLTE/bower_components/font-awesome/css/font-awesome.min.css') }}' />
 
 <!-- Ionicons -->
-<link media="all" type="text/css" rel="stylesheet" href='{{ url('adminLTE/bower_components/Ionicons/c/css/ionicons.min.css') }}' />
+<link media="all" type="text/css" rel="stylesheet" href='{{ url('adminLTE/bower_components/Ionicons/css/ionicons.min.css') }}' />
 
 <!-- Theme style -->
 <link media="all" type="text/css" rel="stylesheet" href='{{ url('adminLTE/dist/css/AdminLTE.min.css') }}' />
 
-<link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="{{ url('adminLTE/dist/css/skins/_all-skins.min.css') }}">
 <link media="all" type="text/css" rel="stylesheet" href='{{ url('adminLTE/dist/css/skins/_all-skins.min.css') }}' />
 
 <link media="all" type="text/css" rel="stylesheet" href='{{ url('adminLTE/style.css') }}' />

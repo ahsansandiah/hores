@@ -145,6 +145,33 @@ class ReservationController extends Controller
     public function update(Request $request, $id)
     {
         $reservation =  Reservation::findOrFail($id);
+        $reservation->checkin_date = $request->checkin_date;
+        $reservation->checkout_date = $request->checkout_date;
+        $reservation->duration = $request->duration;
+        $reservation->type_identity_card = $request->type_identity_card;
+        $reservation->identity_card = $request->identity_number;
+        $reservation->name = $request->name;
+        $reservation->address = $request->address;
+        $reservation->phone_number = $request->phone_number;
+        $reservation->adult_guest = $request->adult;
+        $reservation->child_guest = $request->child;
+        $reservation->description = $request->description;
+        $reservation->update();
 
+        if ($reservation) {
+            // Create Reservation Cost
+            $reservationCost = ReservationCost::findOrFail($request->reservation_cost_id);
+            $reservationCost->base_price = $room->price_day;
+            $reservationCost->total_price = $totalPriceDuration;
+            $reservationCost->service_tip = $request->service_tip;
+            $reservationCost->tax = $request->tax;
+            $reservationCost->discount = $request->discount;
+            $reservationCost->deposit = $request->deposit;
+            $reservationCost->update();
+
+            return redirect('/reservation/detail/'.$reservation->reservation_number)->with('message', 'Successfully checkin');
+        }
+        
+        return redirect('/reservation')->with('error_message', 'Failed checkin');
     }
 }

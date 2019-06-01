@@ -110,23 +110,24 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Price / Day</label>
-                                    <input type="text" class="form-control" name="price_day" id="input_contact_name" placeholder="Price /day">
+                                    <input type="hidden" class="form-control" name="reservation_cost_id" id="reservation_cost_id" value="{{ $reservation->reservationCost->id }}">
+                                    <input type="text" class="form-control" name="price_day" id="input_base_price" value="{{ $reservation->reservationCost->base_price }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Service Tip</label>
-                                    <input type="text" class="form-control" name="service_tip" id="input_contact_name" placeholder="Service Tip">
+                                    <input type="text" class="form-control" name="service_tip" id="input_service_tip" value="{{ $reservation->reservationCost->service_tip }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Tax</label>
-                                    <input type="text" class="form-control" name="tax" id="input_contact_name" placeholder="Tax %">
+                                    <input type="text" class="form-control" name="tax" id="input_tax" value="{{ $reservation->reservationCost->tax }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Discount</label>
-                                    <input type="text" class="form-control" name="discount" id="input_contact_name" placeholder="Discount %">
+                                    <input type="text" class="form-control" name="discount" id="input_discount" value="{{ $reservation->reservationCost->discount }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Deposit</label>
-                                    <input type="text" class="form-control" name="deposit" id="input_contact_name" placeholder="Deposit">
+                                    <input type="text" class="form-control" name="deposit" id="input_deposit" value="{{ $reservation->reservationCost->deposit }}">
                                 </div>
                             </div>
                         </div> 
