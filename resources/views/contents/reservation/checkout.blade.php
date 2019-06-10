@@ -9,85 +9,92 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div class="row">
-                        <form role="form">
+                        <form role="form" method="POST" action="{{ url('reservation/check-out/'.$reservation->reservation_number.'/process') }}">
+                            @csrf
                             <div class="col-sm-4 ">
                                 <div class="form-group">
-                                    <label>Payment</label>
-                                    <input type="text" class="form-control" name="total_price" value="" id="input_reservation_numper" placeholder="Reservation Number">
+                                    <input type="hidden" class="form-control" name="room_number" value="{{ $reservation->room_number }}" id="inputTotalPayment">
                                 </div>
                                 <div class="form-group">
-                                    <label>Pembayaran</label>
+                                    <label>Total Pembayaran</label>
+                                    <input type="text" class="form-control" name="total_price" value="{{ number_format($reservation->total_price, 0, ',', '.') }}" id="inputTotalPayment" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label>Tipe Pembayaran</label>
                                     <div class="radio">
                                         <label>
-                                            <input type="radio"  name="payment" value="Tunai" id="input_contact_name">Tunai
+                                            <input type="radio"  name="payment_type" value="Tunai" id="inputPaymentType">Tunai
                                         </label>
                                     </div>
                                     <div class="radio">
                                         <label>
-                                            <input type="radio"  name="contact_name" value="Kredit" id="input_contact_name" >Kredit
+                                            <input type="radio"  name="payment_type" value="Kredit" id="inputPaymentType" >Kredit
                                         </label>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Payment Date</label>
+                                    <label>Tanggal Bayar</label>
                                     <div class="input-group date">
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                            <input type="text" class="form-control pull-right" id="payment_date">
+                                            <input type="text" class="form-control pull-right" name="payment_date" id="payment_date">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                        <label>Paid by</label>
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio"  name="payment" value="Tunai" id="input_contact_name">Self
-                                            </label>
-                                        </div>
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio"  name="contact_name" value="Kredit" id="input_contact_name" >Office
-                                            </label>
-                                        </div>
+                                    <label>Dibayarkan Oleh</label>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio"  name="paid_by" value="Tunai" id="inputPaidBy">Personal
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio"  name="paid_by" value="Kredit" id="inputPaidBy" >Instansi
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label>Name</label>
-                                    <input type="text" class="form-control" name="room_number" value="" id="input_room_number" placeholder="Room Number">
+                                    <label>Nomor Indentitas</label>
+                                    <input type="text" class="form-control" name="identity_number" value="" id="inputIdentityNumber">
                                 </div>
                                 <div class="form-group">
-                                        <label>address</label>
-                                        <input type="text" class="form-control" name="contact_phone_number" value="" id="input_contact_phone_number" placeholder="Contact Phone Number">
+                                    <label>Nama</label>
+                                    <input type="text" class="form-control" name="name" id="inputName">
                                 </div>
                                 <div class="form-group">
-                                        <label>Phone Number</label>
-                                        <input type="text" class="form-control" name="check_out" value="" id="input_check_out" placeholder="Check Out">
+                                    <label>Alamat</label>
+                                    <textarea name="address" id="inputAddress" class="form-control"></textarea>
                                 </div>
                                 <div class="form-group">
-                                        <label>Check Out Date</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
-                                            <input type="text" class="form-control pull-right" id="checkout_date">
+                                    <label>No Telepon</label>
+                                    <input type="text" class="form-control" name="phone_number" value="" id="inputPhoneNumber" placeholder="08*******">
+                                </div>
+                                <div class="form-group">
+                                    <label>Tanggal Checkout</label>
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
                                         </div>
+                                        <input type="text" name="checkout_date" class="form-control pull-right " id="checkout_date">
                                     </div>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-info pull-right">Simpan</button>
+                                    <a href="http://localhost:8000/reservation" class="btn btn-warning pull-right" style="margin-right: 3px;">Kembali</a>
+                                </div>
                             </div>
                         </form>
                     </div> 
                 </div>
                 <div class="box-footer">
-                    <button type="submit" class="btn btn-info pull-right">Save</button>
-                    <a href="{{ url ('reservation')}}" class="btn btn-warning">back</a>
                 </div>
                 <!-- /.box-footer -->
             </div>
         </div>
     </div>
-
-    <script>
-    </script>
 @stop
 
 

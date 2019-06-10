@@ -56,7 +56,7 @@
                                         <span>{{ 'Rp. ' . number_format($room->price_day, 0, ',', '.') . ' /day' }}</span>
                                         <hr>
                                             @if ($room->is_booking == '1')
-                                                <a href="{{ url('reservation/checkout/'.$room->id) }}" class="btn btn-app">
+                                                <a href="{{ url('reservation/check-out/'.$room->reservations['reservation_number']) }}" class="btn btn-app">
                                                     <i class="fa fa-sign-out"></i> Check Out
                                                 </a>
                                                 <a href="{{ url('reservation/detail/'.$room->reservations['reservation_number'] ) }}" class="btn btn-app">

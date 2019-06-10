@@ -52,12 +52,15 @@
       
       //Date picker
       $('#checkout_date').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm:ss'
       })
 
       $('#checkin_date').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm:ss'
       })
 
       $('#payment_date').datepicker({
+        format: 'yyyy-mm-dd'
       })
 
       //Timepicker

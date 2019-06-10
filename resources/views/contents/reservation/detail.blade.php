@@ -66,7 +66,7 @@
                                     </tr>
                                     <tr>
                                         <th>Status :</th>
-                                        <td>{{ $reservation->status }}</td>
+                                        <td>{{ $reservation->status }} ( {{ $statusPayment }} ) </td>
                                     </tr>
                                 </table>
                             </div>
@@ -82,23 +82,23 @@
                                 </tr>
                                 <tr>
                                     <th>Service Tip</th>
-                                    <td>{{  number_format($reservation->reservationCost->service_tip, 0, ',', '.') .' (%)' }}</td>
+                                    <td>{{  number_format($reservation->reservationCost->service_tip, 0, ',', '.') .'' }}</td>
                                 </tr>
                                 <tr>
                                     <th>Tax :</th>
-                                    <td>{{ number_format($reservation->reservationCost->tax, 0, ',', '.') .' (%)' }}</td>
+                                    <td>{{ $reservation->reservationCost->tax_percent.' (%)' }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Discount :</th>
+                                    <td>{{ $reservation->reservationCost->discount_percent.' (%)' }}</td>
                                 </tr>
                                 <tr>
                                     <th>Deposit :</th>
                                     <td>{{ 'Rp. ' . number_format($reservation->reservationCost->deposit, 0, ',', '.') }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Deposit :</th>
-                                    <td>{{ number_format($reservation->reservationCost->discount, 0, ',', '.')  .' (%)' }}</td>
-                                </tr>
-                                <tr>
                                     <th>Total :</th>
-                                    <td>{{ 'Rp. ' . number_format($reservation->reservationCost->total_price, 0, ',', '.') }}</td>
+                                    <td>{{ 'Rp. ' . number_format($reservation->total_price, 0, ',', '.') }}</td>
                                 </tr>
                                 </table>
                             </div>
@@ -112,7 +112,7 @@
                             <a href="{{ url('reservation/edit/'.$reservation->id) }}" class="btn btn-default">Edit</a>
                             <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
                             @if ($reservation->status == $reservation::STATUS_CHECKIN)
-                                <a class="btn btn-success pull-right" data-toggle="modal" data-target="#payment-method"><i class="fa fa-credit-card"></i> Payment Method </a>
+                                <a class="btn btn-success pull-right" href="{{ url('reservation/check-out/'.$reservation->reservation_number ) }}"><i class="fa fa-credit-card"></i> Payment Method </a>
                             @endif
                             <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
                                 <i class="fa fa-download"></i> Generate PDF

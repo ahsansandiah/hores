@@ -35,8 +35,8 @@
                             <th>Check Out</th>
                             <th style="width: 40px"></th>
                         </tr>
-                        <tr>
-                            @foreach ($reservations as $reservation)
+                        @foreach ($reservations as $reservation)
+                            <tr>
                                 <td></td>
                                 <td>{{ $reservation->reservation_number }}</td>
                                 <td>{{ $reservation->room_number }}</td>
@@ -55,8 +55,8 @@
                                         <i class="fa fa-sign-out"></i> Check Out
                                     </a>
                                 </td>
-                            @endforeach
-                        </tr>
+                            </tr>
+                        @endforeach
                     </table>
                 </div>
                 <!-- /.box-body -->

@@ -72,7 +72,10 @@ class ReservationController extends Controller
                     ->first();
 
         $priceDay = $room->price_day;
-        $totalPriceDuration = $room->price_day * $request->duration;
+
+        // Price
+        $totalPriceDuration = ($request->total_price + $request->tax + $request->service_tip) - $request->discount;
+        $totalPaid = $totalPriceDuration - $request->deposit;
 
         // Create Reservation
         $reservation = new Reservation;
@@ -92,8 +95,8 @@ class ReservationController extends Controller
 
         $reservation->room_number = $room->room_number;
         $reservation->price_day = $priceDay;
-        $reservation->total_price = $totalPriceDuration;
-        $reservation->status = "Down Payment";
+        $reservation->total_price = $totalPaid;
+        $reservation->status = "checkin";
         $reservation->save();
 
         if ($reservation) {
@@ -101,12 +104,18 @@ class ReservationController extends Controller
             $reservationCost = new ReservationCost;
             $reservationCost->reservation_number = $request->reservation_number;
             $reservationCost->base_price = $room->price_day;
-            $reservationCost->total_price = $totalPriceDuration;
             $reservationCost->service_tip = $request->service_tip;
+
+            $reservationCost->tax_percent = $request->tax_percent;
             $reservationCost->tax = $request->tax;
+
+            $reservationCost->discount_percent = $request->discount_percent;
             $reservationCost->discount = $request->discount;
+
             $reservationCost->deposit = $request->deposit;
             $reservationCost->status = $reservationCost::status_unpaid;
+            if ($request->deposit) $reservationCost->status = $reservationCost::status_down_payment;
+
             $reservationCost->save();
     
             // Update Status Room
@@ -124,12 +133,23 @@ class ReservationController extends Controller
         $reservation = Reservation::with('reservationCost')
                     ->where('reservation_number', $reservationNumber)
                     ->first();
-                    
+
+        if (empty($reservation)) {
+            return redirect('/reservation');
+        } 
+
         $room = Room::with('roomType', 'roomBedType')
                 ->where('room_number', $reservation->room_number)
                 ->first();
 
-        return view('contents.reservation.detail', compact('reservation', 'room'));
+        $statusPayment = $reservation->reservationCost->status;
+        if ($statusPayment == "paid") {
+            $statusPayment = "Lunas";
+        } else {
+            $statusPayment = "Belum Lunas";
+        }
+
+        return view('contents.reservation.detail', compact('reservation', 'room', 'statusPayment'));
     }
 
     public function edit($id)
@@ -173,5 +193,52 @@ class ReservationController extends Controller
         }
         
         return redirect('/reservation')->with('error_message', 'Failed checkin');
+    }
+
+    public function checkout($reservationNumber)
+    {
+        $reservation = Reservation::with('reservationCost')
+            ->where('reservation_number', $reservationNumber)
+            ->first();
+
+        return view('contents.reservation.checkout', compact('reservation'));
+    }
+
+    public function checkoutProcess(Request $request, $reservationNumber)
+    {
+        $reservation = Reservation::with('reservationCost')
+            ->where('reservation_number', $reservationNumber)
+            ->first();
+
+        if ($reservation) {
+            $reservation->checkout_date = $request->input('checkout_date');
+            $reservation->payments_identity_id = $request->input('identity_number');
+            $reservation->payments_on_behalf = $request->input('name');
+            $reservation->payments_address_first = $request->input('address');
+            $reservation->payments_phone_number = $request->input('phone_number');
+            $reservation->paid_by = $request->input('paid_by');
+            $reservation->status = "checkout";
+            $reservation->update();
+
+            $reservationCost = ReservationCost::where('reservation_number', $reservationNumber)->first();
+            if ($reservationCost) {
+                $totalPrice = $reservation->total_price + $reservationCost->deposit;
+                $reservationCost->status = $reservationCost::status_paid;
+                $reservationCost->payment_type = $request->input('payment_type');
+                $reservationCost->total_price = $totalPrice;
+                $reservationCost->payment_date = $request->input('payment_date');
+                $reservationCost->update();
+            }
+
+            $room = Room::where('room_number', $request->input('room_number'))->first();
+            if ($room) {
+                $room->is_booking = 0;
+                $room->update();
+            }
+
+            return redirect('/reservation/detail/'.$reservation->reservation_number)->with('message', 'Successfully checkout');
+        }
+
+        return redirect('/reservation/detail/'.$reservation->reservation_number)->with('error_message', 'Failed checkout');
     }
 }
