@@ -11,15 +11,17 @@
                     <div class="row">
                         <div class="col-sm-3 pull-left">
                             <div class="input-group margin">
-                                <a href="{{ url('reservation/create') }}" class="btn btn-block btn-success btn-flat ">Create</a>
+                                <a href="{{ url('reservation/select-room') }}" class="btn btn-block btn-success btn-flat ">Tambah Reservasi</a>
                             </div>
                         </div>
-                        <div class="col-sm-3 pull-right">
+                        <div class="col-sm-4 pull-right">
                             <div class="input-group margin">
-                                <input type="text" class="form-control">
+                                <form action="{{ url('/reservation/?search') }}" method="GET">
                                     <span class="input-group-btn">
-                                    <button type="button" class="btn btn-info btn-flat">Search</button>
-                                </span>
+                                        <input type="text" name="search" class="form-control">
+                                        <button type="submit" class="btn btn-info btn-flat">Search</button>
+                                    </span>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -27,12 +29,12 @@
                     <table class="table table-bordered">
                         <tr>
                             <th style="width: 10px">#</th>
-                            <th>Reservation Number</th>
-                            <th>Room Number</th>
-                            <th>Contact Name</th>
-                            <th>Contact Phone Number</th>
-                            <th>Check In</th>
-                            <th>Check Out</th>
+                            <th>No Reservasi</th>
+                            <th>No Ruangan</th>
+                            <th>Nama</th>
+                            <th>No Telepon</th>
+                            <th>Tanggal Check In</th>
+                            <th>Tanggal Check Out</th>
                             <th style="width: 40px"></th>
                         </tr>
                         @foreach ($reservations as $reservation)
@@ -43,16 +45,21 @@
                                 <td>{{ $reservation->name }}</td>
                                 <td>{{ $reservation->phone_number }}</td>
                                 <td>{{ $reservation->checkin_date }}</td>
-                                <td>{{ $reservation->chackout_date }}</td>
+                                <td>{{ $reservation->checkout_date }}</td>
                                 <td>
-                                    <a class="btn btn-app" href="{{ url('reservation/edit'. $reservation->id) }}">
-                                        <i class="fa fa-edit"></i> Edit
-                                    </a>
-                                    <a class="btn btn-app" href="{{ url('reservation/delete'. $reservation->id) }}">
-                                        <i class="fa fa-trash"></i> Delete
-                                    </a>
-                                    <a class="btn btn-app" href="{{ url('reservation/checkout') }}">
-                                        <i class="fa fa-sign-out"></i> Check Out
+                                    @if ($reservation->reservationCost->status == "checkin")
+                                        <a class="btn btn-app" href="{{ url('reservation/edit'. $reservation->id) }}">
+                                            <i class="fa fa-edit"></i> Edit
+                                        </a>
+                                        <a class="btn btn-app" href="{{ url('reservation/delete'. $reservation->id) }}">
+                                            <i class="fa fa-trash"></i> Delete
+                                        </a>
+                                        <a class="btn btn-app" href="{{ url('reservation/checkout') }}">
+                                            <i class="fa fa-sign-out"></i> Check Out
+                                        </a>
+                                    @endif
+                                    <a class="btn btn-app" href="{{ url('reservation/detail/'.$reservation->reservation_number) }}">
+                                        <i class="fa fa-address-card"></i> Detail
                                     </a>
                                 </td>
                             </tr>

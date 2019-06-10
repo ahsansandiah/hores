@@ -11,6 +11,9 @@ class Room extends Model
     protected $table = "rooms";
     use SoftDeletes;
 
+    const STATUS_AVAILABLE = "Good";
+    const STATUS_RENOVATION = "Renovation";
+
     public function roomType()
     {
         return $this->hasOne('App\Entities\Room\RoomType', 'id', 'type');

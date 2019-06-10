@@ -3,17 +3,21 @@
 namespace App\Http\Controllers\Reservation;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use App\Http\Requests;
+use App\Http\Controllers\Controller;
 use Auth;
 use Redirect;
 use Carbon\Carbon;
 use Validator;
 
 use App\User;
-use App\Http\Controllers\Controller;
 use App\Entities\Reservation;
 use App\Entities\ReservationCost;
 use App\Entities\Room;
+use App\Entities\Room\RoomBedType;
+use App\Entities\Room\RoomCondition;
+use App\Entities\Room\RoomType;
 
 class ReservationController extends Controller
 {
@@ -34,7 +38,15 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        $reservations = Reservation::paginate(20);
+        $query = Reservation::with('reservationCost');
+
+        if (Input::has('search')) {
+            $query->where('room_number', 'like', '%'.Input::get('search').'%')
+                ->orWhere('reservation_number', 'like', '%'.Input::get('search').'%')
+                ->orWhere('name', 'like', '%'.Input::get('search').'%');
+        }
+        
+        $reservations = $query->paginate(20);
 
         return view('contents.reservation.index', compact('reservations'));
     }
@@ -44,6 +56,40 @@ class ReservationController extends Controller
         $reservations = Reservation::all();
 
         return view('contents.reservation.create', compact('reservations'));
+    }
+
+    public function selectRoom()
+    {
+        $query = Room::with(['roomType', 'roomCondition', 
+                    'reservations' => function ($query) {
+                        $query->where('status', Reservation::STATUS_CHECKIN);
+                    }
+                ]);
+        
+        if (Input::has('search')) {
+            $query->where('room_number', Input::get('search'))
+                ->orWhere('price_day', Input::get('search'))
+                ->orWhere('guest_total', Input::get('search'));
+        }
+
+        if (Input::has('is_booking')) {
+            $query->where('is_booking', Input::get('is_booking'));
+        }
+
+        $rooms = $query->paginate(30);
+
+        $countAvailableRooms = Room::where('is_booking', 0)->count();
+        $roomBedTypes = RoomBedType::all();
+        $roomConditions = RoomCondition::all();
+        $roomTypes = RoomType::all();
+
+        return view('contents.reservation.select-room', compact(
+            'rooms', 
+            'countAvailableRooms',
+            'roomBedTypes',
+            'roomConditions',
+            'roomTypes'
+        ));
     }
     
     public function checkin($roomNumber)
