@@ -121,13 +121,25 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Pajak</label>
-                                    <input type="text" class="form-control" name="tax_percent" id="inputTaxPercent" placeholder="Tax %">
-                                    <input type="text" class="form-control" name="tax" id="inputTax">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" name="tax_percent" id="inputTaxPercent" placeholder="%">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" name="tax" id="inputTax">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Diskon</label>
-                                    <input type="text" class="form-control" name="discount_percent" id="inputDiscountPercent" placeholder="Discount %">
-                                    <input type="text" class="form-control" name="discount" id="inputDiscount" value="">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" name="discount_percent" id="inputDiscountPercent" placeholder="%">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" name="discount" id="inputDiscount" value="">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Deposit</label>

@@ -65,52 +65,52 @@
                             <th>Name</th>
                             <th style="width: 40px"></th>
                         </tr>
+                        @foreach ($roomTypes as $type)
                         <tr>
-                            @foreach ($roomTypes as $type)
-                                <td>{{ $type->id }}</td>
-                                <td>{{ $type->name }}</td>
-                                <td>
-                                    <a class="btn btn-app" data-toggle="modal" data-target="#modal-edit{{ $type->id }}">
-                                        <i class="fa fa-edit"></i> Edit
-                                    </a>
-                                    <div class="modal fade" id="modal-edit{{ $type->id }}">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span></button>
-                                                    <h4 class="modal-title">Form Edit Room Type</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form action="{{ url('room/type/update') }}" method="POST" class="form-horizontal">
-                                                        @csrf
-                                                        <div class="box-body">
-                                                            <div class="form-group">
-                                                                <label for="inputType" class="col-sm-2 control-label">Type</label>
-                                                                <div class="col-sm-10">
-                                                                    <input type="hidden" class="form-control" name="id" value="{{ $type->id }}" id="inputType" placeholder="Type">
-                                                                    <input type="text" class="form-control" name="name" value="{{ $type->name }}" id="inputType" placeholder="Type">
-                                                                </div>
+                            <td>{{ $type->id }}</td>
+                            <td>{{ $type->name }}</td>
+                            <td>
+                                <a class="btn btn-app" data-toggle="modal" data-target="#modal-edit{{ $type->id }}">
+                                    <i class="fa fa-edit"></i> Edit
+                                </a>
+                                <div class="modal fade" id="modal-edit{{ $type->id }}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title">Form Edit Room Type</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{ url('room/type/update') }}" method="POST" class="form-horizontal">
+                                                    @csrf
+                                                    <div class="box-body">
+                                                        <div class="form-group">
+                                                            <label for="inputType" class="col-sm-2 control-label">Type</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="hidden" class="form-control" name="id" value="{{ $type->id }}" id="inputType" placeholder="Type">
+                                                                <input type="text" class="form-control" name="name" value="{{ $type->name }}" id="inputType" placeholder="Type">
                                                             </div>
                                                         </div>
-                                                            <!-- /.box-body -->
-                                                        <div class="box-footer">
-                                                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-info pull-right">Save</button>
-                                                        </div>
-                                                        <!-- /.box-footer -->
-                                                    </form>
-                                                </div>
-                                                <div class="modal-footer">
-                                                </div>
+                                                    </div>
+                                                        <!-- /.box-body -->
+                                                    <div class="box-footer">
+                                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-info pull-right">Save</button>
+                                                    </div>
+                                                    <!-- /.box-footer -->
+                                                </form>
                                             </div>
-                                        <!-- /.modal-content -->
+                                            <div class="modal-footer">
+                                            </div>
                                         </div>
-                                    <!-- /.modal-dialog -->
+                                    <!-- /.modal-content -->
                                     </div>
-                                </td>
-                            @endforeach
+                                <!-- /.modal-dialog -->
+                                </div>
+                            </td>
                         </tr>
+                        @endforeach
                     </table>
                 </div>
                 <!-- /.box-body -->

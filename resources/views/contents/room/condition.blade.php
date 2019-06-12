@@ -65,52 +65,52 @@
                             <th>Name</th>
                             <th style="width: 40px"></th>
                         </tr>
+                        @foreach ($roomConditions as $condition)
                         <tr>
-                            @foreach ($roomConditions as $condition)
-                                <td>{{ $condition->id }}</td>
-                                <td>{{ $condition->name }}</td>
-                                <td>
-                                    <a class="btn btn-app" data-toggle="modal" data-target="#modal-edit{{ $condition->id }}">
-                                        <i class="fa fa-edit"></i> Edit
-                                    </a>
-                                    <div class="modal fade" id="modal-edit{{ $condition->id }}">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span></button>
-                                                    <h4 class="modal-title">Form Edit Room Condition</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form action="{{ url('room/condition/update') }}" method="POST" class="form-horizontal">
-                                                        @csrf
-                                                        <div class="box-body">
-                                                            <div class="form-group">
-                                                                <label for="inputCondition" class="col-sm-2 control-label">Condition</label>
-                                                                <div class="col-sm-10">
-                                                                    <input type="hidden" class="form-control" name="id" value="{{ $condition->id }}" id="inputCondition" placeholder="Condition">
-                                                                    <input type="text" class="form-control" name="name" value="{{ $condition->name }}" id="inputCondition" placeholder="Condition">
-                                                                </div>
+                            <td>{{ $condition->id }}</td>
+                            <td>{{ $condition->name }}</td>
+                            <td>
+                                <a class="btn btn-app" data-toggle="modal" data-target="#modal-edit{{ $condition->id }}">
+                                    <i class="fa fa-edit"></i> Edit
+                                </a>
+                                <div class="modal fade" id="modal-edit{{ $condition->id }}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title">Form Edit Room Condition</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{ url('room/condition/update') }}" method="POST" class="form-horizontal">
+                                                    @csrf
+                                                    <div class="box-body">
+                                                        <div class="form-group">
+                                                            <label for="inputCondition" class="col-sm-2 control-label">Condition</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="hidden" class="form-control" name="id" value="{{ $condition->id }}" id="inputCondition" placeholder="Condition">
+                                                                <input type="text" class="form-control" name="name" value="{{ $condition->name }}" id="inputCondition" placeholder="Condition">
                                                             </div>
                                                         </div>
-                                                            <!-- /.box-body -->
-                                                        <div class="box-footer">
-                                                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-info pull-right">Save</button>
-                                                        </div>
-                                                        <!-- /.box-footer -->
-                                                    </form>
-                                                </div>
-                                                <div class="modal-footer">
-                                                </div>
+                                                    </div>
+                                                        <!-- /.box-body -->
+                                                    <div class="box-footer">
+                                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-info pull-right">Save</button>
+                                                    </div>
+                                                    <!-- /.box-footer -->
+                                                </form>
                                             </div>
-                                        <!-- /.modal-content -->
+                                            <div class="modal-footer">
+                                            </div>
                                         </div>
-                                    <!-- /.modal-dialog -->
+                                    <!-- /.modal-content -->
                                     </div>
-                                </td>
-                            @endforeach
+                                <!-- /.modal-dialog -->
+                                </div>
+                            </td>
                         </tr>
+                        @endforeach
                     </table>
                 </div>
                 <!-- /.box-body -->
