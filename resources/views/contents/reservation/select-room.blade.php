@@ -52,7 +52,7 @@
                                         <h4 class="modal-title">No Ruangan : {{ $room->room_number }} {{ ($room->is_booking == '1') ? "( Unavailable )" : "( Available )" }}</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <span>{{ $room->roomType->name }}</span> | 
+                                        <span>{{ $room->roomType->name or ""}}</span> | 
                                         <span>{{ 'Rp. ' . number_format($room->price_day, 0, ',', '.') . ' /day' }}</span>
                                         <hr>
                                             @if ($room->is_booking == '1')

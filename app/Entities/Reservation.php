@@ -9,6 +9,7 @@ use App\User;
 class Reservation extends Model
 {
     protected $table = "reservations";
+    use SoftDeletes;
 
     const STATUS_CHECKIN = "checkin";
     const STATUS_CHECKOUT = "checkout";
@@ -25,8 +26,8 @@ class Reservation extends Model
         return $this->hasOne('App\Entities\Room', 'room_number', 'room_number');
     }
 
-    public function createReservation($reservation)
+    public function reservationAdditionalCosts()
     {
-        
+        return $this->hasMany('App\Entities\ReservationAdditionalCost', 'reservation_id');
     }
 }

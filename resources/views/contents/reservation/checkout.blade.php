@@ -17,7 +17,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Total Pembayaran</label>
-                                    <input type="text" class="form-control" name="total_price" value="{{ number_format($reservation->total_price, 0, ',', '.') }}" id="inputTotalPayment" disabled>
+                                    <input type="text" class="form-control" name="total_price" value="{{ number_format($reservation->reservationCost->total_price, 0, ',', '.') }}" id="inputTotalPayment" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label>Total Kekurangan Pembayaran</label>
+                                    <input type="text" class="form-control" name="underpayment" value="{{ number_format($reservation->reservationCost->underpayment, 0, ',', '.') }}" id="inputTotalUnderpayment" disabled>
                                 </div>
                                 <div class="form-group">
                                     <label>Tipe Pembayaran</label>

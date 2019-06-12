@@ -8,4 +8,6 @@ use App\User;
 class RoomBedType extends Model
 {
     protected $table = "room_bed_type";
+    use SoftDeletes;
+
 }

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Entities\Room;
+namespace App\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\User;
 
-class RoomCondition extends Model
+class ReservationAdditionalCost extends Model
 {
-    protected $table = "room_condition";
+    protected $table = "reservation_additional_cost";
     use SoftDeletes;
 
 }

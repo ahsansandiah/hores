@@ -11,7 +11,7 @@
                     @csrf
                     <div class="box-body">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Operator</label>
                                     <input type="text" class="form-control" name="reservation_number" id="input_reservation_numper" value="{{ Auth::user()->name }}" disabled>
@@ -28,6 +28,48 @@
                                     <label>Jenis Ranjang</label>
                                     <input type="text" class="form-control" name="contact_name" value="{{ $room->roomBedType->name }}" id="input_contact_name" disabled>
                                 </div>
+                                <div class="form-group">
+                                    <label>Identitas</label>
+                                    <div class="form-inline">
+                                        <select class="form-control" name="type_identity_card">
+                                            <option>KTP</option>
+                                            <option>SIM</option>
+                                            <option>PASSPOR</option>
+                                        </select>
+                                        <select class="form-control">
+                                            <option>MR.</option>
+                                            <option>MRS.</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>No Indentitas</label>
+                                    <input type="text" class="form-control" name="identity_number" id="input_contact_name" placeholder="Identity Number">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Nama</label>
+                                    <input type="text" class="form-control" name="name" id="input_contact_name" placeholder="Name">
+                                </div>
+                                <div class="form-group">
+                                    <label>Alamat</label>
+                                    <input type="text" class="form-control" name="address" id="input_contact_name" placeholder="Address">
+                                </div>
+                                <div class="form-group">
+                                    <label>Kota</label>
+                                    <input type="text" class="form-control" name="city" id="input_contact_name" placeholder="City">
+                                </div>
+                                <div class="form-group">
+                                    <label>No Telepon</label>
+                                    <input type="text" class="form-control" name="phone_number" id="input_contact_name" placeholder="Phone Number">
+                                </div>
+                                <div class="form-group">
+                                    <label>Pekerjaan</label>
+                                    <input type="text" class="form-control" name="job" id="input_contact_name" placeholder="Job">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Tanggal Checkin</label>
                                     <div class="input-group date">
@@ -50,44 +92,8 @@
                                     <label>Jumlah Hari</label>
                                     <input type="number" name="duration" id="inputDuration" class="form-control pull-right" value="1" min="0" max="1000" step="1"/>
                                 </div>
-                            </div>
-                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>Identitas</label>
-                                    <div class="form-inline">
-                                        <select class="form-control" name="type_identity_card">
-                                            <option>KTP</option>
-                                            <option>SIM</option>
-                                            <option>PASSPOR</option>
-                                        </select>
-                                        <select class="form-control">
-                                            <option>MR.</option>
-                                            <option>MRS.</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label>No Indentitas</label>
-                                    <input type="text" class="form-control" name="identity_number" id="input_contact_name" placeholder="Identity Number">
-                                </div>
-                                <div class="form-group">
-                                    <label>Nama</label>
-                                    <input type="text" class="form-control" name="name" id="input_contact_name" placeholder="Name">
-                                </div>
-                                <div class="form-group">
-                                    <label>Alamat</label>
-                                    <input type="text" class="form-control" name="address" id="input_contact_name" placeholder="Address">
-                                </div>
-                                <div class="form-group">
-                                    <label>Kota</label>
-                                    <input type="text" class="form-control" name="city" id="input_contact_name" placeholder="City">
-                                </div>
-                                <div class="form-group">
-                                    <label>No Telepon</label>
-                                    <input type="text" class="form-control" name="phone_number" id="input_contact_name" placeholder="Phone Number">
-                                </div>
-                                <div class="form-group">
-                                    <label>Jumlah Dewasa</label>
+                                        <label>Jumlah Dewasa</label>
                                     <input type="text" class="form-control" name="adult" id="input_contact_name" placeholder="Adult Total">
                                 </div>
                                 <div class="form-group">
@@ -95,15 +101,12 @@
                                     <input type="text" class="form-control" name="child" id="input_contact_name" placeholder="Child Total">
                                 </div>
                                 <div class="form-group">
-                                    <label>Pekerjaan</label>
-                                    <input type="text" class="form-control" name="job" id="input_contact_name" placeholder="Job">
-                                </div>
-                                <div class="form-group">
                                     <label>Keterangan</label>
-                                    <textarea name="description" class="form-control" id="" cols="30" rows="10"></textarea>
+                                    <textarea name="description" class="form-control" id="" cols="30" rows="10" style="height: 80px;"></textarea>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Harga Sewa / Hari</label>
                                     <input type="text" class="form-control" name="price_day" id="inputPriceDay" value="{{ number_format($room->price_day, 0, ',', '.') }}" disabled>
@@ -143,7 +146,31 @@
                                     </div>
                                 </div> --}}
                             </div>
-                        </div> 
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th style="width: 10px">#</th>
+                                            <th>Task</th>
+                                            <th>Progress</th>
+                                            <th style="width: 40px">Label</th>
+                                        </tr>
+                                        <tr>
+                                            <td>1.</td>
+                                            <td>Update software</td>
+                                            <td>
+                                                <div class="progress progress-xs">
+                                                <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge bg-red">55%</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                     <div class="box-footer">
                         <button type="submit" class="btn btn-block btn-success btn-lg">Save</button>

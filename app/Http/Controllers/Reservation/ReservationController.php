@@ -14,6 +14,7 @@ use Validator;
 use App\User;
 use App\Entities\Reservation;
 use App\Entities\ReservationCost;
+use App\Entities\ReservationAdditionalCost;
 use App\Entities\Room;
 use App\Entities\Room\RoomBedType;
 use App\Entities\Room\RoomCondition;
@@ -46,7 +47,7 @@ class ReservationController extends Controller
                 ->orWhere('name', 'like', '%'.Input::get('search').'%');
         }
         
-        $reservations = $query->paginate(20);
+        $reservations = $query->paginate(10);
 
         return view('contents.reservation.index', compact('reservations'));
     }
@@ -117,49 +118,52 @@ class ReservationController extends Controller
                     ->where('room_number', $roomNumber)
                     ->first();
 
-        $priceDay = $room->price_day;
-
         // Price
-        $totalPriceDuration = ($request->total_price + $request->tax + $request->service_tip) - $request->discount;
-        $totalPaid = $totalPriceDuration - $request->deposit;
+        $priceDay             = $room->price_day;
+        $totalAdditionalCost  = 0;
+        $totalPaid            = ($request->total_price + $request->tax + $request->service_tip + $totalAdditionalCost) - $request->discount;
+        $underPayment         = $totalPaid - $request->deposit;
 
         // Create Reservation
         $reservation = new Reservation;
-        $reservation->reservation_number = $request->reservation_number;
-        $reservation->checkin_date = $request->checkin_date;
-        $reservation->checkout_date = $request->checkout_date;
-        $reservation->duration = $request->duration;
-        $reservation->type_identity_card = $request->type_identity_card;
-        $reservation->identity_card = $request->identity_number;
-        $reservation->name = $request->name;
-        $reservation->address = $request->address;
-        $reservation->phone_number = $request->phone_number;
-        $reservation->adult_guest = $request->adult;
-        $reservation->child_guest = $request->child;
-        $reservation->description = $request->description;
-        $reservation->date = Carbon::today();
+        $reservation->reservation_number    = $request->reservation_number;
+        $reservation->checkin_date          = $request->checkin_date;
+        $reservation->checkout_date         = $request->checkout_date;
+        $reservation->duration              = $request->duration;
+        $reservation->type_identity_card    = $request->type_identity_card;
+        $reservation->identity_card         = $request->identity_number;
+        $reservation->name                  = $request->name;
+        $reservation->address               = $request->address;
+        $reservation->phone_number          = $request->phone_number;
+        $reservation->adult_guest           = $request->adult;
+        $reservation->child_guest           = $request->child;
+        $reservation->description           = $request->description;
+        $reservation->date                  = Carbon::today();
 
-        $reservation->room_number = $room->room_number;
-        $reservation->price_day = $priceDay;
-        $reservation->total_price = $totalPaid;
-        $reservation->status = "checkin";
+        $reservation->room_number   = $room->room_number;
+        $reservation->price_day     = $priceDay;
+        $reservation->total_price   = $totalPaid;
+        $reservation->status        = "checkin";
         $reservation->save();
 
         if ($reservation) {
             // Create Reservation Cost
             $reservationCost = new ReservationCost;
-            $reservationCost->reservation_number = $request->reservation_number;
-            $reservationCost->base_price = $room->price_day;
-            $reservationCost->service_tip = $request->service_tip;
+            $reservationCost->reservation_number    = $request->reservation_number;
+            $reservationCost->base_price            = $room->price_day;
+            $reservationCost->total_price           = $totalPaid;
+            $reservationCost->underpayment          = $underPayment;
+            $reservationCost->total_additional_cost = $totalAdditionalCost;
+            $reservationCost->service_tip           = $request->service_tip;
 
-            $reservationCost->tax_percent = $request->tax_percent;
-            $reservationCost->tax = $request->tax;
+            $reservationCost->tax_percent           = $request->tax_percent;
+            $reservationCost->tax                   = $request->tax;
 
-            $reservationCost->discount_percent = $request->discount_percent;
-            $reservationCost->discount = $request->discount;
+            $reservationCost->discount_percent      = $request->discount_percent;
+            $reservationCost->discount              = $request->discount;
 
-            $reservationCost->deposit = $request->deposit;
-            $reservationCost->status = $reservationCost::status_unpaid;
+            $reservationCost->deposit               = $request->deposit;
+            $reservationCost->status                = $reservationCost::status_unpaid;
             if ($request->deposit) $reservationCost->status = $reservationCost::status_down_payment;
 
             $reservationCost->save();
@@ -167,6 +171,8 @@ class ReservationController extends Controller
             // Update Status Room
             $room->is_booking = 1;
             $room->update();
+
+            // Additional Cost
 
             return redirect('/reservation/detail/'.$reservation->reservation_number)->with('message', 'Successfully checkin');
         }
@@ -176,7 +182,7 @@ class ReservationController extends Controller
 
     public function show($reservationNumber)
     {
-        $reservation = Reservation::with('reservationCost')
+        $reservation = Reservation::with('reservationCost', 'reservationAdditionalCosts')
                     ->where('reservation_number', $reservationNumber)
                     ->first();
 
@@ -188,14 +194,9 @@ class ReservationController extends Controller
                 ->where('room_number', $reservation->room_number)
                 ->first();
 
-        $statusPayment = $reservation->reservationCost->status;
-        if ($statusPayment == "paid") {
-            $statusPayment = "Lunas";
-        } else {
-            $statusPayment = "Belum Lunas";
-        }
+        // Additional Cost
 
-        return view('contents.reservation.detail', compact('reservation', 'room', 'statusPayment'));
+        return view('contents.reservation.detail', compact('reservation', 'room'));
     }
 
     public function edit($id)
@@ -211,28 +212,28 @@ class ReservationController extends Controller
     public function update(Request $request, $id)
     {
         $reservation =  Reservation::findOrFail($id);
-        $reservation->checkin_date = $request->checkin_date;
-        $reservation->checkout_date = $request->checkout_date;
-        $reservation->duration = $request->duration;
+        $reservation->checkin_date       = $request->checkin_date;
+        $reservation->checkout_date      = $request->checkout_date;
+        $reservation->duration           = $request->duration;
         $reservation->type_identity_card = $request->type_identity_card;
-        $reservation->identity_card = $request->identity_number;
-        $reservation->name = $request->name;
-        $reservation->address = $request->address;
-        $reservation->phone_number = $request->phone_number;
-        $reservation->adult_guest = $request->adult;
-        $reservation->child_guest = $request->child;
-        $reservation->description = $request->description;
+        $reservation->identity_card      = $request->identity_number;
+        $reservation->name               = $request->name;
+        $reservation->address            = $request->address;
+        $reservation->phone_number       = $request->phone_number;
+        $reservation->adult_guest        = $request->adult;
+        $reservation->child_guest        = $request->child;
+        $reservation->description        = $request->description;
         $reservation->update();
 
         if ($reservation) {
             // Create Reservation Cost
             $reservationCost = ReservationCost::findOrFail($request->reservation_cost_id);
-            $reservationCost->base_price = $room->price_day;
+            $reservationCost->base_price  = $room->price_day;
             $reservationCost->total_price = $totalPriceDuration;
             $reservationCost->service_tip = $request->service_tip;
-            $reservationCost->tax = $request->tax;
-            $reservationCost->discount = $request->discount;
-            $reservationCost->deposit = $request->deposit;
+            $reservationCost->tax         = $request->tax;
+            $reservationCost->discount    = $request->discount;
+            $reservationCost->deposit     = $request->deposit;
             $reservationCost->update();
 
             return redirect('/reservation/detail/'.$reservation->reservation_number)->with('message', 'Successfully checkin');
@@ -257,23 +258,23 @@ class ReservationController extends Controller
             ->first();
 
         if ($reservation) {
-            $reservation->checkout_date = $request->input('checkout_date');
-            $reservation->payments_identity_id = $request->input('identity_number');
-            $reservation->payments_on_behalf = $request->input('name');
+            $reservation->checkout_date          = $request->input('checkout_date');
+            $reservation->payments_identity_id   = $request->input('identity_number');
+            $reservation->payments_on_behalf     = $request->input('name');
             $reservation->payments_address_first = $request->input('address');
-            $reservation->payments_phone_number = $request->input('phone_number');
-            $reservation->paid_by = $request->input('paid_by');
-            $reservation->status = "checkout";
+            $reservation->payments_phone_number  = $request->input('phone_number');
+            $reservation->paid_by                = $request->input('paid_by');
+            $reservation->status                 = "checkout";
             $reservation->update();
 
             $reservationCost = ReservationCost::where('reservation_number', $reservationNumber)->first();
             if ($reservationCost) {
-                $totalPrice = $reservation->total_price + $reservationCost->deposit;
-                $reservationCost->status = $reservationCost::status_paid;
-                $reservationCost->payment_type = $request->input('payment_type');
-                $reservationCost->total_price = $totalPrice;
-                $reservationCost->payment_date = $request->input('payment_date');
+                $reservationCost->status        = $reservationCost::status_paid;
+                $reservationCost->payment_date  = $request->input('payment_date');
+                $reservationCost->payment_type  = $request->input('payment_type');
+                $reservationCost->underpayment  = 0;
                 $reservationCost->update();
+                
             }
 
             $room = Room::where('room_number', $request->input('room_number'))->first();
@@ -281,6 +282,8 @@ class ReservationController extends Controller
                 $room->is_booking = 0;
                 $room->update();
             }
+
+            // additional cost
 
             return redirect('/reservation/detail/'.$reservation->reservation_number)->with('message', 'Successfully checkout');
         }

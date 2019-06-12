@@ -9,12 +9,9 @@ use App\User;
 class ReservationCost extends Model
 {
     protected $table = "reservation_cost";
+    use SoftDeletes;
 
     const status_unpaid = "unpaid";
     const status_paid = "paid";
     const status_down_payment = "down payment";
-
-    public function createReservationCost($reservationCost)
-    {
-    }
 }

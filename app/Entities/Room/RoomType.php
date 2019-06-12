@@ -9,4 +9,6 @@ use App\User;
 class RoomType extends Model
 {
     protected $table = "room_type";
+    use SoftDeletes;
+
 }

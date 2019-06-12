@@ -47,20 +47,20 @@
                                 <td>{{ $reservation->checkin_date }}</td>
                                 <td>{{ $reservation->checkout_date }}</td>
                                 <td>
-                                    @if ($reservation->reservationCost->status == "checkin")
+                                    <a class="btn btn-app" href="{{ url('reservation/detail/'.$reservation->reservation_number) }}">
+                                        <i class="fa fa-address-card"></i> Detail
+                                    </a>
+                                    @if ($reservation->status == "checkin")
+                                        <a class="btn btn-app" href="{{ url('reservation/checkout') }}">
+                                            <i class="fa fa-sign-out"></i> Check Out
+                                        </a>
                                         <a class="btn btn-app" href="{{ url('reservation/edit'. $reservation->id) }}">
                                             <i class="fa fa-edit"></i> Edit
                                         </a>
                                         <a class="btn btn-app" href="{{ url('reservation/delete'. $reservation->id) }}">
                                             <i class="fa fa-trash"></i> Delete
                                         </a>
-                                        <a class="btn btn-app" href="{{ url('reservation/checkout') }}">
-                                            <i class="fa fa-sign-out"></i> Check Out
-                                        </a>
                                     @endif
-                                    <a class="btn btn-app" href="{{ url('reservation/detail/'.$reservation->reservation_number) }}">
-                                        <i class="fa fa-address-card"></i> Detail
-                                    </a>
                                 </td>
                             </tr>
                         @endforeach
@@ -68,13 +68,7 @@
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer clearfix">
-                    <ul class="pagination pagination-sm no-margin pull-right">
-                        <li><a href="#">&laquo;</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">&raquo;</a></li>
-                    </ul>
+                    {{ $reservations->links() }}
                 </div>
             </div>
             <!-- /.box -->
