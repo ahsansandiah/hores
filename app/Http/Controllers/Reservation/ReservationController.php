@@ -10,15 +10,19 @@ use Auth;
 use Redirect;
 use Carbon\Carbon;
 use Validator;
+use Cache;
+use Session;
 
 use App\User;
 use App\Entities\Reservation;
 use App\Entities\ReservationCost;
 use App\Entities\ReservationAdditionalCost;
 use App\Entities\Room;
+use App\Entities\Service;
 use App\Entities\Room\RoomBedType;
 use App\Entities\Room\RoomCondition;
 use App\Entities\Room\RoomType;
+
 
 class ReservationController extends Controller
 {
@@ -98,8 +102,34 @@ class ReservationController extends Controller
         $room = Room::with('roomType', 'roomBedType')
                     ->where('room_number', $roomNumber)
                     ->first();
+        
+        $additionalServices = Service::all();
 
-        return view('contents.reservation.checkin', compact('room'));
+        $additionalServiceCache = null;
+        if( Session::has('additional-services-'.$roomNumber) ) {
+            $additionalServiceCache = Session::get('additional-services-'.$roomNumber);
+        }
+
+        // Session::forget('additional-services-'.$roomNumber);
+        return view('contents.reservation.checkin', compact('room', 'additionalServices', 'additionalServiceCache'));
+    }
+
+    public function addAdditonalService($roomNumber)
+    {
+        $additionalServiceCache = null;
+        if( Session::has('additional-services-'.$roomNumber) ) {
+            if (Input::all()) {
+                $additionalServiceCache = Session::push('additional-services-'.$roomNumber, Input::all(), 60*24);
+            }
+            
+            $additionalServiceCache = Session::get('additional-services-'.$roomNumber);
+        } else {
+            if (Input::all()) {
+                $additionalServiceCache = Session::push('additional-services-'.$roomNumber, Input::all(), 60*24);
+            }
+        }
+
+        return view('contents.reservation.additional-service', compact('additionalServiceCache'));
     }
 
     public function checkinProcess(Request $request, $roomNumber)
@@ -147,6 +177,28 @@ class ReservationController extends Controller
         $reservation->save();
 
         if ($reservation) {
+            // Additional Cost
+            if( Session::has('additional-services-'.$roomNumber) ) {
+                $additionalServiceCaches = Session::get('additional-services-'.$roomNumber);
+                $additionalCost = new ReservationAdditionalCost();
+                $total = null;
+                foreach ($additionalServiceCaches as $value) {
+                    $additionalCost->reservation_id = $reservation->id;
+                    $additionalCost->name = $value['service'];
+                    $additionalCost->quantity = $value['quantity'];
+                    $additionalCost->price = $value['price'];
+                    $additionalCost->discount_percent = $value['discount'];
+                    $additionalCost->description = $value['description'];
+                    $additionalCost->save();
+
+                    $totalDiskon = ($value['diskon'] / 100) * $value['price'];
+                    $totalPrice += $totalDiskon; 
+                }
+
+                $totalAdditionalCost = $total;
+                Session::forget('additional-services-'.$roomNumber);
+            }
+
             // Create Reservation Cost
             $reservationCost = new ReservationCost;
             $reservationCost->reservation_number    = $request->reservation_number;
@@ -171,8 +223,6 @@ class ReservationController extends Controller
             // Update Status Room
             $room->is_booking = 1;
             $room->update();
-
-            // Additional Cost
 
             return redirect('/reservation/detail/'.$reservation->reservation_number)->with('message', 'Successfully checkin');
         }

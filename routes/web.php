@@ -27,6 +27,8 @@ Route::group(['prefix' => 'reservation', 'middleware' => 'web'], function() {
     Route::get('/check-out/{reservationNumber}','Reservation\ReservationController@checkout');
     Route::post('/check-out/{reservationNumber}/process','Reservation\ReservationController@checkoutProcess');
 
+    Route::post('/add-additional-services/{roomId}', 'Reservation\ReservationController@addAdditonalService');
+
     Route::get('/create','Reservation\ReservationController@create');
     Route::post('/store','Reservation\ReservationController@store');
     Route::get('/edit/{id}','Reservation\ReservationController@edit');

@@ -93,7 +93,7 @@
                                     <input type="number" name="duration" id="inputDuration" class="form-control pull-right" value="1" min="0" max="1000" step="1"/>
                                 </div>
                                 <div class="form-group">
-                                        <label>Jumlah Dewasa</label>
+                                    <label>Jumlah Dewasa</label>
                                     <input type="text" class="form-control" name="adult" id="input_contact_name" placeholder="Adult Total">
                                 </div>
                                 <div class="form-group">
@@ -159,26 +159,40 @@
                                 </div> --}}
                             </div>
                         </div>
+                        <hr>
                         <div class="row">
                             <div class="col-md-12">
+                                <a class="btn btn-primary" data-toggle="modal" data-target="#modal-additional-cost">Biaya tambahan</a><p></p>
                                 <table class="table table-bordered">
-                                    <tbody>
+                                    <tbody id="showdata">
                                         <tr>
-                                            <th style="width: 10px">#</th>
-                                            <th>Task</th>
-                                            <th>Progress</th>
-                                            <th style="width: 40px">Label</th>
+                                            <th>Titel</th>
+                                            <th style="width: 40px">Jumlah</th>
+                                            <th>Harga</th>
+                                            <th style="width: 40px">Diskon (%)</th>
+                                            <th>Keterangan</th>
                                         </tr>
-                                        <tr>
-                                            <td>1.</td>
-                                            <td>Update software</td>
-                                            <td>
-                                                <div class="progress progress-xs">
-                                                <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-red">55%</span></td>
-                                        </tr>
+                                        @if (!empty($additionalServiceCache))
+                                            @foreach ($additionalServiceCache as $serviceCache)
+                                                <tr>
+                                                    <td>
+                                                        {{ $serviceCache['service'] }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $serviceCache['quantity'] }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $serviceCache['price'] }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $serviceCache['discount'] }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $serviceCache['description'] }}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
@@ -190,6 +204,61 @@
                     </div>
                 </form>
                 <!-- /.box-footer -->
+                <div class="modal fade" id="modal-additional-cost">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Form biaya tambahan</h4>
+                            </div>
+                            <form id="form-additional-service" method="get">
+                                    {{-- action="{{ url('reservation/add-additional-services/'.$room->room_number) }}" --}}
+                                <div class="modal-body">
+                                    <meta name="csrf-token" content="{{ csrf_token() }}" />
+                                    <div class="form-group">
+                                        <label>Service Tambahan</label>
+                                        <div class="form-inline">
+                                            <select class="form-control services" name="additional_service" id="inputService">
+                                                @foreach ($additionalServices as $service)
+                                                    <option value="{{ $service->name }}">{{ $service->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Jumlah</label>
+                                        <input type="text" class="form-control" name="quantity" id="inputQuantity" placeholder="Jumlah">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Harga</label>
+                                        <input type="text" class="form-control" name="service_price" id="inputServicePrice">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Diskon</label>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" name="service_discount_percent" id="inputserviceDiscountPercent" placeholder="%">
+                                            </div>
+                                            <div class="col-md-8">
+                                                {{-- <input type="text" class="form-control" name="service_discount" id="inputServiceDiscount" value=""> --}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Keterangan</label>
+                                        <input type="text" class="form-control" name="service_price" id="inputServiceDescription">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-block btn-success btn-lg" id="addAdditionalServices">Tambah</button>
+                                </div>
+                            </form>
+                        </div>
+                    <!-- /.modal-content -->
+                    </div>
+                <!-- /.modal-dialog -->
+                </div>
             </div>
         </div>
     </div>
@@ -223,35 +292,48 @@
             total_price = ($('#inputTotalPrice').val() + $('#inputTax').val()) - $('#inputDiscount').val()
             console.log(total_price)
             $('#totalPrice').text(total_price);
+
+
+            // Service Discount
+            $('#inputServiceDiscountPercent').on('change', function(){
+                total_service_discount = ($(this).val() / 100) * $("#inputServicePrice").val()
+                $('#inputServiceDiscount').val(total_service_discount);
+            })
+
+            $('#inputServiceDiscountPercent').change();
+
+            // Add Additional Service
+            $('#form-additional-service').on('submit', function(e) {
+                e.preventDefault();
+
+                var service = $('#inputService option:selected').text();
+                var quantity = $('#inputQuantity').val();
+                var price = $('#inputServicePrice').val();
+                var discount = $('#inputserviceDiscountPercent').val();
+                var description = $('#inputServiceDescription').val();
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    type: "post",
+                    url: '{{ url("reservation/add-additional-services/".$room->room_number) }}',
+                    data: {
+                        service:service,
+                        quantity:quantity, 
+                        price:price, 
+                        discount:discount,
+                        description:description
+                    },
+                    success: function( response ) {
+                        $("#showdata").html(
+                            response
+                        );
+                    }
+                });
+            });
         </script>
     @endsection
 @stop
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
