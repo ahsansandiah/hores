@@ -10,7 +10,7 @@ use App\Menu;
 
 class MenuController extends Controller
 {
-    
+
     public function __construct() {
         $user = Auth::user();
         if (!$user) {
@@ -56,8 +56,7 @@ class MenuController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'route' => 'required'
+            'name' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -71,9 +70,11 @@ class MenuController extends Controller
 
         $name = $request->input('name');
         $params = [
+            'parent_id' => $request->input('parent_id'),
             'name' => $name,
             'slug' => str_replace(' ', '-', strtolower($name)),
-            'route' => $request->input('route')
+            'route' => $request->input('route'),
+            'icon' => $request->input('icon')
         ];
 
         $save = Menu::create($params);
@@ -116,8 +117,7 @@ class MenuController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'route' => 'required'
+            'name' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -135,9 +135,11 @@ class MenuController extends Controller
             return back()->with('error', 'Menu data not found!');
         }
 
+        $menu->parent_id = $request->input('parent_id');
         $menu->name = $name;
         $menu->slug = str_replace(' ', '-', strtolower($name));
         $menu->route = $request->input('route');
+        $menu->icon = $request->input('icon');
 
         if ($menu->save()) {
             return back()->with('success', 'Update menu data success');
