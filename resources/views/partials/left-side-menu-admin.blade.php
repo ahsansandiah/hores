@@ -12,7 +12,7 @@
             <span>Reservation</span>
         </a>
     </li>
-    <li class="treeview menu-open">
+    <li class="treeview">
         <a href="#">
             <i class="fa fa-bed"></i>
             <span>Rooms</span>
@@ -32,6 +32,20 @@
             <i class="fa fa-cog"></i>
             <span>Additional Services</span>
         </a>
+    </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-cog"></i>
+            <span>Config</span>
+            <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu" style="">
+            <li><a href="{{ url('admin/roles') }}"><i class="fa fa-users"></i> Roles</a></li>
+            <li><a href="{{ url('admin/menus') }}"><i class="fa fa-list"></i> Menus</a></li>
+            <li><a href="{{ url('admin/actions') }}"><i class="fa fa-key"></i> Actions</a></li>
+        </ul>
     </li>
     <li style="treeview">
         <a href="{{ Url::to('admin/shortlink') }}">
