@@ -43,7 +43,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Route</label>
-                                            <input type="text" name="route" id="menu-route" class="form-control" placeholder="Menu Description">
+                                            <input type="text" name="route" id="menu-route" class="form-control" placeholder="Menu Route">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
