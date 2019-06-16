@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\UserManagement;
 
+use Auth;
 use Validator;
 use App\Menu;
 use App\Action;
