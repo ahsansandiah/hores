@@ -9,7 +9,7 @@
                 </h3>
                 <div class="box-tools">
                     <form action="{{ url('/?search') }}" method="GET">
-                        <input type="text" name="search" placeholder="Room Number, Price, Guest Total">
+                        <input type="text" name="search" placeholder="">
                         <button type="submit" class="btn btn-info btn-flat" style="margin-right: 90px;"><i class="fa fa-search"></i></button>
                     </form>
                 </div>
@@ -63,13 +63,13 @@
                                                     <i class="fa fa-address-card"></i> Detail Reservation
                                                 </a>
                                             @else
-                                                @if ($room->status == '1')
+                                                @if ($room->condition == '1')
                                                     <a href="{{ url('reservation/check-in/'.$room->room_number) }}" class="btn btn-app">
                                                         <i class="fa fa-sign-in"></i> Check In
                                                     </a>
+                                                    |
                                                 @endif
                                             @endif
-                                              | 
                                             <a href="{{ url('room/edit/'.$room->id) }}" class="btn btn-app">
                                                 <i class="fa fa-edit"></i> Ubah
                                             </a>
