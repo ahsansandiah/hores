@@ -11,21 +11,21 @@
                     <div class="row">
                         <div class="col-sm-3 pull-left">
                             <div class="input-group margin">
-                                <a href="" class="btn btn-block btn-success btn-flat" data-toggle="modal" data-target="#modal-default">Create</a>
+                                <a href="" class="btn btn-block btn-success btn-flat" data-toggle="modal" data-target="#modal-default">Tambah</a>
                                 <div class="modal fade" id="modal-default">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span></button>
-                                                <h4 class="modal-title">Form Create Room type</h4>
+                                                <h4 class="modal-title">Form Tambah Tipe Ruangane</h4>
                                             </div>
                                             <div class="modal-body">
                                                 <form action="{{ url('room/type/store') }}" method="POST" class="form-horizontal">
                                                     @csrf
                                                     <div class="box-body">
                                                         <div class="form-group">
-                                                            <label for="inputType" class="col-sm-2 control-label">Type</label>
+                                                            <label for="inputType" class="col-sm-2 control-label">Tipe</label>
                                                             <div class="col-sm-10">
                                                                 <input type="text" class="form-control" name="name" id="inpuType" placeholder="type">
                                                             </div>
@@ -33,8 +33,8 @@
                                                     </div>
                                                         <!-- /.box-body -->
                                                     <div class="box-footer">
-                                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-info pull-right">Save</button>
+                                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Keluar</button>
+                                                        <button type="submit" class="btn btn-info pull-right">Simpan</button>
                                                     </div>
                                                     <!-- /.box-footer -->
                                                 </form>
@@ -62,7 +62,7 @@
                     <table class="table table-bordered">
                         <tr>
                             <th style="width: 10px">#</th>
-                            <th>Name</th>
+                            <th>Tipe</th>
                             <th style="width: 40px"></th>
                         </tr>
                         @foreach ($roomTypes as $type)
@@ -71,7 +71,7 @@
                             <td>{{ $type->name }}</td>
                             <td>
                                 <a class="btn btn-app" data-toggle="modal" data-target="#modal-edit{{ $type->id }}">
-                                    <i class="fa fa-edit"></i> Edit
+                                    <i class="fa fa-edit"></i> Ubah
                                 </a>
                                 <div class="modal fade" id="modal-edit{{ $type->id }}">
                                     <div class="modal-dialog">
@@ -79,14 +79,14 @@
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span></button>
-                                                <h4 class="modal-title">Form Edit Room Type</h4>
+                                                <h4 class="modal-title">Form Ubah Tipe Ruangan</h4>
                                             </div>
                                             <div class="modal-body">
                                                 <form action="{{ url('room/type/update') }}" method="POST" class="form-horizontal">
                                                     @csrf
                                                     <div class="box-body">
                                                         <div class="form-group">
-                                                            <label for="inputType" class="col-sm-2 control-label">Type</label>
+                                                            <label for="inputType" class="col-sm-2 control-label">Tipe</label>
                                                             <div class="col-sm-10">
                                                                 <input type="hidden" class="form-control" name="id" value="{{ $type->id }}" id="inputType" placeholder="Type">
                                                                 <input type="text" class="form-control" name="name" value="{{ $type->name }}" id="inputType" placeholder="Type">
@@ -95,8 +95,8 @@
                                                     </div>
                                                         <!-- /.box-body -->
                                                     <div class="box-footer">
-                                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-info pull-right">Save</button>
+                                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Keluar</button>
+                                                        <button type="submit" class="btn btn-info pull-right">Simpan</button>
                                                     </div>
                                                     <!-- /.box-footer -->
                                                 </form>
@@ -115,13 +115,7 @@
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer clearfix">
-                    <ul class="pagination pagination-sm no-margin pull-right">
-                        <li><a href="#">&laquo;</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">&raquo;</a></li>
-                    </ul>
+                    {{ $roomTypes->links() }}
                 </div>
             </div>
             <!-- /.box -->
