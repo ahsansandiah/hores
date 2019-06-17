@@ -152,7 +152,7 @@ class UserController extends Controller
         if ($user->save()) {
             $user->attachRole($role);
 
-            reutrn back()->with('success', 'Update user success');
+            return back()->with('success', 'Update user success');
         }
 
         return back()->with('error', 'Update user failed!');
