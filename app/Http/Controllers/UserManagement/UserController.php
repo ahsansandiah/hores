@@ -12,14 +12,7 @@ use jeremykenedy\LaravelRoles\Models\Role;
 class UserController extends Controller
 {
     public function __construct(){
-        $user = Auth::user();
-        if (!$user) {
-            return redirect('/');
-        }
-
-        if (!$user->hasRole(['admin'])) {
-            return back()->with('error', "You don't have access!");
-        }
+        $this->middleware(['auth','role:admin']);
     }
 
     /**

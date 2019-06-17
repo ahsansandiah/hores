@@ -10,16 +10,8 @@ use App\Action;
 
 class ActionController extends Controller
 {
-
-    public function __construct() {
-        $user = Auth::user();
-        if (!$user) {
-            return redirect('/');
-        }
-
-        if (!$user->hasRole(['admin'])) {
-            return back();
-        }
+    public function __construct(){
+        $this->middleware(['auth','role:admin']);
     }
     
     /**

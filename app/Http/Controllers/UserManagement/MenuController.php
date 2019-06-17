@@ -7,19 +7,13 @@ use Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Menu;
+use App\Action;
+use Illuminate\Support\Facades\DB;
 
 class MenuController extends Controller
 {
-
-    public function __construct() {
-        $user = Auth::user();
-        if (!$user) {
-            return redirect('/');
-        }
-
-        if (!$user->hasRole(['admin'])) {
-            return back();
-        }
+    public function __construct(){
+        $this->middleware(['auth','role:admin']);
     }
 
     /**
@@ -169,5 +163,44 @@ class MenuController extends Controller
         }
 
         return back()->with('error', 'Delete menu data failed!');
+    }
+
+    /**
+     * Get Menu By Role
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getRoleMenu($id)
+    {
+        $role = DB::table('roles')->where('id', $id)->first();
+
+        if ($role->slug !== 'admin') {
+            $menus = DB::table('role_menu')
+                            ->leftJoin('menus', 'menus.id', '=', 'role_menu.menu_id')
+                            ->where('role_id', $id)->get();
+
+            foreach ($menus as &$menu) {
+                $action_ids = json_decode($menu->action_ids);
+                $get_actions = DB::table('actions')->select('name')->whereIn('id', $action_ids)->get();
+                $actions = [];
+                if ($get_actions) {
+                    foreach ($get_actions as $act) {
+                        array_push($actions, $act->name);
+                    }
+                }
+
+                $menu->actions = $actions;
+            }
+        } else {
+            $menus = Menu::all();
+        }
+
+        $result = [
+            'error' => false,
+            'data' => $menus,
+            'message' => 'Get role menu success'
+        ];
+        return response()->json($result);
     }
 }
