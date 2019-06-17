@@ -76,9 +76,11 @@
                                             <a class="btn btn-app" data-toggle="modal" data-target="#create-room">
                                                 <i class="fa fa-plus"></i> Tambah
                                             </a>
-                                            <a href="{{ url('room/delete/'.$room->id) }}" class="btn btn-app" onclick="return confirm('Are you sure you want to delete this item?');">
-                                                <i class="fa fa-trash"></i> Hapus
-                                            </a>
+                                            @if ($room->is_booking != '1')
+                                                <a href="{{ url('room/delete/'.$room->id) }}" class="btn btn-app" onclick="return confirm('Are you sure you want to delete this item?');">
+                                                    <i class="fa fa-trash"></i> Hapus
+                                                </a>
+                                            @endif
                                         <hr>
                                             <span>Status Ruangan : <a class="btn bg-maroon btn-flat margin">{{ $room->roomCondition->name }}</a></span>
                                     </div>
