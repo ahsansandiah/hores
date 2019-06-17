@@ -66,7 +66,7 @@ Route::group(['prefix' => 'service', 'middleware' => 'web'], function() {
 
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => 'web'], function() {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth','role:admin']], function() {
     // users route
     Route::get('users', 'UserManagement\UserController@index');
     Route::post('user', 'UserManagement\UserController@store');
@@ -78,6 +78,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'web'], function() {
     Route::post('role', 'UserManagement\RoleController@store');
     Route::post('role/update/{id}', 'UserManagement\RoleController@update');
     Route::get('role/delete/{id}', 'UserManagement\RoleController@destroy');
+    Route::post('role/set-menu', 'UserManagement\RoleController@setRoleMenu');
 
     // actions route
     Route::get('actions', 'UserManagement\ActionController@index');
@@ -90,4 +91,5 @@ Route::group(['prefix' => 'admin', 'middleware' => 'web'], function() {
     Route::post('menu', 'UserManagement\MenuController@store');
     Route::post('menu/update/{id}', 'UserManagement\MenuController@update');
     Route::get('menu/delete/{id}', 'UserManagement\MenuController@destroy');
+    Route::get('menu/get-role-menu/{id}', 'UserManagement\MenuController@getRoleMenu');
 });
