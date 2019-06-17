@@ -30,7 +30,7 @@
             @endif
         @endforeach
     @endif
-    <!-- <li style="treeview">
+    <li style="treeview">
         <a href="{{ Url::to('/') }}">
             <i class="fa fa-puzzle-piece"></i>
             <span>Dashboard</span>
@@ -62,7 +62,7 @@
             <i class="fa fa-cog"></i>
             <span>Additional Services</span>
         </a>
-    </li> -->
+    </li>
     @if (Auth::user()->hasRole(['admin']))
         <li class="treeview">
             <a href="#">

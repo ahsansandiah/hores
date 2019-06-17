@@ -4,8 +4,8 @@
         <!-- USERS LIST -->
         <div class="box box-success">
             <div class="box-header with-border">
-                <h3 class="box-title">List Room | 
-                    <span class="label label-success">{{ $countAvailableRooms }} Room Available</span>
+                <h3 class="box-title">List Ruangan | 
+                    Ruangan yang tersedia : <span class="label label-success"> {{ $countAvailableRooms }} </span>
                 </h3>
                 <div class="box-tools">
                     <form action="{{ url('/?search') }}" method="GET">
@@ -107,7 +107,7 @@
                     <span class="info-box-icon bg-aqua"><i class="fa fa-sign-in"></i></span>
         
                     <div class="info-box-content">
-                        <span class="info-box-text">Check In <br><small>(Today)</small></span>
+                        <span class="info-box-text">Check In <br><small>(Harian)</small></span>
                         <span class="info-box-number">{{ $checkinToday }}</span>
                     </div>
                     <!-- /.info-box-content -->
@@ -120,7 +120,7 @@
                     <span class="info-box-icon bg-yellow"><i class="fa fa-sign-out"></i></span>
     
                     <div class="info-box-content">
-                        <span class="info-box-text">Check Out <br><small>(Today)</small></span>
+                        <span class="info-box-text">Check Out <br><small>(Harian)</small></span>
                         <span class="info-box-number">{{ $checkoutToday }}</span>
                     </div>
                 <!-- /.info-box-content -->
@@ -137,7 +137,7 @@
                 <span class="info-box-icon bg-green"><i class="fa fa-bar-chart-o"></i></span>
     
                 <div class="info-box-content">
-                    <span class="info-box-text">Reservation</span>
+                    <span class="info-box-text">Reservasi</span>
                     <span class="info-box-number">{{ $countReservation }}</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -150,7 +150,7 @@
                 <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
     
                 <div class="info-box-content">
-                    <span class="info-box-text">New Members</span>
+                    <span class="info-box-text">Total Pelanggan</span>
                     <span class="info-box-number">2,000</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -170,20 +170,20 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Form Create Room</h4>
+                    <h4 class="modal-title">Form Tambah Ruangan</h4>
                 </div>
                 <div class="modal-body">
                     <form action="{{ url('room/store') }}" method="POST" class="form-horizontal">
                         @csrf
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="inputRoomNumber" class="col-sm-2 control-label">Room Number</label>
+                                <label for="inputRoomNumber" class="col-sm-2 control-label">No Ruangan</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="room_number" id="inputRoomNumber" placeholder="Room Number">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputType" class="col-sm-2 control-label">Type</label>
+                                <label for="inputType" class="col-sm-2 control-label">Tipe</label>
                                 <div class="col-sm-10">
                                     <select name="type" id="">
                                         @foreach ($roomTypes as $type)
@@ -193,13 +193,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPrice" class="col-sm-2 control-label">Price (/day)</label>
+                                <label for="inputPrice" class="col-sm-2 control-label">Harga Sewa (/hari)</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="price" id="inputPrice" placeholder="Price">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputBadType" class="col-sm-2 control-label">Bad Type</label>
+                                <label for="inputBadType" class="col-sm-2 control-label">Jenis Ranjang</label>
                                 <div class="col-sm-10">
                                     <select name="bed_type" id="">
                                         @foreach ($roomBedTypes as $bedType)
@@ -209,19 +209,19 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputGuestMax" class="col-sm-2 control-label">Guest Max</label>
+                                <label for="inputGuestMax" class="col-sm-2 control-label">Max Pelanggan</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="guest_max" id="inputGuestMax" placeholder="Guest Max">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputFeeBreakfast" class="col-sm-2 control-label">Fee Breakfast (/day)</label>
+                                <label for="inputFeeBreakfast" class="col-sm-2 control-label">Biaya Sarapan (/hari)</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="fee_breakfast" id="inputFreeBreakfast" placeholder="Fee Breakfast">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputCondition" class="col-sm-2 control-label">Room Condition</label>
+                                <label for="inputCondition" class="col-sm-2 control-label">Kondisi Ruangan</label>
                                 <div class="col-sm-10">
                                     <select name="condition" id="">
                                         @foreach ($roomConditions as $condition)
@@ -231,7 +231,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputCondition" class="col-sm-2 control-label">Description</label>
+                                <label for="inputCondition" class="col-sm-2 control-label">Keterangan</label>
                                 <div class="col-sm-10">
                                     <textarea name="description" class="form-control" id="" cols="30" rows="10"></textarea>
                                 </div>
@@ -239,8 +239,8 @@
                         </div>
                             <!-- /.box-body -->
                         <div class="box-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-info pull-right">Save</button>
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Keluar</button>
+                            <button type="submit" class="btn btn-info pull-right">Simpan</button>
                         </div>
                         <!-- /.box-footer -->
                     </form>
