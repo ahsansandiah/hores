@@ -83,7 +83,7 @@
                 					<td>{{ $menu->route }}</td>
                 					<td>
                 						<button class="btn btn-sm btn-warning" onclick="editMenu(<?=$menu->id?>, <?=empty($menu->parent_id) ? 0 : $menu->parent_id?>, '<?=$menu->name?>', '<?=$menu->route?>', '<?=$menu->icon?>')">Edit</button>
-                						<button class="btn btn-sm btn-danger">Delete</button>
+                						<button class="btn btn-sm btn-danger" onclick="deleteMenu(<?=$menu->id?>)">Delete</button>
                 					</td>
                 				</tr>
                 			@endforeach
@@ -95,6 +95,27 @@
         <!--/.box -->
     </div>
     <!-- /.row -->
+
+    <div class="modal fade" id="modal-delete">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Delete Menu</h4>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">No</button>
+            <a href="#" id="delete-link" class="btn btn-primary">Yes</a>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
 @stop
 
 @section('script')
@@ -122,6 +143,12 @@
 			var url = window.location.origin + '/admin/menu/update/' + id;
 			$('#menu-form').attr('action', url);
 			$('#form-create').collapse('show');
+		}
+
+		function deleteMenu(id){
+			$('#modal-delete').modal('show');
+			var url = window.location.origin + '/admin/menu/delete/' + id;
+			$('#delete-link').attr('href', url);
 		}
 	</script>
 @endsection
