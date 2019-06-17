@@ -40,16 +40,22 @@
                                             <input type="text" name="name" id="menu-name" class="form-control" placeholder="Menu Name" required>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Route</label>
                                             <input type="text" name="route" id="menu-route" class="form-control" placeholder="Menu Route">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Icon</label>
                                             <input type="text" name="icon" id="menu-icon" class="form-control" placeholder="Menu Icon">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Order Number</label>
+                                            <input type="number" min="0" name="order_number" id="menu-order-number" class="form-control" placeholder="0">
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -70,6 +76,7 @@
                 			<th>Name</th>
                 			<th>Slug</th>
                 			<th>Route</th>
+                			<th>Order Number</th>
                 			<th>Action</th>
                 		</tr>
                 	</thead>
@@ -81,8 +88,9 @@
                 					<td>{{ $menu->name }}</td>
                 					<td>{{ $menu->slug }}</td>
                 					<td>{{ $menu->route }}</td>
+                					<td>{{ $menu->order_number }}</td>
                 					<td>
-                						<button class="btn btn-sm btn-warning" onclick="editMenu(<?=$menu->id?>, <?=empty($menu->parent_id) ? 0 : $menu->parent_id?>, '<?=$menu->name?>', '<?=$menu->route?>', '<?=$menu->icon?>')">Edit</button>
+                						<button class="btn btn-sm btn-warning" onclick="editMenu(<?=$menu->id?>, <?=empty($menu->parent_id) ? 0 : $menu->parent_id?>, '<?=$menu->name?>', '<?=$menu->route?>', '<?=$menu->icon?>', <?=$menu->order_number?>)">Edit</button>
                 						<button class="btn btn-sm btn-danger" onclick="deleteMenu(<?=$menu->id?>)">Delete</button>
                 					</td>
                 				</tr>
@@ -125,6 +133,7 @@
 			$('#menu-route').val('');
 			$('#parent-id').val('');
 			$('#menu-icon').val('');
+			$('#menu-order-number').val(0);
 			var url = window.location.origin + '/admin/menu';
 			$('#menu-form').attr('action', url);
 
@@ -135,11 +144,12 @@
 			}
 		}
 
-		function editMenu(id, parent_id, name, route, icon){
+		function editMenu(id, parent_id, name, route, icon, order_number){
 			$('#menu-name').val(name);
 			$('#menu-route').val(route);
 			$('#parent-id').val(parent_id);
 			$('#menu-icon').val(icon);
+			$('#menu-order-number').val(order_number);
 			var url = window.location.origin + '/admin/menu/update/' + id;
 			$('#menu-form').attr('action', url);
 			$('#form-create').collapse('show');
