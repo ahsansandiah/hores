@@ -12,6 +12,7 @@ class Menu extends Model
     	'parent_id',
     	'name',
     	'slug',
+    	'order_number',
     	'route',
     	'icon'
     ];
@@ -38,5 +39,10 @@ class Menu extends Model
     	}
 
     	return '';
+    }
+
+    // get children data
+    public function children() {
+    	return $this->hasMany('App\Menu', 'parent_id', 'id');
     }
 }
