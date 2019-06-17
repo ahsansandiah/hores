@@ -11,27 +11,27 @@
                     <div class="row">
                         <div class="col-sm-3 pull-left">
                             <div class="input-group margin">
-                                <a href="" class="btn btn-block btn-success btn-flat"  data-toggle="modal" data-target="#modal-default">Create</a>
+                                <a href="" class="btn btn-block btn-success btn-flat"  data-toggle="modal" data-target="#modal-default">Tambah</a>
                                 <div class="modal fade" id="modal-default">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span></button>
-                                                <h4 class="modal-title">Form Create Room</h4>
+                                                <h4 class="modal-title">Form Tambah Room</h4>
                                             </div>
                                             <div class="modal-body">
                                                 <form action="{{ url('room/store') }}" method="POST" class="form-horizontal">
                                                     @csrf
                                                     <div class="box-body">
                                                         <div class="form-group">
-                                                            <label for="inputRoomNumber" class="col-sm-2 control-label">Room Number</label>
+                                                            <label for="inputRoomNumber" class="col-sm-2 control-label">No Ruangan</label>
                                                             <div class="col-sm-10">
-                                                                <input type="text" class="form-control" name="room_number" id="inputRoomNumber" placeholder="Room Number">
+                                                                <input type="text" class="form-control" name="room_number" id="inputRoomNumber" placeholder="">
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="inputType" class="col-sm-2 control-label">Type</label>
+                                                            <label for="inputType" class="col-sm-2 control-label">Tipe</label>
                                                             <div class="col-sm-10">
                                                                 <select name="type" id="">
                                                                     @foreach ($roomTypes as $type)
@@ -41,13 +41,13 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="inputPrice" class="col-sm-2 control-label">Price (/day)</label>
+                                                            <label for="inputPrice" class="col-sm-2 control-label">Harga Sewa (/hari)</label>
                                                             <div class="col-sm-10">
                                                                 <input type="text" class="form-control" name="price" id="inputPrice" placeholder="Price">
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="inputBadType" class="col-sm-2 control-label">Bad Type</label>
+                                                            <label for="inputBadType" class="col-sm-2 control-label">Tipe Ranjang</label>
                                                             <div class="col-sm-10">
                                                                 <select name="bed_type" id="">
                                                                     @foreach ($roomBedTypes as $bedType)
@@ -57,19 +57,19 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="inputGuestMax" class="col-sm-2 control-label">Guest Max</label>
+                                                            <label for="inputGuestMax" class="col-sm-2 control-label">Max Guest</label>
                                                             <div class="col-sm-10">
                                                                 <input type="text" class="form-control" name="guest_max" id="inputGuestMax" placeholder="Guest Max">
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="inputFeeBreakfast" class="col-sm-2 control-label">Fee Breakfast (/day)</label>
+                                                            <label for="inputFeeBreakfast" class="col-sm-2 control-label">Biaya Sarapan (/hari)</label>
                                                             <div class="col-sm-10">
                                                                 <input type="text" class="form-control" name="fee_breakfast" id="inputFreeBreakfast" placeholder="Fee Breakfast">
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="inputCondition" class="col-sm-2 control-label">Room Condition</label>
+                                                            <label for="inputCondition" class="col-sm-2 control-label">Kondisi Ruangan</label>
                                                             <div class="col-sm-10">
                                                                 <select name="condition" id="">
                                                                     @foreach ($roomConditions as $condition)
@@ -79,7 +79,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="inputCondition" class="col-sm-2 control-label">Description</label>
+                                                            <label for="inputCondition" class="col-sm-2 control-label">Deskripsi</label>
                                                             <div class="col-sm-10">
                                                                 <textarea name="description" class="form-control" id="" cols="30" rows="10"></textarea>
                                                             </div>
@@ -87,8 +87,8 @@
                                                     </div>
                                                         <!-- /.box-body -->
                                                     <div class="box-footer">
-                                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-info pull-right">Save</button>
+                                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Keluar</button>
+                                                        <button type="submit" class="btn btn-info pull-right">Simpan</button>
                                                     </div>
                                                     <!-- /.box-footer -->
                                                 </form>
@@ -116,12 +116,12 @@
                     <table class="table table-bordered">
                         <tr>
                             <th style="width: 10px">#</th>
-                            <th>Room Number</th>
-                            <th>Type</th>
-                            <th>Price / Day</th>
-                            <th>Guest Total</th>
-                            <th>Is Active</th>
-                            <th>Is Booking</th>
+                            <th>No Ruangan</th>
+                            <th>Tipe</th>
+                            <th>Harga Sewa / Hari</th>
+                            <th>Max Guest</th>
+                            <th>Status Active</th>
+                            <th>Status Booking</th>
                             <th style="width: 40px"></th>
                         </tr>
                         @foreach ($rooms as $room)
@@ -251,11 +251,11 @@
                                         <i class="fa fa-trash"></i> Delete
                                     </a>
                                     @if ($room->is_booking == 0)
-                                        <a class="btn btn-app-table" href="{{ url('reservation/checkin/'. $room->id) }}">
+                                        <a class="btn btn-app-table" href="{{ url('reservation/check-in/'. $room->room_number) }}">
                                             <i class="fa fa-sign-in"></i> Check In
                                         </a>
                                     @else
-                                        <a class="btn btn-app-table" href="{{ url('reservation/checkout/'. $room->id) }}">
+                                        <a class="btn btn-app-table" href="{{ url('reservation/check-out/'. $room->room_number) }}">
                                             <i class="fa fa-sign-out"></i> Check Out
                                         </a>
                                     @endif

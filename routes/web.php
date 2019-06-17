@@ -63,5 +63,7 @@ Route::group(['prefix' => 'room', 'middleware' => 'web'], function() {
 
 Route::group(['prefix' => 'service', 'middleware' => 'web'], function() {
     Route::get('/', 'Service\ServiceController@index')->name('service');
-
+    Route::post('/store', 'Service\ServiceController@store')->name('service.store');
+    Route::post('/update/{id}', 'Service\ServiceController@update')->name('service.update');
+    Route::get('/destroy/{id}', 'Service\ServiceController@destroy')->name('service.destroy');
 });

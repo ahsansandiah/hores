@@ -9,6 +9,7 @@ use App\User;
 class Service extends Model
 {
     protected $table = "additional_services";
-    use SoftDeletes;
+    protected $guarded = [];
 
+    use SoftDeletes;
 }

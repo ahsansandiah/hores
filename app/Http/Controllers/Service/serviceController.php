@@ -26,19 +26,43 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $Services = Service::paginate(20);
+        $services = Service::paginate(20);
 
-        return view('contents.service.index', compact('Services'));
+        return view('contents.service.index', compact('services'));
     }
+
     public function store(Request $request)
     {
-        $Services = Service::find($request->$id);
-        $Services->category = $request->category;
-        $services->name = $request->name;
-        $Services->stock = $request->stock;
-        $Services->price = $request->price;
-        $Services->save();
+        $credentials = [
+            'name' => $request->name,
+            'category' => $request->category,
+            'stock' => $request->stock,
+            'price' => $request->price
+        ];
+                
+        Service::create($request->all());
 
-        return view('service');
+        return redirect('service');
+    }
+
+    public function update(Request $request, $id)
+    {
+        $service = Service::findOrFail($id);
+        $service->code = $request->code;
+        $service->category = $request->category;
+        $service->name = $request->name;
+        $service->stock = $request->stock;
+        $service->price = $request->price;
+        $service->update();
+
+        return redirect('service');
+    }
+
+    public function destroy($id)
+    {
+        $service = Service::findOrFail($id);
+        $service->delete();
+
+        return redirect('service');
     }
 }
