@@ -59,15 +59,17 @@
                 					<td>{{ $role->slug }}</td>
                                     <td>{{ $role->description }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-warning" onclick="editRole(<?=$role->id?>, '<?=$role->name?>', '<?=$role->description?>')">
-                                            Edit
-                                        </button>
-                                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-delete" onclick="setDeleteUrl(<?=$role->id?>)">
-                                            Delete
-                                        </button>
-                                        <button class="btn btn-sm btn-success" onclick="setRoleMenu(<?=$role->id?>, '<?=$role->name?>')">
-                                            Set Role Menu
-                                        </button>
+                                        @if ($role->slug !== 'admin')
+                                            <button type="button" class="btn btn-sm btn-warning" onclick="editRole(<?=$role->id?>, '<?=$role->name?>', '<?=$role->description?>')">
+                                                Edit
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-delete" onclick="setDeleteUrl(<?=$role->id?>)">
+                                                Delete
+                                            </button>
+                                            <button class="btn btn-sm btn-success" onclick="setRoleMenu(<?=$role->id?>, '<?=$role->name?>')">
+                                                Set Role Menu
+                                            </button>
+                                        @endif
                                     </td>
                 				</tr>
                 			@endforeach
@@ -113,16 +115,25 @@
           <div class="modal-body">
             <div class="row">
                 <div class="col-md-3">
-                    <b id="role-name-modal"></b>
+                    <label>Role</label>
+                    <p class="label bg-green" style="display: block; padding: 10px !important;" id="role-name-modal"><p>
                     <input type="hidden" name="role_id" id="role-id">
                 </div>
                 <div class="col-md-5">
                     <div class="form-group">
                         <label>Menu</label>
-                        <select class="form-control select2" multiple="multiple" data-placeholder="Select Role Menus" style="width: 100%;" id="role-menus">
+                        <select class="form-control select2" data-placeholder="Select Role Menus" style="width: 100%;" id="role-menu">
                             @if($menus)
                                 @foreach($menus as $menu)
-                                    <option value="{{ $menu->id }}">{{ $menu->name }}</option>
+                                    @if (count($menu->children) > 0)
+                                        <optgroup label="{{ $menu->name }}">
+                                            @foreach ($menu->children as $child)
+                                                <option value="{{ $child->id }}">{{ $child->name }}</option>
+                                            @endforeach
+                                        </optgroup>
+                                    @else
+                                        <option value="{{ $menu->id }}">{{ $menu->name }}</option>
+                                    @endif
                                 @endforeach
                             @endif
                         </select>
@@ -141,9 +152,22 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Menu Name</th>
+                                <th>Menu Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="role-menu-list"></tbody>
+                    </table>
+                </div>
+            </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
             <button id="save-role-menu-btn" class="btn btn-primary" onclick="saveRoleMenu()">Save</button>
           </div>
         </div>
@@ -157,6 +181,20 @@
 @section('style')
     <!-- Select2 -->
     <link rel="stylesheet" href="{{ asset('adminLTE/bower_components/select2/dist/css/select2.min.css') }}">
+
+    <style type="text/css">
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background-color: #2196f3;
+            border-color: #2196f3;
+            color: #ffffff;
+        }
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+            color: #ffffff;
+        }
+        .select2-container .select2-selection--single {
+            height: 35px;
+        }
+    </style>
 @endsection
 
 @section('script')
@@ -194,18 +232,63 @@
         }
 
         function setRoleMenu(id, name) {
+            $.ajax({
+                header: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                },
+                type: "GET",
+                url: window.location.origin + '/admin/menu/get-role-menu/' + id,
+                success: function(response) {
+                    var menus = response.data;
+                    var list_menu = '';
+                    if (menus.length > 0) {
+                        $.each(menus, function(index, menu){
+                            list_menu += '<tr>\
+                                <td>'+ menu.name +'</td>\
+                                <td>'+ menu.actions.join('|') +'</td>\
+                            </tr>';
+                        });
+                    }
+                    $('#role-menu-list').html(list_menu);
+                }
+            })
             $('#role-menu-modal').modal('show');
             $('#role-name-modal').html(name);
-            $('#modal-role-id').val(id);
+            $('#role-id').val(id);
         }
 
         function saveRoleMenu(){
             var role_id = $('#role-id').val();
-            var role_menus = $('#role-menus').val();
+            var role_menu = $('#role-menu').val();
             var role_actions = $('#role-actions').val();
-            console.log('role id =', role_id);
-            console.log('role menus =', role_menus);
-            console.log('role actions =', role_actions);
+
+            $.ajax({
+                header: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                },
+                type: "POST",
+                url: window.location.origin + '/api/role/set-menu',
+                data: {
+                    role_id: role_id,
+                    menu_id: role_menu,
+                    actions: role_actions
+                },
+                success: function (response){
+                    if (response.error === false) {
+                        var menus = response.data
+                        var list_menu = '';
+                        if (menus.length > 0) {
+                            $.each(menus, function(index, menu){
+                                list_menu += '<tr>\
+                                    <td>'+ menu.name +'</td>\
+                                    <td>'+ menu.actions.join('|') +'</td>\
+                                </tr>';
+                            });
+                        }
+                        $('#role-menu-list').html(list_menu);
+                    }
+                }
+            });
         }
     </script>
 @endsection
