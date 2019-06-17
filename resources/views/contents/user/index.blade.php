@@ -82,8 +82,8 @@
                 					<td>{{ $user->email }}</td>
                 					<td>{{ $user->getRoles()[0]->name }}</td>
                 					<td>
-                						<button class="btn btn-sm btn-warning">Edit</button>
-                						<button class="btn btn-sm btn-danger">Delete</button>
+                						<button class="btn btn-sm btn-warning" onclick="editUser(<?=$user->id?>, '<?=$user->name?>', '<?=$user->email?>', <?=$user->getRoles()[0]->id?>)">Edit</button>
+                						<button class="btn btn-sm btn-danger" onclick="deleteUser(<?=$user->id?>)">Delete</button>
                 					</td>
                 				</tr>
                 			@endforeach
@@ -95,33 +95,63 @@
         <!--/.box -->
     </div>
     <!-- /.row -->
+
+    <div class="modal fade" id="modal-delete">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Delete Menu</h4>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">No</button>
+            <a href="#" id="delete-link" class="btn btn-primary">Yes</a>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
 @stop
 
 @section('script')
 	<script type="text/javascript">
 		function addUser(){
-			$('#user-name').val('');
-			$('#user-email').val('');
-			$('#user-password').val('');
-			$('#user-role').val('');
-			var url = window.location.origin + '/admin/user';
-			$('#user-form').attr('action', url);
-
-			if ($('#form-create').is(':visible')) {
+			if ($('#form-create').is(':visible') && $('#user-name').val() == '') {
 				$('#form-create').collapse('hide');
 			} else {
 				$('#form-create').collapse('show');
 			}
+
+			$('#user-name').val('');
+			$('#user-email').val('');
+			$('#user-password').val('');
+			$('#user-password-confirmation').val('');
+			$('#user-role').val('');
+			var url = window.location.origin + '/admin/user';
+			$('#user-form').attr('action', url);
 		}
 
-		function editUser(id, password, name, email, role){
+		function editUser(id, name, email, role){
 			$('#user-name').val(name);
 			$('#user-email').val(email);
-			$('#user-password').val(password);
+			$('#user-password').val('').attr('required', false);
+			$('#user-password-confirmation').val('').attr('required', false);
 			$('#user-role').val(role);
+
 			var url = window.location.origin + '/admin/user/update/' + id;
 			$('#user-form').attr('action', url);
 			$('#form-create').collapse('show');
+		}
+
+		function deleteUser(id){
+			$('#modal-delete').modal('show');
+			var url = window.location.origin + '/admin/user/delete/' + id;
+			$('#delete-link').attr('href', url);
 		}
 	</script>
 @endsection
