@@ -74,6 +74,7 @@ class MenuController extends Controller
             'name' => $name,
             'slug' => str_replace(' ', '-', strtolower($name)),
             'route' => $request->input('route'),
+            'order_number' => $request->input('order_number'),
             'icon' => $request->input('icon')
         ];
 
@@ -139,6 +140,7 @@ class MenuController extends Controller
         $menu->name = $name;
         $menu->slug = str_replace(' ', '-', strtolower($name));
         $menu->route = $request->input('route');
+        $menu->order_number = $request->input('order_number');
         $menu->icon = $request->input('icon');
 
         if ($menu->save()) {
