@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="myApp">
     <head>
+        <meta name="_token" content="{{ csrf_token() }}"/>
         @include('partials.meta')
         @include('partials.style')
         @yield('style')

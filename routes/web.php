@@ -67,3 +67,31 @@ Route::group(['prefix' => 'service', 'middleware' => 'web'], function() {
     Route::post('/update/{id}', 'Service\ServiceController@update')->name('service.update');
     Route::get('/destroy/{id}', 'Service\ServiceController@destroy')->name('service.destroy');
 });
+
+Route::group(['prefix' => 'admin', 'middleware' => ['auth','role:admin']], function() {
+    // users route
+    Route::get('users', 'UserManagement\UserController@index');
+    Route::post('user', 'UserManagement\UserController@store');
+    Route::post('user/update/{id}', 'UserManagement\UserController@update');
+    Route::get('user/delete/{id}', 'UserManagement\UserController@destroy');
+
+    // roles route
+    Route::get('roles', 'UserManagement\RoleController@index');
+    Route::post('role', 'UserManagement\RoleController@store');
+    Route::post('role/update/{id}', 'UserManagement\RoleController@update');
+    Route::get('role/delete/{id}', 'UserManagement\RoleController@destroy');
+    Route::post('role/set-menu', 'UserManagement\RoleController@setRoleMenu');
+
+    // actions route
+    Route::get('actions', 'UserManagement\ActionController@index');
+    Route::post('action', 'UserManagement\ActionController@store');
+    Route::post('action/update/{id}', 'UserManagement\ActionController@update');
+    Route::get('action/delete/{id}', 'UserManagement\ActionController@destroy');
+
+    // menus route
+    Route::get('menus', 'UserManagement\MenuController@index');
+    Route::post('menu', 'UserManagement\MenuController@store');
+    Route::post('menu/update/{id}', 'UserManagement\MenuController@update');
+    Route::get('menu/delete/{id}', 'UserManagement\MenuController@destroy');
+    Route::get('menu/get-role-menu/{id}', 'UserManagement\MenuController@getRoleMenu');
+});
