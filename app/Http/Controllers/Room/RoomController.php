@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Room;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
 use App\Entities\Room;
 use App\Entities\Room\RoomBedType;
 use App\Entities\Room\RoomCondition;
@@ -25,7 +26,15 @@ class RoomController extends Controller
 
     public function index()
     {
-        $rooms = Room::with('roomType', 'roomCondition')->paginate(10);
+        $query = Room::with('roomType', 'roomCondition');
+        
+        if (Input::has('search')) {
+            $query->where('room_number', Input::get('search'))
+                ->orWhere('price_day', Input::get('search'))
+                ->orWhere('guest_total', Input::get('search'));
+        }
+        
+        $rooms = $query->paginate(10);
         $roomBedTypes = RoomBedType::all();
         $roomConditions = RoomCondition::all();
         $roomTypes = RoomType::all();

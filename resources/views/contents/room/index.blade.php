@@ -103,14 +103,16 @@
                                 <!-- /.modal -->
                             </div>
                         </div>
-                        <div class="col-sm-3 pull-right">
-                            <div class="input-group margin">
-                                <input type="text" class="form-control">
+                        <form action="{{ url('room?search') }}" method="GET">
+                            <div class="col-sm-3 pull-right">
+                                <div class="input-group margin">
+                                    <input type="text" class="form-control" name="search">
                                     <span class="input-group-btn">
-                                    <button type="button" class="btn btn-info btn-flat">Search</button>
-                                </span>
+                                        <button type="submit" class="btn btn-info btn-flat">Search</button>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                     <hr>
                     <table class="table table-bordered">
@@ -155,20 +157,20 @@
                                                 <div class="modal-header">
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span></button>
-                                                    <h4 class="modal-title">Form Edit Room</h4>
+                                                    <h4 class="modal-title">Form Ubah Ruangan</h4>
                                                 </div>
                                                 <div class="modal-body">
                                                     <form action="{{ url('room/store') }}" method="POST" class="form-horizontal">
                                                         @csrf
                                                         <div class="box-body">
                                                             <div class="form-group">
-                                                                <label for="inputRoomNumber" class="col-sm-2 control-label">Room Number</label>
+                                                                <label for="inputRoomNumber" class="col-sm-2 control-label">No Ruangan</label>
                                                                 <div class="col-sm-10">
                                                                     <input type="text" class="form-control" name="room_number" id="inputRoomNumber" value="{{ $room->room_number }}">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="inputType" class="col-sm-2 control-label">Type</label>
+                                                                <label for="inputType" class="col-sm-2 control-label">Tipe</label>
                                                                 <div class="col-sm-10">
                                                                     <select name="type" id="">
                                                                         @foreach ($roomTypes as $type)
@@ -178,13 +180,13 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="inputPrice" class="col-sm-2 control-label">Price (/day)</label>
+                                                                <label for="inputPrice" class="col-sm-2 control-label">Harga Sewa (/hari)</label>
                                                                 <div class="col-sm-10">
                                                                     <input type="text" class="form-control" name="price" id="inputPrice" value="{{ $room->price_day }}">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="inputBadType" class="col-sm-2 control-label">Bad Type</label>
+                                                                <label for="inputBadType" class="col-sm-2 control-label">Tipe Ranjang</label>
                                                                 <div class="col-sm-10">
                                                                     <select name="bed_type" id="">
                                                                         @foreach ($roomBedTypes as $bedType)
@@ -200,13 +202,13 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="inputFeeBreakfast" class="col-sm-2 control-label">Fee Breakfast (/day)</label>
+                                                                <label for="inputFeeBreakfast" class="col-sm-2 control-label">Biaya Sarapan (/hari)</label>
                                                                 <div class="col-sm-10">
                                                                     <input type="text" class="form-control" name="fee_breakfast" id="inputFreeBreakfast" value="{{ $room->fee_breakfast }}">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="inputCondition" class="col-sm-2 control-label">Room Condition</label>
+                                                                <label for="inputCondition" class="col-sm-2 control-label">Kondisi Ruangan</label>
                                                                 <div class="col-sm-10">
                                                                     <select name="condition" id="">
                                                                         @foreach ($roomConditions as $condition)
@@ -216,7 +218,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="inputBadType" class="col-sm-2 control-label">Is Active</label>
+                                                                <label for="inputBadType" class="col-sm-2 control-label">Status</label>
                                                                 <div class="col-sm-10">
                                                                     <select name="is_active" id="">
                                                                         <option value="true" {{ ($room->is_active == "1") ? "selected" : "" }}>Active</option>
@@ -225,7 +227,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="inputCondition" class="col-sm-2 control-label">Description</label>
+                                                                <label for="inputCondition" class="col-sm-2 control-label">Keterangan</label>
                                                                 <div class="col-sm-10">
                                                                     <textarea name="description" class="form-control" id="" cols="30" rows="10">{{ $room->description }}</textarea>
                                                                 </div>
@@ -233,8 +235,8 @@
                                                         </div>
                                                             <!-- /.box-body -->
                                                         <div class="box-footer">
-                                                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-info pull-right">Save</button>
+                                                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Keluar</button>
+                                                            <button type="submit" class="btn btn-info pull-right">Simpan</button>
                                                         </div>
                                                         <!-- /.box-footer -->
                                                     </form>
