@@ -151,7 +151,7 @@
                     <!-- this row will not appear when printing -->
                     <div class="row no-print">
                         <div class="col-xs-12">
-                            <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
+                            <a href="{{ url('reservation/detail/'.$reservation->reservation_number.'/print' ) }}" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
                             @if ($reservation->status == $reservation::STATUS_CHECKIN)
                                 <a href="{{ url('reservation/edit/'.$reservation->id) }}" class="btn btn-default">Edit</a>
                                 <a class="btn btn-success pull-right" href="{{ url('reservation/check-out/'.$reservation->reservation_number ) }}"><i class="fa fa-credit-card"></i> Checkout </a>

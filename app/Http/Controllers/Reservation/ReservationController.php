@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Validator;
 use Cache;
 use Session;
+use PDF;
 
 use App\User;
 use App\Entities\Reservation;
@@ -186,19 +187,20 @@ class ReservationController extends Controller
                     $additionalCost->reservation_id = $reservation->id;
                     $additionalCost->name = $value['service'];
                     $additionalCost->quantity = $value['quantity'];
-                    $additionalCost->price = $value['price'];
+                    $additionalCost->base_price = $value['price'];
                     $additionalCost->discount_percent = $value['discount'];
                     $additionalCost->description = $value['description'];
-                    $additionalCost->save();
                     $totalDiskon = ($value['price'] * $value['quantity']);
                     if ($value['discount'] != 0 || !empty($value['discount']))
                         $totalDiskon = ($value['discount'] / 100) * ($value['price'] * $value['quantity']);
+                    
+                    $additionalCost->price = $totalDiskon;
+                    $additionalCost->save();
 
                     $total += $totalDiskon; 
                 }
 
                 $totalAdditionalCost = $total;
-                Session::forget('additional-services-'.$roomNumber);
             }
 
             // Create Reservation Cost
@@ -226,6 +228,9 @@ class ReservationController extends Controller
             $room->is_booking = 1;
             $room->update();
 
+            // Nota Checkin
+
+            Session::forget('additional-services-'.$roomNumber);
             return redirect('/reservation/detail/'.$reservation->reservation_number)->with('message', 'Successfully checkin');
         }
         
@@ -342,5 +347,27 @@ class ReservationController extends Controller
         }
 
         return redirect('/reservation/detail/'.$reservation->reservation_number)->with('error_message', 'Failed checkout');
+    }
+
+    public function print($reservationNumber)
+    {
+        $reservation = Reservation::with('reservationCost', 'reservationAdditionalCosts')
+                    ->where('reservation_number', $reservationNumber)
+                    ->first();
+
+        if (empty($reservation)) {
+            return redirect('/reservation');
+        } 
+
+        $room = Room::with('roomType', 'roomBedType')
+                ->where('room_number', $reservation->room_number)
+                ->first();
+
+        // Additional Cost
+        $reservationAdditionalCosts = ReservationAdditionalCost::where('reservation_id', $reservation->id)->get();
+
+        // return view('contents.reservation.invoice', compact('reservation', 'room', 'reservationAdditionalCosts'));
+        $pdf = PDF::loadView('contents.reservation.invoice', compact('reservation', 'room', 'reservationAdditionalCosts'));
+        return $pdf->download('invoice.pdf');
     }
 }
