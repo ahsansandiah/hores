@@ -51,7 +51,7 @@
                                         <i class="fa fa-address-card"></i> Detail
                                     </a>
                                     @if ($reservation->status == "checkin")
-                                        <a class="btn btn-app" href="{{ url('reservation/checkout') }}">
+                                        <a class="btn btn-app" href="{{ url('reservation/check-out/'. $reservation->reservation_number ) }}">
                                             <i class="fa fa-sign-out"></i> Check Out
                                         </a>
                                         <a class="btn btn-app" href="{{ url('reservation/edit'. $reservation->id) }}">

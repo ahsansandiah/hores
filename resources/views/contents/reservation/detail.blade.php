@@ -133,7 +133,7 @@
                                         <th>Total Harga</th>
                                         <th>Keterangan</th>
                                     </tr>
-                                    @foreach ($reservation->reservationAdditionalCosts as $additionalCost)
+                                    @foreach ($reservationAdditionalCosts as $additionalCost)
                                         <tr>
                                             <td>{{ $additionalCost->name }}</td>
                                             <td>{{ $additionalCost->quantity }}</td>

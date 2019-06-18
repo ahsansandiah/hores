@@ -190,9 +190,11 @@ class ReservationController extends Controller
                     $additionalCost->discount_percent = $value['discount'];
                     $additionalCost->description = $value['description'];
                     $additionalCost->save();
+                    $totalDiskon = ($value['price'] * $value['quantity']);
+                    if ($value['discount'] != 0 || !empty($value['discount']))
+                        $totalDiskon = ($value['discount'] / 100) * ($value['price'] * $value['quantity']);
 
-                    $totalDiskon = ($value['diskon'] / 100) * $value['price'];
-                    $totalPrice += $totalDiskon; 
+                    $total += $totalDiskon; 
                 }
 
                 $totalAdditionalCost = $total;
@@ -245,8 +247,9 @@ class ReservationController extends Controller
                 ->first();
 
         // Additional Cost
+        $reservationAdditionalCosts = ReservationAdditionalCost::where('reservation_id', $reservation->id)->get();
 
-        return view('contents.reservation.detail', compact('reservation', 'room'));
+        return view('contents.reservation.detail', compact('reservation', 'room', 'reservationAdditionalCosts'));
     }
 
     public function edit($id)

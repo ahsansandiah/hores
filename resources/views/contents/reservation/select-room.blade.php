@@ -52,36 +52,37 @@
                                         <h4 class="modal-title">No Ruangan : {{ $room->room_number }} {{ ($room->is_booking == '1') ? "( Unavailable )" : "( Available )" }}</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <span>{{ $room->roomType->name or ""}}</span> | 
-                                        <span>{{ 'Rp. ' . number_format($room->price_day, 0, ',', '.') . ' /day' }}</span>
+                                        <span>{{ $room->roomType->name }}</span> | 
+                                        <span>{{ 'Rp. ' . number_format($room->price_day, 0, ',', '.') . ' /hari' }}</span>
                                         <hr>
-                                            @if ($room->is_booking == '1')
-                                                <a href="{{ url('reservation/check-out/'.$room->reservations['reservation_number']) }}" class="btn btn-app">
-                                                    <i class="fa fa-sign-out"></i> Check Out
+                                        @if ($room->is_booking == '1')
+                                            <a href="{{ url('reservation/check-out/'.$room->reservations['reservation_number']) }}" class="btn btn-app">
+                                                <i class="fa fa-sign-out"></i> Check Out
+                                            </a>
+                                            <a href="{{ url('reservation/detail/'.$room->reservations['reservation_number'] ) }}" class="btn btn-app">
+                                                <i class="fa fa-address-card"></i> Detail Reservation
+                                            </a>
+                                        @else
+                                            @if ($room->condition == '1')
+                                                <a href="{{ url('reservation/check-in/'.$room->room_number) }}" class="btn btn-app">
+                                                    <i class="fa fa-sign-in"></i> Check In
                                                 </a>
-                                                <a href="{{ url('reservation/detail/'.$room->reservations['reservation_number'] ) }}" class="btn btn-app">
-                                                    <i class="fa fa-address-card"></i> Detail
-                                                </a>
-                                            @else
-                                                @inject('RoomCondition', 'App\Entities\Room\RoomCondition')
-                                                @if ($room->roomCondition->name == $room::STATUS_AVAILABLE)
-                                                    <a href="{{ url('reservation/check-in/'.$room->room_number) }}" class="btn btn-app">
-                                                        <i class="fa fa-sign-in"></i> Check In
-                                                    </a>
-                                                    | 
-                                                @endif
+                                                |
                                             @endif
-                                            <a href="{{ url('room/edit/'.$room->id) }}" class="btn btn-app">
-                                                <i class="fa fa-edit"></i> Edit
-                                            </a>
-                                            <a class="btn btn-app" data-toggle="modal" data-target="#create-room">
-                                                <i class="fa fa-plus"></i> Tambah
-                                            </a>
+                                        @endif
+                                        <a href="{{ url('room/edit/'.$room->id) }}" class="btn btn-app">
+                                            <i class="fa fa-edit"></i> Ubah
+                                        </a>
+                                        <a class="btn btn-app" data-toggle="modal" data-target="#create-room">
+                                            <i class="fa fa-plus"></i> Tambah
+                                        </a>
+                                        @if ($room->is_booking != '1')
                                             <a href="{{ url('room/delete/'.$room->id) }}" class="btn btn-app" onclick="return confirm('Are you sure you want to delete this item?');">
                                                 <i class="fa fa-trash"></i> Hapus
                                             </a>
+                                        @endif
                                         <hr>
-                                            <span>Status Kondisi Ruangan : <a class="btn bg-primary btn-flat margin">{{ $room->roomCondition->name }}</a></span>
+                                        <span>Status Ruangan : <a class="btn bg-maroon btn-flat margin">{{ $room->roomCondition->name }}</a></span>
                                     </div>
                                     <div class="modal-footer">
                                     </div>
