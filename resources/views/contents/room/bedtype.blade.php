@@ -4,7 +4,7 @@
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Tipe Ruangan</h3>
+                    <h3 class="box-title">Tipe Ranjang</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -18,7 +18,7 @@
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span></button>
-                                                <h4 class="modal-title">Form tambah tipe ruangan</h4>
+                                                <h4 class="modal-title">Form tambah tipe ranjang</h4>
                                             </div>
                                             <div class="modal-body">
                                                 <form action="{{ url('room/bed_type/store') }}" method="POST" class="form-horizontal">
@@ -27,14 +27,14 @@
                                                         <div class="form-group">
                                                             <label for="inputbedType" class="col-sm-2 control-label">Tipe</label>
                                                             <div class="col-sm-10">
-                                                                <input type="text" class="form-control" name="name" id="inpubedType" placeholder="bed_type">
+                                                                <input type="text" class="form-control" name="name" id="inpubedType" placeholder="Tipe Ranjang">
                                                             </div>
                                                         </div>
                                                     </div>
                                                         <!-- /.box-body -->
                                                     <div class="box-footer">
-                                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-info pull-right">Save</button>
+                                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Keluar</button>
+                                                        <button type="submit" class="btn btn-info pull-right">Simpan</button>
                                                     </div>
                                                     <!-- /.box-footer -->
                                                 </form>
@@ -71,7 +71,7 @@
                             <td>{{ $bedtype->name }}</td>
                             <td>
                                 <a class="btn btn-app" data-toggle="modal" data-target="#modal-edit{{ $bedtype->id }}">
-                                    <i class="fa fa-edit"></i> Edit
+                                    <i class="fa fa-edit"></i> Ubah
                                 </a>
                                 <div class="modal fade" id="modal-edit{{ $bedtype->id }}">
                                     <div class="modal-dialog">
@@ -79,24 +79,24 @@
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span></button>
-                                                <h4 class="modal-title">Form edit tipe ruangan</h4>
+                                                <h4 class="modal-title">Form edit tipe ranjang</h4>
                                             </div>
                                             <div class="modal-body">
                                                 <form action="{{ url('room/bed_type/update') }}" method="POST" class="form-horizontal">
                                                     @csrf
                                                     <div class="box-body">
                                                         <div class="form-group">
-                                                            <label for="inputbedType" class="col-sm-2 control-label">Type</label>
+                                                            <label for="inputbedType" class="col-sm-2 control-label">Tipe</label>
                                                             <div class="col-sm-10">
                                                                 <input type="hidden" class="form-control" name="id" value="{{ $bedtype->id }}" id="inputbedType" placeholder="bed_type">
-                                                                <input type="text" class="form-control" name="name" value="{{ $bedtype->name }}" id="inputbedType" placeholder="bed_type">
+                                                                <input type="text" class="form-control" name="name" value="{{ $bedtype->name }}" id="inputbedType" placeholder="Tipe Ranjang">
                                                             </div>
                                                         </div>
                                                     </div>
                                                         <!-- /.box-body -->
                                                     <div class="box-footer">
-                                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-info pull-right">Save</button>
+                                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Keluar</button>
+                                                        <button type="submit" class="btn btn-info pull-right">Simpan</button>
                                                     </div>
                                                     <!-- /.box-footer -->
                                                 </form>

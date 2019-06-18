@@ -4,7 +4,7 @@
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Room</h3>
+                    <h3 class="box-title">Tipe Ruangan</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -27,7 +27,7 @@
                                                         <div class="form-group">
                                                             <label for="inputType" class="col-sm-2 control-label">Tipe</label>
                                                             <div class="col-sm-10">
-                                                                <input type="text" class="form-control" name="name" id="inpuType" placeholder="type">
+                                                                <input type="text" class="form-control" name="name" id="inpuType" placeholder="Tipe">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -88,8 +88,8 @@
                                                         <div class="form-group">
                                                             <label for="inputType" class="col-sm-2 control-label">Tipe</label>
                                                             <div class="col-sm-10">
-                                                                <input type="hidden" class="form-control" name="id" value="{{ $type->id }}" id="inputType" placeholder="Type">
-                                                                <input type="text" class="form-control" name="name" value="{{ $type->name }}" id="inputType" placeholder="Type">
+                                                                <input type="hidden" class="form-control" name="id" value="{{ $type->id }}" id="inputType">
+                                                                <input type="text" class="form-control" name="name" value="{{ $type->name }}" id="inputType" placeholder="Tipe">
                                                             </div>
                                                         </div>
                                                     </div>
