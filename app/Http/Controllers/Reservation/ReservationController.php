@@ -102,7 +102,12 @@ class ReservationController extends Controller
     {
         $room = Room::with('roomType', 'roomBedType')
                     ->where('room_number', $roomNumber)
+                    ->where('is_booking', '0')
                     ->first();
+
+        if (!$room) {
+            return redirect('/reservation/select-room');
+        }
         
         $additionalServices = Service::all();
 
@@ -152,56 +157,34 @@ class ReservationController extends Controller
         // Price
         $priceDay             = $room->price_day;
         $totalAdditionalCost  = 0;
-        $totalPaid            = ($request->total_price + $request->tax + $request->service_tip + $totalAdditionalCost) - $request->discount;
-        $underPayment         = $totalPaid - $request->deposit;
+        $totalPaidRoom        = ($request->total_price + $request->tax + $request->service_tip + $totalAdditionalCost) - $request->discount;
 
         // Create Reservation
-        $reservation = new Reservation;
-        $reservation->reservation_number    = $request->reservation_number;
-        $reservation->checkin_date          = $request->checkin_date;
-        $reservation->checkout_date         = $request->checkout_date;
-        $reservation->duration              = $request->duration;
-        $reservation->type_identity_card    = $request->type_identity_card;
-        $reservation->identity_card         = $request->identity_number;
-        $reservation->name                  = $request->name;
-        $reservation->address               = $request->address;
-        $reservation->phone_number          = $request->phone_number;
-        $reservation->adult_guest           = $request->adult;
-        $reservation->child_guest           = $request->child;
-        $reservation->description           = $request->description;
-        $reservation->date                  = Carbon::today();
-
-        $reservation->room_number   = $room->room_number;
-        $reservation->price_day     = $priceDay;
-        $reservation->total_price   = $totalPaid;
-        $reservation->status        = "checkin";
-        $reservation->save();
+        $createReservation = new Reservation;
+        $reservation = $createReservation->createReservation($request, $roomNumber);
 
         if ($reservation) {
             // Additional Cost
             if( Session::has('additional-services-'.$roomNumber) ) {
                 $additionalServiceCaches = Session::get('additional-services-'.$roomNumber);
-                $additionalCost = new ReservationAdditionalCost();
                 $total = null;
                 foreach ($additionalServiceCaches as $value) {
-                    $additionalCost->reservation_id = $reservation->id;
-                    $additionalCost->name = $value['service'];
-                    $additionalCost->quantity = $value['quantity'];
-                    $additionalCost->base_price = $value['price'];
-                    $additionalCost->discount_percent = $value['discount'];
-                    $additionalCost->description = $value['description'];
-                    $totalDiskon = ($value['price'] * $value['quantity']);
-                    if ($value['discount'] != 0 || !empty($value['discount']))
+                    $additionalCost = new ReservationAdditionalCost();
+                    $additionalCost->createReservationAdditionalCost($value, $reservation->id);
+
+                    $totalDiskon = ($request['price'] * $request['quantity']);
+                    if ($value['discount'] != 0 || !empty($value['discount'])) {
                         $totalDiskon = ($value['discount'] / 100) * ($value['price'] * $value['quantity']);
-                    
-                    $additionalCost->price = $totalDiskon;
-                    $additionalCost->save();
+                    }
 
                     $total += $totalDiskon; 
                 }
 
                 $totalAdditionalCost = $total;
             }
+
+            $totalPaid = $totalPaidRoom + $totalAdditionalCost;
+            $underPayment  = $totalPaid - $request->deposit;
 
             // Create Reservation Cost
             $reservationCost = new ReservationCost;

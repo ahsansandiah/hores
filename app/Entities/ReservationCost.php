@@ -14,4 +14,5 @@ class ReservationCost extends Model
     const status_unpaid = "unpaid";
     const status_paid = "paid";
     const status_down_payment = "down payment";
+
 }
