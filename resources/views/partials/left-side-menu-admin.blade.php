@@ -85,5 +85,20 @@
             </a>
         </li>
     @endif
+
+    @if (Auth::user()->hasRole(['admin']))
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-file"></i>
+                <span>Report</span>
+                <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu" style="">
+                <li><a href="{{ url('report/transaction') }}"><i class="fa fa-file"></i> Transaction</a></li>
+            </ul>
+        </li>
+    @endif
 </ul>
     

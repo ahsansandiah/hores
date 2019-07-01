@@ -97,3 +97,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','role:admin']], funct
     Route::get('menu/delete/{id}', 'UserManagement\MenuController@destroy');
     Route::get('menu/get-role-menu/{id}', 'UserManagement\MenuController@getRoleMenu');
 });
+
+Route::group(['prefix' => 'report', 'middleware' => 'web'], function() {
+    Route::get('/transaction', 'ReportController@transaction')->name('transaction');
+});
+
