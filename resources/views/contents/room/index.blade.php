@@ -160,7 +160,7 @@
                                                     <h4 class="modal-title">Form Ubah Ruangan</h4>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form action="{{ url('room/store') }}" method="POST" class="form-horizontal">
+                                                    <form action="{{ url('room/update/'.$room->id) }}" method="POST" class="form-horizontal">
                                                         @csrf
                                                         <div class="box-body">
                                                             <div class="form-group">

@@ -33,55 +33,55 @@
     <li style="treeview">
         <a href="{{ Url::to('/') }}">
             <i class="fa fa-puzzle-piece"></i>
-            <span>Dashboard</span>
+            <span>Beranda</span>
         </a>
     </li>
     <li style="treeview">
         <a href="{{ Url::to('reservation') }}">
             <i class="fa fa-calendar"></i>
-            <span>Reservation</span>
+            <span>Reservasi</span>
         </a>
     </li>
     <li class="treeview">
         <a href="#">
             <i class="fa fa-bed"></i>
-            <span>Rooms</span>
+            <span>Ruangan</span>
             <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
             </span>
         </a>
         <ul class="treeview-menu" style="">
-            <li><a href="{{ Url::to('room') }}"><i class="fa fa-hotel"></i> Rooms</a></li>
-            <li><a href="{{ url('room/type') }}"><i class="fa fa-bed"></i> Room Type</a></li>
-            <li><a href="{{ url('room/bed_type') }}"><i class="fa fa-circle-o-notch"></i> Bed Type</a></li>
-            <li><a href="{{ url('room/condition') }}"><i class="fa fa-check-square"></i> Condition</a></li>
+            <li><a href="{{ Url::to('room') }}"><i class="fa fa-hotel"></i> Ruangan</a></li>
+            <li><a href="{{ url('room/type') }}"><i class="fa fa-bed"></i> Tipe Ruangan</a></li>
+            <li><a href="{{ url('room/bed_type') }}"><i class="fa fa-circle-o-notch"></i> Tipe Ranjang</a></li>
+            <li><a href="{{ url('room/condition') }}"><i class="fa fa-check-square"></i> Kondisi Ruangan</a></li>
         </ul>
     </li>
     <li style="treeview">
         <a href="{{ Url::to('service') }}">
             <i class="fa fa-cog"></i>
-            <span>Additional Services</span>
+            <span>Service Tambahan</span>
         </a>
     </li>
     @if (Auth::user()->hasRole(['admin']))
         <li class="treeview">
             <a href="#">
                 <i class="fa fa-cog"></i>
-                <span>Config</span>
+                <span>Pengaturan</span>
                 <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
                 </span>
             </a>
             <ul class="treeview-menu" style="">
-                <li><a href="{{ url('admin/roles') }}"><i class="fa fa-users"></i> Roles</a></li>
-                <li><a href="{{ url('admin/menus') }}"><i class="fa fa-list"></i> Menus</a></li>
+                <li><a href="{{ url('admin/roles') }}"><i class="fa fa-users"></i> Hak Akses</a></li>
+                <li><a href="{{ url('admin/menus') }}"><i class="fa fa-list"></i> Menu</a></li>
                 <li><a href="{{ url('admin/actions') }}"><i class="fa fa-key"></i> Actions</a></li>
             </ul>
         </li>
         <li style="treeview">
             <a href="{{ Url::to('admin/users') }}">
                 <i class="fa fa-users"></i>
-                <span>Users</span>
+                <span>User</span>
             </a>
         </li>
     @endif
@@ -90,13 +90,13 @@
         <li class="treeview">
             <a href="#">
                 <i class="fa fa-file"></i>
-                <span>Report</span>
+                <span>Laporan</span>
                 <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
                 </span>
             </a>
             <ul class="treeview-menu" style="">
-                <li><a href="{{ url('report/transaction') }}"><i class="fa fa-file"></i> Transaction</a></li>
+                <li><a href="{{ url('report/transaction') }}"><i class="fa fa-file"></i> Transaksi</a></li>
             </ul>
         </li>
     @endif

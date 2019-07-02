@@ -87,7 +87,7 @@
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-info pull-right">Simpan</button>
-                                    <a href="http://localhost:8000/reservation" class="btn btn-warning pull-right" style="margin-right: 3px;">Kembali</a>
+                                    <a href="{{ url('reservation/') }}" class="btn btn-warning pull-right" style="margin-right: 3px;">Kembali</a>
                                 </div>
                             </div>
                         </form>

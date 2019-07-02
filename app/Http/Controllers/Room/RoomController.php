@@ -4,16 +4,24 @@ namespace App\Http\Controllers\Room;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
+use Redirect;
+use Validator;
+
+use App\Http\Controllers\Controller;
 use App\Entities\Room;
 use App\Entities\Room\RoomBedType;
 use App\Entities\Room\RoomCondition;
 use App\Entities\Room\RoomType;
-use Redirect;
 
 class RoomController extends Controller
 {
+
+    protected $validationMessages = [
+        'room_number.required'  => 'Nomor Ruangan harus diisi',
+        'room_number.unique'    => 'Nomor Ruangan tidak boleh sama',
+    ];
+
     /**
      * Create a new controller instance.
      *
@@ -44,6 +52,15 @@ class RoomController extends Controller
 
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), 
+                        [
+                            'room_number' => 'required|unique:rooms,room_number',
+                        ], $this->validationMessages );
+
+        if ($validator->fails()) {
+            return Redirect::back()->with('error_message', $validator->errors());
+        }
+
         $room = new Room;
         $room->room_number   = $request->room_number;
         $room->type          = $request->type;
@@ -59,8 +76,27 @@ class RoomController extends Controller
         return redirect('room');
     }
 
+    public function edit($id)
+    {
+        $room = Room::findOrFail($id);
+        $roomBedTypes = RoomBedType::all();
+        $roomConditions = RoomCondition::all();
+        $roomTypes = RoomType::all();
+
+        return view('contents.room.edit', compact('room', 'roomBedTypes', 'roomConditions', 'roomTypes'));
+    }
+
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), 
+                        [
+                            'room_number' => 'required|unique:rooms,room_number',
+                        ], $this->validationMessages);
+
+        if ($validator->fails()) {
+            return Redirect::back()->with('error_message', $validator->errors());
+        }
+
         $room = Room::find($id);
         $room->room_number   = $request->room_number;
         $room->type          = $request->type;
