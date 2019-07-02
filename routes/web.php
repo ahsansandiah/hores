@@ -57,7 +57,7 @@ Route::group(['prefix' => 'room', 'middleware' => 'web'], function() {
         Route::post('/update', 'Room\RoomTypeController@update');
 
     });
-    Route::group(['prefix' => 'bed_type'], function() {
+    Route::group(['prefix' => 'bed-type'], function() {
         Route::get('/', 'Room\RoomBedTypeController@index')->name('bed_type');
         Route::post('/store', 'Room\RoomBedTypeController@store');
         Route::post('/update', 'Room\RoomBedTypeController@update');

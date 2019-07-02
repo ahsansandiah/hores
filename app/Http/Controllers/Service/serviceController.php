@@ -40,9 +40,13 @@ class ServiceController extends Controller
             'price' => $request->price
         ];
                 
-        Service::create($request->all());
+        $service = Service::create($request->all());
 
-        return redirect('service');
+        if (!$service) {
+            return Redirect::back()->with('error_message', 'Tambah service gagal');
+        }
+
+        return redirect('service')->with('message', 'Tambah service berhasil');
     }
 
     public function update(Request $request, $id)
@@ -55,7 +59,13 @@ class ServiceController extends Controller
         $service->price = $request->price;
         $service->update();
 
-        return redirect('service');
+        $service = Service::create($request->all());
+
+        if (!$service) {
+            return Redirect::back()->with('error_message', 'Ubah service gagal');
+        }
+
+        return redirect('service')->with('message', 'Ubah service berhasil');
     }
 
     public function destroy($id)
@@ -63,6 +73,12 @@ class ServiceController extends Controller
         $service = Service::findOrFail($id);
         $service->delete();
 
-        return redirect('service');
+        $service = Service::create($request->all());
+
+        if (!$service) {
+            return Redirect::back()->with('error_message', 'Hapus service gagal');
+        }
+
+        return redirect('service')->with('message', 'Hapus service berhasil');
     }
 }

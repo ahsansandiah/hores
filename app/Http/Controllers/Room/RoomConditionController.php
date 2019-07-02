@@ -32,7 +32,11 @@ class RoomConditionController extends Controller
         $condition->name = $request->name;
         $condition->save();
 
-        return redirect('room/condition');
+        if (!$condition) {
+            return Redirect::back()->with('error_message', 'Tambah kondisi ruangan gagal');
+        }
+
+        return redirect('room/condition')->with('message', 'Tambah kondisi ruangan berhasil');
     }
 
     public function update(Request $request)
@@ -41,6 +45,10 @@ class RoomConditionController extends Controller
         $condition->name = $request->name;
         $condition->update();
 
-        return redirect('room/condition');
+        if (!$condition) {
+            return Redirect::back()->with('error_message', 'Ubah kondisi ruangan gagal');
+        }
+
+        return redirect('room/condition')->with('message', 'Ubah kondisi ruangan berhasil');
     }
 }

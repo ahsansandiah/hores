@@ -28,19 +28,27 @@ class RoomTypeController extends Controller
 
     public function store(Request $request)
     {
-        $condition = new RoomType;
-        $condition->name = $request->name;
-        $condition->save();
+        $roomType = new RoomType;
+        $roomType->name = $request->name;
+        $roomType->save();
 
-        return redirect('room/type');
+        if (!$roomType) {
+            return Redirect::back()->with('error_message', 'Tambah tipe ruangan gagal');
+        }
+
+        return redirect('room/type')->with('message', 'Tambah tipe ruangan berhasil');
     }
 
     public function update(Request $request)
     {
-        $condition = RoomType::find($request->id);
-        $condition->name = $request->name;
-        $condition->update();
+        $roomType = RoomType::find($request->id);
+        $roomType->name = $request->name;
+        $roomType->update();
 
-        return redirect('room/type');
+        if (!$roomType) {
+            return Redirect::back()->with('error_message', 'Ubah tipe ruangan gagal');
+        }
+
+        return redirect('room/type')->with('message', 'Ubah tipe ruangan berhasil');
     }
 }

@@ -28,19 +28,28 @@ class RoomBedTypeController extends Controller
 
     public function store(Request $request)
     {
-        $condition = new RoomBedType;
-        $condition->name = $request->name;
-        $condition->save();
+        $roombedType = new RoomBedType;
+        $roombedType->name = $request->name;
+        $roombedType->save();
 
-        return redirect('room/bed_type');
+        if (!$roombedType) {
+            return Redirect::back()->with('error_message', 'Tambah tipe ranjang gagal');
+        }
+
+        return redirect('room/bed-type')->with('message', 'Tambah tipe ranjang berhasil');
+
     }
 
     public function update(Request $request)
     {
-        $condition = RoomBedType::find($request->id);
-        $condition->name = $request->name;
-        $condition->update();
+        $roombedType = RoomBedType::find($request->id);
+        $roombedType->name = $request->name;
+        $roombedType->update();
 
-        return redirect('room/bed_type');
+        if (!$roombedType) {
+            return Redirect::back()->with('error_message', 'Ubah tipe ranjang gagal');
+        }
+
+        return redirect('room/bed-type')->with('message', 'Ubah tipe ranjang berhasil');
     }
 }

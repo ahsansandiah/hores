@@ -214,10 +214,10 @@ class ReservationController extends Controller
             // Nota Checkin
 
             Session::forget('additional-services-'.$roomNumber);
-            return redirect('/reservation/detail/'.$reservation->reservation_number)->with('message', 'Successfully checkin');
+            return redirect('/reservation/detail/'.$reservation->reservation_number)->with('message', 'Checkin berhasil');
         }
         
-        return redirect('/reservation')->with('error_message', 'Failed checkin');
+        return redirect('/reservation')->with('error_message', 'Checkin gagal');
     }
 
     public function show($reservationNumber)
@@ -277,10 +277,10 @@ class ReservationController extends Controller
             $reservationCost->deposit     = $request->deposit;
             $reservationCost->update();
 
-            return redirect('/reservation/detail/'.$reservation->reservation_number)->with('message', 'Successfully checkin');
+            return redirect('/reservation/detail/'.$reservation->reservation_number)->with('message', 'Ubah data checkin berhasil');
         }
         
-        return redirect('/reservation')->with('error_message', 'Failed checkin');
+        return redirect('/reservation')->with('error_message', 'Ubah data checkin gagal');
     }
 
     public function checkout($reservationNumber)
@@ -326,10 +326,10 @@ class ReservationController extends Controller
 
             // additional cost
 
-            return redirect('/reservation/detail/'.$reservation->reservation_number)->with('message', 'Successfully checkout');
+            return redirect('/reservation/detail/'.$reservation->reservation_number)->with('message', 'Checkout berhasil');
         }
 
-        return redirect('/reservation/detail/'.$reservation->reservation_number)->with('error_message', 'Failed checkout');
+        return redirect('/reservation/detail/'.$reservation->reservation_number)->with('error_message', 'Checkout gagal');
     }
 
     public function print($reservationNumber)

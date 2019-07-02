@@ -73,7 +73,11 @@ class RoomController extends Controller
         $room->is_active     = true;
         $room->save();
 
-        return redirect('room');
+        if (!$room) {
+            return Redirect::back()->with('error_message', 'Tambah Ruangan gagal');
+        }
+
+        return redirect('room')->with('message', 'Tambah ruangan berhasil');
     }
 
     public function edit($id)
@@ -108,7 +112,11 @@ class RoomController extends Controller
         $room->is_active     = $request->is_active;;
         $room->save();
 
-        return redirect('room');
+        if (!$room) {
+            return Redirect::back()->with('error_message', 'Ubah ruangan gagal');
+        }
+
+        return redirect('room')->with('message', 'Ubah ruangan berhasil');
     }
 
     public function destroy($id)
