@@ -159,6 +159,7 @@
                             <tr>
                                 <th>Menu Name</th>
                                 <th>Menu Actions</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="role-menu-list"></tbody>
@@ -243,9 +244,11 @@
                     var list_menu = '';
                     if (menus.length > 0) {
                         $.each(menus, function(index, menu){
+                            console.log(JSON.stringify(menu));
                             list_menu += '<tr>\
                                 <td>'+ menu.name +'</td>\
                                 <td>'+ menu.actions.join('|') +'</td>\
+                                <td><button class="btn btn-sm btn-danger">Delete</button></td>\
                             </tr>';
                         });
                     }
@@ -289,6 +292,10 @@
                     }
                 }
             });
+        }
+
+        function deleteRoleMenu(id){
+            console.log('role menu id =',id);
         }
     </script>
 @endsection
