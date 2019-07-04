@@ -48,6 +48,7 @@
                             <!-- /.box-body -->
                             <div class="box-footer"> 
                                 <button type="submit" class="btn btn-info pull-right">Filter</button>
+                                <button type="submit" name="print" class="btn btn-success pull-right" style="margin-right: 4px;" onclick="setType('print')">Print</button>
                             </div>
                             <!-- /.box-footer -->
                         </form>

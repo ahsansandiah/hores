@@ -74,8 +74,6 @@
             </a>
             <ul class="treeview-menu" style="">
                 <li><a href="{{ url('admin/roles') }}"><i class="fa fa-users"></i> Hak Akses</a></li>
-                <li><a href="{{ url('admin/menus') }}"><i class="fa fa-list"></i> Menu</a></li>
-                <li><a href="{{ url('admin/actions') }}"><i class="fa fa-key"></i> Actions</a></li>
             </ul>
         </li>
         <li style="treeview">
