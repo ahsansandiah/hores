@@ -18,7 +18,7 @@
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span></button>
-                                                <h4 class="modal-title">Form Tambah Tipe Ruangane</h4>
+                                                <h4 class="modal-title">Form Tambah Tipe Ruangan</h4>
                                             </div>
                                             <div class="modal-body">
                                                 <form action="{{ url('room/type/store') }}" method="POST" class="form-horizontal">
@@ -49,14 +49,16 @@
                             <!-- /.modal -->
                             </div>
                         </div>
-                        <div class="col-sm-3 pull-right">
-                            <div class="input-group margin">
-                                <input type="text" class="form-control">
+                        <form action="{{ url('room/type?search') }}" method="GET">
+                            <div class="col-sm-3 pull-right">
+                                <div class="input-group margin">
+                                    <input type="text" class="form-control" name="search">
                                     <span class="input-group-btn">
-                                    <button type="button" class="btn btn-info btn-flat">Search</button>
-                                </span>
+                                        <button type="submit" class="btn btn-info btn-flat">Cari</button>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                     <hr>
                     <table class="table table-bordered">

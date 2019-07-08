@@ -77,12 +77,12 @@ class UserController extends Controller
         $user = User::create($params);
 
         if (!$user) {
-            return back()->withInput()->with('error', 'Create new user failed!');
+            return back()->withInput()->with('error', 'Tambah user gagal!');
         }
 
         $user->attachRole($role);
 
-        return back()->with('success', 'Create new user success');
+        return back()->with('success', 'Tambah user berhasil');
     }
 
     /**
@@ -133,7 +133,7 @@ class UserController extends Controller
 
         $user = User::where('id', $id)->first();
         if (!$user) {
-            return back()->with('error', 'User data not found!');
+            return back()->with('error', 'User tidak ditemukan!');
         }
 
         $role_id = $request->input('role_id');
@@ -145,10 +145,10 @@ class UserController extends Controller
         if ($user->save()) {
             $user->attachRole($role);
 
-            return back()->with('success', 'Update user success');
+            return back()->with('success', 'Ubah user berhasil');
         }
 
-        return back()->with('error', 'Update user failed!');
+        return back()->with('error', 'Ubah user gagal!');
     }
 
     /**
@@ -162,13 +162,13 @@ class UserController extends Controller
         $user = User::where('id', $id)->first();
 
         if (!$user) {
-            return back()->with('error', 'User data not found!');
+            return back()->with('error', 'User tidak ditemukan!');
         }
 
         if ($user->detachAllRoles() && $user->delete()) {
-            return back()->with('success', 'Delete user data success');
+            return back()->with('success', 'Hapus user berhasil');
         }
 
-        return back()->with('error', 'Delete user data failed!');
+        return back()->with('error', 'Hapus user gagal!');
     }
 }

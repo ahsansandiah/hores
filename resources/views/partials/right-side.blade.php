@@ -12,13 +12,13 @@
                 <div class="alert alert-success alert-dismissable">
                     <i class="fa fa-check"></i>
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <b>Success!</b> {{ Session::get('message') }}
+                    <b>Berhasil!</b> {{ Session::get('message') }}
                 </div>
                 @elseif (Session::get('error_message'))
                 <div class="alert alert-danger alert-dismissable">
                     <i class="fa fa-ban"></i>
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <b>Error!</b> {{ Session::get('error_message') }}
+                    <b>Gagal!</b> {{ Session::get('error_message') }}
                 </div>
                 @endif
 

@@ -77,10 +77,10 @@ class RoleController extends Controller
         $save = Role::create($params);
 
         if ($save) {
-            return back()->with('success', 'Add new role success!');
+            return back()->with('success', 'Tambah hak akses berhasil!');
         }
 
-        return back()->withInput()->with('error', 'Add new role failed!');
+        return back()->withInput()->with('error', 'Tambah hak akses gagal!');
     }
 
     /**
@@ -149,7 +149,7 @@ class RoleController extends Controller
         $name = $request->input('name');
         $role = Role::where('id', $id)->first();
         if (!$role) {
-            return back()->withInput()->with('error', 'Role data not found!');
+            return back()->withInput()->with('error', 'Hak akses tidak ditemukan!');
         }
 
         $role->name = $name;
@@ -157,10 +157,10 @@ class RoleController extends Controller
         $role->description = $request->input('description');
 
         if ($role->save()) {
-            return back()->with('success', 'Update role data success');
+            return back()->with('success', 'Ubah hak akses berhasil');
         }
 
-        return back()->withInput()->with('error', 'Update role data failed!');
+        return back()->withInput()->with('error', 'Ubah hak akses gagal!');
     }
 
     /**
@@ -174,14 +174,14 @@ class RoleController extends Controller
         $role = Role::where('id', $id)->first();
 
         if (!$role) {
-            return back()->with('error', 'Role data not found!');
+            return back()->with('error', 'Data tidak ditemukan!');
         }
 
         if ($role->delete()) {
-            return back()->with('success', 'Delete role data success');
+            return back()->with('success', 'Hapus hak akses berhasil');
         }
 
-        return back()->with('error', 'Delete role data failed!');
+        return back()->with('error', 'Hapus hak akses gagal!');
     }
 
     /**
@@ -258,13 +258,13 @@ class RoleController extends Controller
             $result = [
                 'error' => false,
                 'data' => $menus,
-                'message' => 'Set role menu access success'
+                'message' => 'Set menu berhasil'
             ];
         } else {
             $result = [
                 'error' => true,
                 'data' => null,
-                'message' => 'Set role menu failed'
+                'message' => 'Set menu gagal'
             ];
         }
 

@@ -19,7 +19,7 @@
                                 <form action="{{ url('/reservation/?search') }}" method="GET">
                                     <span class="input-group-btn">
                                         <input type="text" name="search" class="form-control">
-                                        <button type="submit" class="btn btn-info btn-flat">Search</button>
+                                        <button type="submit" class="btn btn-info btn-flat">Cari</button>
                                     </span>
                                 </form>
                             </div>

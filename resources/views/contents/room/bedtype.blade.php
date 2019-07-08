@@ -79,7 +79,7 @@
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span></button>
-                                                <h4 class="modal-title">Form edit tipe ranjang</h4>
+                                                <h4 class="modal-title">Form ubah tipe ranjang</h4>
                                             </div>
                                             <div class="modal-body">
                                                 <form action="{{ url('room/bed-type/update') }}" method="POST" class="form-horizontal">

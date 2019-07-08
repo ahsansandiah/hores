@@ -4,14 +4,14 @@
         <!-- USERS LIST -->
         <div class="box box-success">
             <div class="box-header with-border">
-                <h3 class="box-title">User Roles</h3>
+                <h3 class="box-title">Hak akses user</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-2">
                         <button class="btn btn-sm btn-primary" onclick="clearForm()">
-                            Add Role
+                            Tambah Hak Akses
                         </button>
                     </div>
                     <div class="col-md-10">
@@ -21,19 +21,19 @@
                                 <div class="row">
                                     <div class="col-md-5">
                                         <div class="form-group">
-                                            <label>Name</label>
+                                            <label>Nama</label>
                                             <input type="text" name="name" id="role-name" class="form-control" placeholder="Role Name" required>
                                         </div>
                                     </div>
                                     <div class="col-md-5">
                                         <div class="form-group">
-                                            <label>Description</label>
+                                            <label>Deskripsi</label>
                                             <input type="text" name="description" id="role-description" class="form-control" placeholder="Role Description" required>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <button class="btn btn-sm btn-primary" style="margin-top:30px;">
-                                            Submit
+                                            Simpan
                                         </button>
                                     </div>
                                 </div>
@@ -45,10 +45,10 @@
                 <table class="table table-bordered">
                 	<thead>
                 		<tr>
-                			<th>Name</th>
+                			<th>Nama</th>
                 			<th>Slug</th>
-                            <th>Description</th>
-                            <th>Action</th>
+                            <th>Deskripsi</th>
+                            <th>Aksi</th>
                 		</tr>
                 	</thead>
                 	<tbody>
@@ -61,13 +61,13 @@
                                     <td>
                                         @if ($role->slug !== 'admin')
                                             <button type="button" class="btn btn-sm btn-warning" onclick="editRole(<?=$role->id?>, '<?=$role->name?>', '<?=$role->description?>')">
-                                                Edit
+                                                Ubah
                                             </button>
                                             <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-delete" onclick="setDeleteUrl(<?=$role->id?>)">
-                                                Delete
+                                                Hapus
                                             </button>
                                             <button class="btn btn-sm btn-success" onclick="setRoleMenu(<?=$role->id?>, '<?=$role->name?>')">
-                                                Set Role Menu
+                                                Set Menu
                                             </button>
                                         @endif
                                     </td>
@@ -89,14 +89,14 @@
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Delete Role</h4>
+            <h4 class="modal-title">Hapus Hak akses</h4>
           </div>
           <div class="modal-body">
-            <p>Are you sure?</p>
+            <p>Apakah anda yakin?</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">No</button>
-            <a href="#" id="delete-link" class="btn btn-primary">Yes</a>
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak</button>
+            <a href="#" id="delete-link" class="btn btn-primary">Ya</a>
           </div>
         </div>
         <!-- /.modal-content -->
@@ -110,12 +110,12 @@
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Set Role Menu</h4>
+            <h4 class="modal-title">Set Menu</h4>
           </div>
           <div class="modal-body">
             <div class="row">
                 <div class="col-md-3">
-                    <label>Role</label>
+                    <label>Hak Akses</label>
                     <p class="label bg-green" style="display: block; padding: 10px !important;" id="role-name-modal"><p>
                     <input type="hidden" name="role_id" id="role-id">
                 </div>
@@ -141,7 +141,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label>Actions</label>
+                        <label>Aksi</label>
                         <select class="form-control select2" multiple="multiple" data-placeholder="Select Menu Actions" style="width: 100%;" id="role-actions">
                             @if($actions)
                                 @foreach($actions as $action)
@@ -157,8 +157,8 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Menu Name</th>
-                                <th>Menu Actions</th>
+                                <th>Nama</th>
+                                <th>Aksi</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -168,8 +168,8 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button id="save-role-menu-btn" class="btn btn-primary" onclick="saveRoleMenu()">Save</button>
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Keluar</button>
+            <button id="save-role-menu-btn" class="btn btn-primary" onclick="saveRoleMenu()">Simpan</button>
           </div>
         </div>
         <!-- /.modal-content -->
@@ -248,7 +248,7 @@
                             list_menu += '<tr>\
                                 <td>'+ menu.name +'</td>\
                                 <td>'+ menu.actions.join('|') +'</td>\
-                                <td><button class="btn btn-sm btn-danger">Delete</button></td>\
+                                <td><button class="btn btn-sm btn-danger">Hapus</button></td>\
                             </tr>';
                         });
                     }

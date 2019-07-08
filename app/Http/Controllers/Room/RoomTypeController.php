@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Room;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Entities\Room\RoomType;
@@ -21,7 +22,12 @@ class RoomTypeController extends Controller
 
     public function index()
     {
-        $roomTypes = RoomType::paginate(20);
+        $query = new RoomType();
+        if (Input::has('search')) {
+            $query->where('name', 'like', '%'.Input::get('search').'%');
+        }
+
+        $roomTypes = $query->paginate(20);
 
         return view('contents.room.type', compact('roomTypes'));
     }

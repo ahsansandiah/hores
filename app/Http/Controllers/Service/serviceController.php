@@ -59,8 +59,6 @@ class ServiceController extends Controller
         $service->price = $request->price;
         $service->update();
 
-        $service = Service::create($request->all());
-
         if (!$service) {
             return Redirect::back()->with('error_message', 'Ubah service gagal');
         }
@@ -72,8 +70,6 @@ class ServiceController extends Controller
     {
         $service = Service::findOrFail($id);
         $service->delete();
-
-        $service = Service::create($request->all());
 
         if (!$service) {
             return Redirect::back()->with('error_message', 'Hapus service gagal');

@@ -12,7 +12,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                         <h2 class="page-header">
-                            <i class="fa fa-globe"></i> {{ $room->room_number }}
+                            <i class="fa fa-globe"></i> {{ $room->room_number or "-" }}
                             <small class="pull-right">{{ $reservation->date }}</small>
                         </h2>
                         </div>

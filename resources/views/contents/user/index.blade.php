@@ -4,12 +4,12 @@
         <!-- USERS LIST -->
         <div class="box box-success">
             <div class="box-header with-border">
-                <h3 class="box-title">List Users</h3>
+                <h3 class="box-title">Daftar User</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
             	<button class="btn btn-sm btn-primary" onclick="addUser()">
-                    Add User
+                    Tambah User
                 </button>
             	<div class="row" style="margin-top: 30px;">
                     <div class="col-md-12">
@@ -19,7 +19,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Name</label>
+                                            <label>Nama</label>
                                             <input type="text" name="name" id="user-name" class="form-control" placeholder="Name" required>
                                         </div>
                                     </div>
@@ -44,7 +44,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Role</label>
+                                            <label>Hak akses</label>
                                             <select class="form-control" name="role_id" id="user-role" required>
                                             	@if (isset($roles) && $roles)
                                             		@foreach ($roles as $role)
@@ -56,7 +56,7 @@
                                     </div>
                                     <div class="col-md-2">
 		                                <button class="btn btn-sm btn-primary">
-		                                    Submit
+		                                    Simpan
 		                                </button>
 		                            </div>
                                 </div>
@@ -68,10 +68,10 @@
                 <table class="table table-bordered">
                 	<thead>
                 		<tr>
-                			<th>Name</th>
+                			<th>Nama</th>
                 			<th>Email</th>
-                			<th>Role</th>
-                			<th>Action</th>
+                			<th>Hak akses</th>
+                			<th>Aksi</th>
                 		</tr>
                 	</thead>
                 	<tbody>
@@ -82,8 +82,8 @@
                 					<td>{{ $user->email }}</td>
                 					<td>{{ $user->getRoles()[0]->name }}</td>
                 					<td>
-                						<button class="btn btn-sm btn-warning" onclick="editUser(<?=$user->id?>, '<?=$user->name?>', '<?=$user->email?>', <?=$user->getRoles()[0]->id?>)">Edit</button>
-                						<button class="btn btn-sm btn-danger" onclick="deleteUser(<?=$user->id?>)">Delete</button>
+                						<button class="btn btn-sm btn-warning" onclick="editUser(<?=$user->id?>, '<?=$user->name?>', '<?=$user->email?>', <?=$user->getRoles()[0]->id?>)">Ubah</button>
+                						<button class="btn btn-sm btn-danger" onclick="deleteUser(<?=$user->id?>)">Hapus</button>
                 					</td>
                 				</tr>
                 			@endforeach
@@ -102,14 +102,14 @@
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Delete Menu</h4>
+            <h4 class="modal-title">Hapus Menu</h4>
           </div>
           <div class="modal-body">
-            <p>Are you sure?</p>
+            <p>Apakah anda yakin?</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">No</button>
-            <a href="#" id="delete-link" class="btn btn-primary">Yes</a>
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak</button>
+            <a href="#" id="delete-link" class="btn btn-primary">Iya</a>
           </div>
         </div>
         <!-- /.modal-content -->

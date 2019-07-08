@@ -53,7 +53,7 @@
                             <div class="input-group margin">
                                 <input type="text" class="form-control">
                                     <span class="input-group-btn">
-                                    <button type="button" class="btn btn-info btn-flat">Search</button>
+                                    <button type="button" class="btn btn-info btn-flat">Cari</button>
                                 </span>
                             </div>
                         </div>

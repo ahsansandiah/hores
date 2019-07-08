@@ -80,7 +80,7 @@
                                 <div class="input-group margin">
                                     <input type="text" class="form-control">
                                         <span class="input-group-btn">
-                                        <button type="button" class="btn btn-info btn-flat">Search</button>
+                                        <button type="button" class="btn btn-info btn-flat">Cari</button>
                                     </span>
                                 </div>
                             </div>
@@ -112,7 +112,7 @@
                                                 <div class="modal-header">
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span></button>
-                                                    <h4 class="modal-title">Form Edit Biaya Tambahan</h4>
+                                                    <h4 class="modal-title">Form ubah Biaya Tambahan</h4>
                                                     <div class="modal-body">
                                                         <form action="{{ url('service/update/'.$service->id) }}" method="POST" class="form-horizontal">
                                                             @csrf

@@ -37,9 +37,9 @@ class RoomController extends Controller
         $query = Room::with('roomType', 'roomCondition');
         
         if (Input::has('search')) {
-            $query->where('room_number', Input::get('search'))
-                ->orWhere('price_day', Input::get('search'))
-                ->orWhere('guest_total', Input::get('search'));
+            $query->where('room_number', 'like', '%'.Input::get('search').'%')
+                ->orWhere('price_day', 'like', '%'.Input::get('search').'%')
+                ->orWhere('guest_total', 'like', '%'.Input::get('search').'%');
         }
         
         $rooms = $query->paginate(10);
@@ -69,6 +69,7 @@ class RoomController extends Controller
         $room->guest_total   = $request->guest_max;
         $room->fee_breakfast = $request->fee_breakfast;
         $room->condition     = $request->condition;
+        $room->description   = $request->description;
         $room->is_booking    = false;
         $room->is_active     = true;
         $room->save();
@@ -92,13 +93,12 @@ class RoomController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), 
-                        [
-                            'room_number' => 'required|unique:rooms,room_number',
-                        ], $this->validationMessages);
+        $checkRoomNumber = Room::where('room_number', $request->room_number)
+                                    ->whereNotIn('id', [$id])
+                                    ->get();
 
-        if ($validator->fails()) {
-            return Redirect::back()->with('error_message', $validator->errors());
+        if ($checkRoomNumber->count() > 0) {
+            return Redirect::back()->with('error_message', 'Maaf nomor ruangan sudah tersedia');
         }
 
         $room = Room::find($id);
@@ -123,11 +123,11 @@ class RoomController extends Controller
     {
         $room = Room::find($id);
         if ($room->is_booking == 1) {
-            return Redirect::back()->with('error_message', 'Deleted failed, Please check status room');
+            return Redirect::back()->with('error_message', 'Hapus gagal, silahkan check status reservasi ruangan');
         }
 
         $room->delete();
 
-        return Redirect::back()->with('message', 'Deleted success');
+        return Redirect::back()->with('message', 'Hapus ruangan berhasil');
     }
 }

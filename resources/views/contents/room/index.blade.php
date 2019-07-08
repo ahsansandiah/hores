@@ -57,7 +57,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="inputGuestMax" class="col-sm-2 control-label">Max Guest</label>
+                                                            <label for="inputGuestMax" class="col-sm-2 control-label">Maksimal Pelanggan</label>
                                                             <div class="col-sm-10">
                                                                 <input type="text" class="form-control" name="guest_max" id="inputGuestMax" placeholder="Guest Max">
                                                             </div>
@@ -108,7 +108,7 @@
                                 <div class="input-group margin">
                                     <input type="text" class="form-control" name="search">
                                     <span class="input-group-btn">
-                                        <button type="submit" class="btn btn-info btn-flat">Search</button>
+                                        <button type="submit" class="btn btn-info btn-flat">Cari</button>
                                     </span>
                                 </div>
                             </div>
@@ -121,9 +121,9 @@
                             <th>No Ruangan</th>
                             <th>Tipe</th>
                             <th>Harga Sewa / Hari</th>
-                            <th>Max Guest</th>
-                            <th>Status Active</th>
-                            <th>Status Booking</th>
+                            <th>Max Pelanggan</th>
+                            <th>Status Ruangan</th>
+                            <th>Status Reservasi</th>
                             <th style="width: 40px"></th>
                         </tr>
                         @foreach ($rooms as $room)
@@ -135,21 +135,21 @@
                                 <td>{{ $room->guest_total }}</td>
                                 <td>
                                     @if ($room->is_active == 1)
-                                        <span class="label label-success">Active</span>
+                                        <span class="label label-success">Aktif</span>
                                     @else
-                                        <span class="label label-danger">Deactive</span>
+                                        <span class="label label-danger">Tidak Aktif</span>
                                     @endif
                                 </td>
                                 <td>
                                     @if ($room->is_booking == 0)
-                                        <span class="label label-success">Available</span>
+                                        <span class="label label-success">Tersedia</span>
                                     @else
-                                        <span class="label label-warning">Unavailable</span>
+                                        <span class="label label-warning">Tidak Terserdia</span>
                                     @endif
                                 </td>
                                 <td>
                                     <a class="btn btn-app-table" data-toggle="modal" data-target="#modal-edit{{ $room->id }}">
-                                        <i class="fa fa-edit"></i> Edit
+                                        <i class="fa fa-edit"></i> Ubah
                                     </a>
                                     <div class="modal fade" id="modal-edit{{ $room->id }}">
                                         <div class="modal-dialog">
@@ -196,7 +196,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="inputGuestMax" class="col-sm-2 control-label">Guest Max</label>
+                                                                <label for="inputGuestMax" class="col-sm-2 control-label">Maksimal Pelanggan</label>
                                                                 <div class="col-sm-10">
                                                                     <input type="text" class="form-control" name="guest_max" id="inputGuestMax" value="{{ $room->guest_total }}">
                                                                 </div>
@@ -250,7 +250,7 @@
                                     </div>
                                     <!-- /.modal -->
                                     <a class="btn btn-app-table" href="{{ url('room/delete/'. $room->id) }}">
-                                        <i class="fa fa-trash"></i> Delete
+                                        <i class="fa fa-trash"></i> Hapus
                                     </a>
                                     @if ($room->is_booking == 0)
                                         <a class="btn btn-app-table" href="{{ url('reservation/check-in/'. $room->room_number) }}">
