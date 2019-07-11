@@ -131,9 +131,11 @@
                             </td>
                             
                             <td>
-                                {{-- Acme Corp.<br>
-                                John Doe<br>
-                                john@example.com --}}
+                                {{-- <div>Hotel Al-Ikhlas</div>
+                                <div>Jl. Budi Utomo - Pekkabata, Polewali Mandar<br /></div>
+                                <div>081290868876</div>
+                                <div><a href="mailto:company@example.com"></a></div>
+                                <div><a href="mailto:company@example.com">{{ \Carbon\Carbon::today() }}</a></div> --}}
                             </td>
                         </tr>
                     </table>

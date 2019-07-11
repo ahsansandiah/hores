@@ -147,14 +147,15 @@
     <body>
         <header class="clearfix">
             <div id="logo">
-                <img src="logo.png">
+                {{-- <img src="logo.png"> --}}
             </div>
             <h1>No. Reservasi #: {{ $reservation->reservation_number }}</h1>
             <div id="company" class="clearfix">
-                <div>Company Name</div>
-                <div>455 Foggy Heights,<br /> AZ 85004, US</div>
-                <div>(602) 519-0450</div>
-                <div><a href="mailto:company@example.com">company@example.com</a></div>
+                <div>Hotel Al-Ikhlas</div>
+                <div>Jl. Budi Utomo - Pekkabata, Polewali Mandar<br /></div>
+                <div>081290868876</div>
+                <div><a href="mailto:company@example.com"></a></div>
+                <div><a href="mailto:company@example.com">{{ \Carbon\Carbon::today() }}</a></div>
             </div>
             <div id="project">
                 <div><span>Checkin</span> {{ $reservation->checkin_date }}</div>
