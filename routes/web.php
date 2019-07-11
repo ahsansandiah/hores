@@ -102,5 +102,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','role:admin']], funct
 
 Route::group(['prefix' => 'report', 'middleware' => 'web'], function() {
     Route::get('/transaction', 'ReportController@transaction')->name('transaction');
+    Route::get('/income', 'ReportController@income')->name('income');
 });
 

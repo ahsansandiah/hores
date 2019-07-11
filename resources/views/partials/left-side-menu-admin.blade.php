@@ -95,6 +95,7 @@
             </a>
             <ul class="treeview-menu" style="">
                 <li><a href="{{ url('report/transaction') }}"><i class="fa fa-file"></i> Transaksi</a></li>
+                <li><a href="{{ url('report/income') }}"><i class="fa fa-money"></i> Pendapatan</a></li>
             </ul>
         </li>
     @endif

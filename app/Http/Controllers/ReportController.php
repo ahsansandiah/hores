@@ -13,6 +13,7 @@ use Validator;
 use Cache;
 use Session;
 use PDF;
+use DB;
 
 use App\User;
 use App\Entities\Reservation;
@@ -23,6 +24,7 @@ use App\Entities\Service;
 use App\Entities\Room\RoomBedType;
 use App\Entities\Room\RoomCondition;
 use App\Entities\Room\RoomType;
+use App\Charts\IncomeChart;
 
 class ReportController extends Controller
 {
@@ -58,4 +60,29 @@ class ReportController extends Controller
         return view('contents.report.transaction', compact('reservations'));
     }
     
+    public function income()
+    {
+        $totalIncome = ReservationCost::sum('total_price');
+        $incomeLastMonth = ReservationCost::whereMonth('created_at', Carbon::now()->month)->sum('total_price');
+        $incomeBeforeLastMonth = ReservationCost::whereMonth('created_at', '<' ,Carbon::now()->month)->sum('total_price');
+
+        $chart = new IncomeChart();
+        $data = ReservationCost::select(
+                            DB::raw('sum(total_price) as sums'), 
+                            DB::raw("DATE_FORMAT(created_at,'%M %Y') as months")
+                )->groupBy('months')->get();
+
+        $months = [];
+        $incomes = [];
+        foreach ($data as $value) {
+            $months[] = $value->months;
+            $incomes[] = $value->sums;
+        }
+
+        $chart->labels($months);
+        $chart->dataset('Grafik Pendepatan Perbulan', 'line', $incomes);
+
+        return view('contents.report.income', compact('totalIncome', 'incomeLastMonth', 'incomeBeforeLastMonth', 'chart'));
+
+    }
 }
