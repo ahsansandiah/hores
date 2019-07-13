@@ -31,7 +31,7 @@
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
                             </div>
-                            <a href="#" class="small-box-footer">Cetak Detail Pendapatan <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="{{ url('report/income/print/all') }}" class="small-box-footer">Cetak Detail Pendapatan <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                         <div class="small-box bg-green">
                             <div class="inner">
@@ -44,7 +44,7 @@
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
                             </div>
-                            <a href="#" class="small-box-footer">Cetak Detail Pendapatan <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="{{ url('report/income/print/monthly') }}" class="small-box-footer">Cetak Detail Pendapatan <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
 
                         <div class="small-box bg-yellow">
@@ -58,7 +58,7 @@
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
                             </div>
-                            <a href="#" class="small-box-footer">Cetak Detail Pendapatan <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="{{ url('report/income/print/monthly') }}" class="small-box-footer">Cetak Detail Pendapatan <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <div class="col-md-8">

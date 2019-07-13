@@ -62,8 +62,8 @@ class ReportController extends Controller
     
     public function income()
     {
-        $totalIncome = ReservationCost::sum('total_price');
-        $incomeLastMonth = ReservationCost::whereMonth('created_at', Carbon::now()->month)->sum('total_price');
+        $totalIncome = ReservationCost::totalIncome();
+        $incomeLastMonth = ReservationCost::totalIncomeMonthly();
         $incomeBeforeLastMonth = ReservationCost::whereMonth('created_at', '<' ,Carbon::now()->month)->sum('total_price');
 
         $chart = new IncomeChart();
@@ -83,6 +83,30 @@ class ReportController extends Controller
         $chart->dataset('Grafik Pendepatan Perbulan', 'line', $incomes);
 
         return view('contents.report.income', compact('totalIncome', 'incomeLastMonth', 'incomeBeforeLastMonth', 'chart'));
+    }
 
+    public function incomeReport($type) 
+    {
+        if ($type == "monthly") {
+            $totalIncomes = ReservationCost::totalIncomeMonthly();
+            $incomes = ReservationCost::incomeMonthly();
+
+            $pdf = PDF::loadView('contents.report.report-income', compact('incomes', 'totalIncomes'));
+            $pdf->setPaper('A4', 'landscape');
+            $filename = "report-income-". Carbon::now()->format("Y-m-d");
+
+            return $pdf->download($filename.".pdf");
+        } else {
+            $totalIncomes   = ReservationCost::totalIncome();
+            $incomes        = ReservationCost::with(['reservationCost', 'roomByRoomNumber', 'reservationAdditionalCosts'])->get();
+            $firstData      = ReservationCost::firstData();
+            $latest         = ReservationCost::latestData();
+
+            $pdf = PDF::loadView('contents.report.report-income', compact('incomes', 'totalIncomes', 'firstData', 'latestData'));
+            $pdf->setPaper('A4', 'landscape');
+            $filename = "report-income-". Carbon::now()->format("Y-m-d");
+
+            return $pdf->download($filename.".pdf");
+        }        
     }
 }
