@@ -4,7 +4,7 @@
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Reservation - Detail | {{ $reservation->room_number }}</h3>
+                    <h3 class="box-title">Reservasi - Ubah | {{ $reservation->room_number }}</h3>
                 </div>
                 <!-- /.box-header -->
                 <form role="form" method="POST" action="{{ url('/reservation/update/'. $reservation->id) }}">
@@ -17,19 +17,19 @@
                                     <input type="text" class="form-control" name="reservation_number" id="input_reservation_numper" value="{{ Auth::user()->name }}" disabled>
                                 </div>
                                 <div class="form-group">
-                                    <label>Faktur Number</label>
+                                    <label>Nomor Reservasi</label>
                                     <input type="text" class="form-control" name="reservation_number" id="input_reservation_numper" value="{{ $reservation->reservation_number }}" disabled>
                                 </div>
                                 <div class="form-group">
-                                    <label>Room Type</label>
+                                    <label>Tipe Ruangan</label>
                                     <input type="text" class="form-control" name="contact_name" id="input_contact_name" value="{{ $room->roomType->name }}" disabled>
                                 </div>
                                 <div class="form-group">
-                                    <label>Bed Type</label>
+                                    <label>Tipe Ranjang</label>
                                     <input type="text" class="form-control" name="contact_name" value="{{ $room->roomBedType->name }}" id="input_contact_name" disabled>
                                 </div>
                                 <div class="form-group">
-                                    <label>Check in Date</label>
+                                    <label>Tanggal Check In</label>
                                     <div class="input-group date">
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
@@ -38,7 +38,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Check Out Date</label>
+                                    <label>Tanggal Check Out</label>
                                     <div class="input-group date">
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
@@ -53,7 +53,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>Identity Card</label>
+                                    <label>Tanda Pengenal</label>
                                     <div class="form-inline">
                                         <select class="form-control" name="type_identity_card">
                                             <option>KTP</option>
@@ -61,13 +61,13 @@
                                             <option>PASSPOR</option>
                                         </select>
                                         <select class="form-control">
-                                            <option>MR.</option>
-                                            <option>MRS.</option>
+                                            <option>Tuan.</option>
+                                            <option>Nyonya.</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Identity Number</label>
+                                    <label>No Identitas</label>
                                     <input type="text" class="form-control" name="identity_number" id="input_contact_name" value="{{ $reservation->identity_card }}">
                                 </div>
                                 <div class="form-group">

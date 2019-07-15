@@ -332,6 +332,13 @@ class ReservationController extends Controller
         return redirect('/reservation/detail/'.$reservation->reservation_number)->with('error_message', 'Checkout gagal');
     }
 
+    public function exchangeRoom($reservationNumber)
+    {
+        $reservation = Reservation::where('reservation_number', $reservationNumber)->first();
+
+        return view('contents.reservation.exchange-room', compact('reservation'));
+    }
+
     public function print($reservationNumber)
     {
         $reservation = Reservation::with('reservationCost', 'reservationAdditionalCosts')

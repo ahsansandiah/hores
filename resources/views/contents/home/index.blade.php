@@ -60,7 +60,10 @@
                                                 <i class="fa fa-sign-out"></i> Check Out
                                             </a>
                                             <a href="{{ url('reservation/detail/'.$room->reservations['reservation_number'] ) }}" class="btn btn-app">
-                                                <i class="fa fa-address-card"></i> Detail Reservation
+                                                <i class="fa fa-address-card"></i> Detail Reservasi
+                                            </a>
+                                            <a href="{{ url('reservation/exchange-room/'.$room->reservations['reservation_number'] ) }}" class="btn btn-app">
+                                                <i class="fa fa-exchange"></i> Pindah Kamar
                                             </a>
                                         @else
                                             @if ($room->condition == '1')
