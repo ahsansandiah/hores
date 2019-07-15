@@ -332,11 +332,46 @@ class ReservationController extends Controller
         return redirect('/reservation/detail/'.$reservation->reservation_number)->with('error_message', 'Checkout gagal');
     }
 
-    public function exchangeRoom($reservationNumber)
+    public function exchangeRoom(Request $request, $reservationNumber)
     {
-        $reservation = Reservation::where('reservation_number', $reservationNumber)->first();
+        $reservation = Reservation::with('reservationCost')->where('reservation_number', $reservationNumber)->first();
+        $rooms = Room::all();
 
-        return view('contents.reservation.exchange-room', compact('reservation'));
+        if ($request->all()) {
+            $query = new ReservationCost();
+            $discount = $query->formula($request->price, $request->discount);
+            $tax      = $query->formula($request->price, $request->tax);
+            $total    = $query->formulaTotalPaid(
+                            ($request->price * $reservation->duration), 
+                            $discount, 
+                            $tax, 
+                            $reservation->reservationCost->service_tip, 
+                            $reservation->reservationCost->total_additional_cost
+                        );
+            $totalWithDeposit = $total - $request->deposit;
+
+            // Update Reservation
+            $reservation->room_number   = $request->room;
+            $reservation->price_day     = $request->price;
+            $reservation->total_price   = $total;
+            $reservation->update();
+
+            // Update Reservation Cost
+            $reservationCost = $query->findOrFail($reservation->reservationCost->id);
+            $reservationCost->base_price  = $request->price;
+            $reservationCost->total_price = $total;
+            $reservationCost->tax         = $tax;
+            $reservationCost->tax_percent = $request->tax;
+            $reservationCost->discount    = $discount;
+            $reservationCost->discount_percent = $request->discount;
+            $reservationCost->deposit      = $request->deposit;
+            $reservationCost->underpayment = $totalWithDeposit;
+            $reservationCost->update();
+
+            return redirect('/reservation/detail/'.$reservation->reservation_number)->with('message', 'Pindah kamar berhasil');            
+        }
+
+        return view('contents.reservation.exchange-room', compact('reservation', 'rooms'));
     }
 
     public function print($reservationNumber)

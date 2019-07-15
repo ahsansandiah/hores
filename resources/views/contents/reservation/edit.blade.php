@@ -71,37 +71,37 @@
                                     <input type="text" class="form-control" name="identity_number" id="input_contact_name" value="{{ $reservation->identity_card }}">
                                 </div>
                                 <div class="form-group">
-                                    <label>Name</label>
+                                    <label>Nama</label>
                                     <input type="text" class="form-control" name="name" id="input_contact_name" value="{{ $reservation->name }}">
                                 </div>
                                 <div class="form-group">
-                                    <label>Address</label>
+                                    <label>Alamat</label>
                                     <textarea name="address" id="" class="form-control">
                                         {{ $reservation->address }}
                                     </textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label>City</label>
+                                    <label>Kota</label>
                                     <input type="text" class="form-control" name="city" id="input_contact_name" value="{{ $reservation->city }}">
                                 </div>
                                 <div class="form-group">
-                                    <label>Phone Number</label>
+                                    <label>Nomor Telepon</label>
                                     <input type="text" class="form-control" name="phone_number" id="input_contact_name" value="{{ $reservation->phone_number }}">
                                 </div>
                                 <div class="form-group">
-                                    <label>Adult</label>
+                                    <label>Dewasa</label>
                                     <input type="text" class="form-control" name="adult" id="input_contact_name" value="{{ $reservation->adult_guest}}">
                                 </div>
                                 <div class="form-group">
-                                    <label>Child</label>
+                                    <label>Anak-anak</label>
                                     <input type="text" class="form-control" name="child" id="input_contact_name" value="{{ $reservation->child_guest}}">
                                 </div>
                                 <div class="form-group">
-                                    <label>Job</label>
+                                    <label>Pekerjaan</label>
                                     <input type="text" class="form-control" name="job" id="input_contact_name" placeholder="Job">
                                 </div>
                                 <div class="form-group">
-                                    <label>Description</label>
+                                    <label>Deskripsi</label>
                                     <textarea name="description" class="form-control">
                                         {{ $reservation->description }}
                                     </textarea>
@@ -109,20 +109,20 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>Price / Day</label>
+                                    <label>Harga Sewa / Hari</label>
                                     <input type="hidden" class="form-control" name="reservation_cost_id" id="reservation_cost_id" value="{{ $reservation->reservationCost->id }}">
                                     <input type="text" class="form-control" name="price_day" id="input_base_price" value="{{ $reservation->reservationCost->base_price }}">
                                 </div>
                                 <div class="form-group">
-                                    <label>Service Tip</label>
+                                    <label>Tip Servis</label>
                                     <input type="text" class="form-control" name="service_tip" id="input_service_tip" value="{{ $reservation->reservationCost->service_tip }}">
                                 </div>
                                 <div class="form-group">
-                                    <label>Tax</label>
+                                    <label>Pajak</label>
                                     <input type="text" class="form-control" name="tax" id="input_tax" value="{{ $reservation->reservationCost->tax }}">
                                 </div>
                                 <div class="form-group">
-                                    <label>Discount</label>
+                                    <label>Diskon</label>
                                     <input type="text" class="form-control" name="discount" id="input_discount" value="{{ $reservation->reservationCost->discount }}">
                                 </div>
                                 <div class="form-group">
@@ -133,8 +133,8 @@
                         </div> 
                     </div>
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-block btn-success btn-lg">Save</button>
-                        <a href="{{ url('/reservation') }}" class="btn btn-block btn-primary btn-lg">cancel</a>
+                        <button type="submit" class="btn btn-block btn-success btn-lg">Simpan</button>
+                        <a href="{{ url('/reservation') }}" class="btn btn-block btn-primary btn-lg">Batal</a>
                     </div>
                 </form>
                 <!-- /.box-footer -->

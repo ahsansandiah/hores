@@ -40,4 +40,14 @@ class ReservationCost extends Model
     {
         return self::orderBy('created_at', 'desc')->first();
     }
+
+    public static function formula($price, $percent)
+    {
+        return ($percent / 100) * $price;
+    }
+
+    public static function formulaTotalPaid($price, $discount, $tax, $service, $additionalCost)
+    {
+        return ($price + $tax + $service + $additionalCost) - $discount;
+    }
 }

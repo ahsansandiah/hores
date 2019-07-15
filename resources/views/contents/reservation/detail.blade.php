@@ -103,7 +103,10 @@
                                 <tr>
                                     @if ($reservation->reservationCost->underpayment == 0)
                                         <th>Kekurangan Bayar :</th>
-                                        <td><b> {{ 'Rp. ' . number_format($reservation->reservationCost->underpayment, 0, ',', '.') }} (Lunas) </b></td>
+                                        <td><b> {{ 'Rp. ' . number_format($reservation->reservationCost->total_room_paid, 0, ',', '.') }} (Lunas) </b></td>
+                                    @elseif ($reservation->reservationCost->underpayment < 0)
+                                        <th>Kelebihan Bayar :</th>
+                                        <td><b>{{ 'Rp. ' . number_format(abs($reservation->reservationCost->underpayment), 0, ',', '.') }}<b></td>
                                     @else
                                         <th>Kekurangan Bayar :</th>
                                         <td><b>{{ 'Rp. ' . number_format($reservation->reservationCost->underpayment, 0, ',', '.') }}<b></td>
