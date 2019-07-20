@@ -51,8 +51,9 @@
             </span>
         </a>
         <ul class="treeview-menu" style="">
-            <li><a href="{{ Url::to('room') }}"><i class="fa fa-hotel"></i> Ruangan</a></li>
-            <li><a href="{{ url('room/type') }}"><i class="fa fa-bed"></i> Tipe Ruangan</a></li>
+            <li><a href="{{ Url::to('room') }}"><i class="fa fa-hotel"></i> Kamar</a></li>
+            <li><a href="{{ Url::to('aula') }}"><i class="fa fa-handshake-o"></i> Aula</a></li>
+            <li><a href="{{ url('room/type') }}"><i class="fa fa-sitemap"></i> Tipe Ruangan</a></li>
             <li><a href="{{ url('room/bed-type') }}"><i class="fa fa-circle-o-notch"></i> Tipe Ranjang</a></li>
             <li><a href="{{ url('room/condition') }}"><i class="fa fa-check-square"></i> Kondisi Ruangan</a></li>
         </ul>
