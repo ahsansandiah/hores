@@ -13,6 +13,6 @@ class Aula extends Model
 
     public function reservationAula()
     {
-        return $this->belongsTo('App\Entities\ReservationAula', 'aula_id', 'id');
+        return $this->hasOne('App\Entities\ReservationAula', 'aula_id', 'id');
     }
 }

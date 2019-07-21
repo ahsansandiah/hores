@@ -12,8 +12,8 @@
                     <div class="row">
                         <div class="col-xs-12">
                         <h2 class="page-header">
-                            <i class="fa fa-globe"></i> {{ $aula->reservation_number }}
-                            <small class="pull-right">{{ $reservation->date }}</small>
+                            <i class="fa fa-globe"></i> 
+                            <small class="pull-right"></small>
                         </h2>
                         </div>
                         <!-- /.col -->
@@ -21,24 +21,38 @@
                     <!-- info row -->
                     <div class="row invoice-info">
                         <div class="col-sm-4 invoice-col">
-                            <p class="lead"><b> Identitas Customer </b></p>
+                            <p class="lead"><b> Detail Aula </b></p>
                             <div class="table-responsive">
                                 <table class="table">
                                     <tr>
-                                        <th style="width:50%">No Identitas :</th>
-                                        <td>{{ $reservation->type_identity_card }} | {{ $reservation->identity_card }}</td>
+                                        <th style="width:50%">ID :</th>
+                                        <td>{{ $aula->id }}</td>
                                     </tr>
                                     <tr>
-                                        <th style="width:50%">Nama :</th>
-                                        <td>{{ $reservation->name }}</td>
+                                        <th style="width:50%">No Aula :</th>
+                                        <td>{{ $aula->number }}</td>
                                     </tr>
                                     <tr>
-                                        <th>No Telepon : </th>
-                                        <td>{{ $reservation->phone_number }}</td>
+                                        <th>Kategori : </th>
+                                        <td>{{ $aula->category }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Address :</th>
-                                        <td>{{ $reservation->address }}</td>
+                                        <th>Status Reservasi :</th>
+                                        <td>
+                                            @if ($aula->is_booking == 0)
+                                                Tersedia
+                                            @else
+                                                Tidak Tersedia
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Kondisi Aula :</th>
+                                        <td>{{ $aula->aula_condition }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Deskripsi :</th>
+                                        <td>{{ $aula->description }}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -49,24 +63,32 @@
                             <div class="table-responsive">
                                 <table class="table">
                                     <tr>
-                                        <th style="width:50%">Tanggal Check In :</th>
-                                        <td>{{ $reservation->checkin_date }}</td>
+                                        <th style="width:50%">Nomor Reservasi :</th>
+                                        <td>{{ $aula->reservationAula->reservation_aula_number }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Tanggal Check Out :</th>
-                                        <td>{{ $reservation->checkout_date }}</td>
+                                        <th style="width:50%">No Identitas :</th>
+                                        <td>{{ $aula->reservationAula->identity_card }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Durasi :</th>
-                                        <td>{{ $reservation->duration }} Hari</td>
+                                        <th>Nama : </th>
+                                        <td>{{ $aula->reservationAula->name }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Total Customer :</th>
-                                        <td>{{ $reservation->adult_guest + $reservation->child_guest }} Orang</td>
+                                        <th>Alamat : </th>
+                                        <td>{{ $aula->reservationAula->address }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Status :</th>
-                                        <td>{{ $reservation->status }}</td>
+                                        <th>Kota :</th>
+                                        <td>{{ $aula->reservationAula->city }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>No Telepon :</th>
+                                        <td>{{ $aula->reservationAula->phone_number }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Email :</th>
+                                        <td>{{ $aula->reservationAula->email }}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -76,96 +98,57 @@
                             <p class="lead"><b> Biaya Reservasi </b></p>
                             <div class="table-responsive">
                                 <table class="table">
-                                <tr>
-                                    <th style="width:50%">Harga Sewa /hari :</th>
-                                    <td>{{ 'Rp. ' . number_format($reservation->reservationCost->base_price, 0, ',', '.') }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Tip jasa</th>
-                                    <td>{{  number_format($reservation->reservationCost->service_tip, 0, ',', '.') .'' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Pajak :</th>
-                                    <td>{{ $reservation->reservationCost->tax_percent.' (%)' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Diskon :</th>
-                                    <td>{{ $reservation->reservationCost->discount_percent.' (%)' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Deposit :</th>
-                                    <td>{{ 'Rp. ' . number_format($reservation->reservationCost->deposit, 0, ',', '.') }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Biaya Tambahan :</th>
-                                    <td>{{ 'Rp. ' . number_format($reservation->reservationCost->total_additional_cost, 0, ',', '.') }}</td>
-                                </tr>
-                                <tr>
-                                    @if ($reservation->reservationCost->underpayment == 0)
-                                        <th>Kekurangan Bayar :</th>
-                                        <td><b> {{ 'Rp. ' . number_format($reservation->reservationCost->total_room_paid, 0, ',', '.') }} (Lunas) </b></td>
-                                    @elseif ($reservation->reservationCost->underpayment < 0)
-                                        <th>Kelebihan Bayar :</th>
-                                        <td><b>{{ 'Rp. ' . number_format(abs($reservation->reservationCost->underpayment), 0, ',', '.') }}<b></td>
-                                    @else
-                                        <th>Kekurangan Bayar :</th>
-                                        <td><b>{{ 'Rp. ' . number_format($reservation->reservationCost->underpayment, 0, ',', '.') }}<b></td>
-                                    @endif
-                                </tr>
-                                <tr>
-                                    <th>Total :</th>
-                                    <td><b>{{ 'Rp. ' . number_format($reservation->reservationCost->total_price, 0, ',', '.') }}</b></td>
-                                </tr>
+                                    <tr>
+                                        <th style="width:50%">Tanggal Checkin :</th>
+                                        <td>{{ $aula->reservationAula->checkin_date }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:50%">Tanggal Checkout :</th>
+                                        <td>{{ $aula->reservationAula->checkout_date }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Duration :</th>
+                                        <td>{{ $aula->reservationAula->duration }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Atas Nama : </th>
+                                        <td>{{ $aula->reservationAula->paid_by }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Metode Pembayaran : </th>
+                                        <td>{{ $aula->reservationAula->payment_methode }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tanggal Pembayaran :</th>
+                                        <td>{{ $aula->reservationAula->paid_date }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>No Pembayaran :</th>
+                                        <td>{{ $aula->reservationAula->payment_number_reference }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Total Pembayaran :</th>
+                                        <td>{{ 'Rp. ' . number_format($aula->reservationAula->total_price, 0, ',', '.') }}</td>
+                                    </tr>
                                 </table>
                             </div>
                         </div>
                         <!-- /.col -->
                     </div>
-
-                    <hr>
-                    <!-- info row -->
-                    <div class="row invoice-info">
-                        <div class="col-sm-12 invoice-col">
-                            <b>Biaya Tambahan</b>
-                            <table class="table table-hover">
-                                <tbody>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th>Jumlah</th>
-                                        <th>Diskon</th>
-                                        <th>Total Harga</th>
-                                        <th>Keterangan</th>
-                                    </tr>
-                                    @foreach ($reservationAdditionalCosts as $additionalCost)
-                                        <tr>
-                                            <td>{{ $additionalCost->name }}</td>
-                                            <td>{{ $additionalCost->quantity }}</td>
-                                            <td>{{ $additionalCost->discount_percent }}</td>
-                                            <td>{{ $additionalCost->price }}</td>
-                                            <td>{{ $additionalCost->description }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                          
-                    <hr>
-                    <!-- this row will not appear when printing -->
+                </div>
+                <div class="box-footer">
                     <div class="row no-print">
                         <div class="col-xs-12">
-                            <a href="{{ url('reservation/detail/'.$reservation->reservation_number.'/print' ) }}" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
-                            @if ($reservation->status == $reservation::STATUS_CHECKIN)
-                                <a href="{{ url('reservation/edit/'.$reservation->id) }}" class="btn btn-default">Edit</a>
-                                <a class="btn btn-success pull-right" href="{{ url('reservation/check-out/'.$reservation->reservation_number ) }}"><i class="fa fa-credit-card"></i> Checkout </a>
+                            <a href="{{ url('aula/reservation/'.$aula->reservationAula->id.'/print' ) }}" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
+                            @if ($aula->reservationAula->status == "booked")
+                                <a href="{{ url('aula/reservation/edit/'.$aula->reservationAula->id) }}" class="btn btn-default">Edit</a>
+                                <a class="btn btn-success pull-right" href="{{ url('aula/reservation/check-out/'.$aula->reservationAula->id ) }}"><i class="fa fa-credit-card"></i> Checkout </a>
                             @endif
                             {{-- <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
                                 <i class="fa fa-download"></i> Cetak
                             </button> --}}
                         </div>
                     </div>
-                </div>
-                <div class="box-footer">
                 </div>
             </div>
         </div>

@@ -76,6 +76,9 @@ Route::group(['prefix' => 'aula', 'middleware' => 'web'], function() {
     Route::post('/update/{id}', 'Room\AulaController@update')->name('aula.update');
     Route::get('/delete/{id}', 'Room\AulaController@destroy')->name('aula.destroy');
     Route::get('/reservation/{id}', 'Room\AulaController@reservation')->name('aula.reservation');
+    Route::get('/reservation/edit/{id}', 'Room\AulaController@reservation')->name('aula.reservation');
+    Route::get('/reservation/{id}', 'Room\AulaController@reservation')->name('aula.reservation');
+    Route::get('/reservation/checkout-out/{id}', 'Room\AulaController@reservation')->name('aula.reservation');
     Route::post('/reservation/{id}/store', 'Room\AulaController@reservationProcess')->name('aula.reservation.process');
 });
 
