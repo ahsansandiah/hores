@@ -11,4 +11,8 @@ class Aula extends Model
     protected $table = "aula";
     use SoftDeletes;
 
+    public function reservationAula()
+    {
+        return $this->belongsTo('App\Entities\ReservationAula', 'aula_id', 'id');
+    }
 }

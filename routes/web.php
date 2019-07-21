@@ -70,7 +70,13 @@ Route::group(['prefix' => 'room', 'middleware' => 'web'], function() {
 Route::group(['prefix' => 'aula', 'middleware' => 'web'], function() {
     Route::get('/', 'Room\AulaController@index')->name('aula');
     Route::get('/create', 'Room\AulaController@create')->name('aula.create');
-
+    Route::post('/store', 'Room\AulaController@store')->name('aula.store');
+    Route::get('/detail/{id}', 'Room\AulaController@show')->name('aula.detail');
+    Route::get('/edit/{id}', 'Room\AulaController@edit')->name('aula.edit');
+    Route::post('/update/{id}', 'Room\AulaController@update')->name('aula.update');
+    Route::get('/delete/{id}', 'Room\AulaController@destroy')->name('aula.destroy');
+    Route::get('/reservation/{id}', 'Room\AulaController@reservation')->name('aula.reservation');
+    Route::post('/reservation/{id}/store', 'Room\AulaController@reservationProcess')->name('aula.reservation.process');
 });
 
 Route::group(['prefix' => 'service', 'middleware' => 'web'], function() {

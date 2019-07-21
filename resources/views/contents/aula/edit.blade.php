@@ -4,17 +4,17 @@
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Tambah Aula</h3>
+                    <h3 class="box-title">Ubah Aula</h3>
                 </div>
                 <!-- /.box-header -->
-                <form method="POST" action="{{ url('/aula/store') }}">
+                <form method="POST" action="{{ url('/aula/update/'. $aula->id) }}">
                     @csrf
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Nomor Aula</label>
-                                    <input type="text" class="form-control" name="number" id="" required>
+                                    <input type="text" class="form-control" name="number" id="" value="{{ $aula->number }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Kategori</label>
@@ -26,15 +26,15 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Harga Sewa</label>
-                                    <input type="text" class="form-control" name="price_day" id="" required>
+                                    <input type="text" class="form-control" name="price_day" id="" value="{{ $aula->price_day }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Maksimal orang</label>
-                                    <input type="text" class="form-control" name="guest_total" id="" required>
+                                    <input type="text" class="form-control" name="guest_total" value="{{ $aula->guest_total }}" id="" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Deskripsi</label>
-                                    <textarea name="description" class="form-control" id="" cols="30" rows="10" style="height: 80px;"></textarea>                                    
+                                    <textarea name="description" class="form-control" id="" cols="30" rows="10" style="height: 80px;"> {{ $aula->description }}</textarea>                                    
                                 </div>
                                 <div class="form-group">
                                     <label>Aktif</label>
@@ -51,7 +51,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-block btn-success btn-lg add-additional-cost">Tambah</button>
+                                    <button type="submit" class="btn btn-block btn-success btn-lg add-additional-cost">Simpan</button>
                                 </div>
                             </div>
                         </div>
