@@ -75,11 +75,13 @@ Route::group(['prefix' => 'aula', 'middleware' => 'web'], function() {
     Route::get('/edit/{id}', 'Room\AulaController@edit')->name('aula.edit');
     Route::post('/update/{id}', 'Room\AulaController@update')->name('aula.update');
     Route::get('/delete/{id}', 'Room\AulaController@destroy')->name('aula.destroy');
+
     Route::get('/reservation/{id}', 'Room\AulaController@reservation')->name('aula.reservation');
-    Route::get('/reservation/edit/{id}', 'Room\AulaController@reservation')->name('aula.reservation');
-    Route::get('/reservation/{id}', 'Room\AulaController@reservation')->name('aula.reservation');
-    Route::get('/reservation/checkout-out/{id}', 'Room\AulaController@reservation')->name('aula.reservation');
     Route::post('/reservation/{id}/store', 'Room\AulaController@reservationProcess')->name('aula.reservation.process');
+    Route::get('/reservation/edit/{id}', 'Room\AulaController@reservation')->name('aula.reservation.edit');
+    Route::get('/reservation/{id}', 'Room\AulaController@reservation')->name('aula.reservation.detail');
+    Route::post('/reservation/payment/{reservationId}', 'Room\AulaController@payment')->name('aula.reservation.payment');
+    Route::get('/reservation/{id}/print', 'Room\AulaController@print')->name('aula.reservation.print');
 });
 
 Route::group(['prefix' => 'service', 'middleware' => 'web'], function() {

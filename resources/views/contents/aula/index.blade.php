@@ -39,12 +39,7 @@
                             <td>{{ $aula->price_day }}</td>
                             <td>{{ $aula->guest_total }}</td>
                             <td>
-                                @if ($aula->status = "booked")
-                                    <a class="btn btn-app" href="{{ url('aula/reservation/'. $aula->id .'/detail') }}">
-                                        <i class="fa fa-sign-in"></i> Pembayaran
-                                    </a>
-                                @elseif ($aula->status == "confirmed")
-                                @else
+                                @if ($aula->status == "confirmed")
                                     <a class="btn btn-app" href="{{ url('aula/reservation/'. $aula->id) }}">
                                         <i class="fa fa-sign-in"></i> Reservasi
                                     </a>

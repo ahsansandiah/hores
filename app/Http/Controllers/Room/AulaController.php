@@ -7,6 +7,8 @@ use App\Http\Requests;
 use Illuminate\Support\Facades\Input;
 use Redirect;
 use Validator;
+use PDF;
+use Carbon\Carbon;
 
 use App\Http\Controllers\Controller;
 use App\Entities\Room;
@@ -35,7 +37,7 @@ class AulaController extends Controller
 
     public function index()
     {
-        $aulas = Aula::paginate(10);
+        $aulas = Aula::with('reservationAula')->paginate(10);
 
         return view('contents.aula.index', compact('aulas'));
     }
@@ -154,10 +156,37 @@ class AulaController extends Controller
         $reservationAula->save();
 
         if ($reservationAula) {
+            $aula = Aulah::findOrFail($id);
+            $aula->is_booking = 1;
+            $aula->update();
+
             return redirect('aula')->with('message', 'Reservasi Aula berhasil');
         }
 
         return Redirect::back()->with('error_message', 'Reservasi Aula gagal');
+    }
+
+    public function payment(Request $request, $reservationAulaId)
+    {
+        $reservationAula = ReservationAula::findOrFail($reservationAulaId);
+        $reservationAula->update($request->all());
+
+        if ($reservationAula) {
+            return redirect('aula')->with('message', 'Pembayaran Aula berhasil');
+        }
+
+        return Redirect::back()->with('error_message', 'Pembayaran Aula gagal');
+    }
+
+    public function print($id)
+    {
+        $aula = Aula::with('reservationAula')->findOrFail($id);
+
+        // return view('contents.aula.print', compact('aula'));
+        $pdf = PDF::loadView('contents.aula.print', compact('aula'));
+        $pdf->setPaper('A4', 'landscape');
+        $filename = "invoice-aula-".$aula->reservationAula->reservation_aula_number;
+        return $pdf->download($filename.".pdf");
     }
     
 }

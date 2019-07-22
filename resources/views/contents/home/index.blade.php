@@ -244,7 +244,7 @@
                                 </div>
                             </div>
                         </div>
-                            <!-- /.box-body -->
+                        <!-- /.box-body -->
                         <div class="box-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Keluar</button>
                             <button type="submit" class="btn btn-info pull-right">Simpan</button>
