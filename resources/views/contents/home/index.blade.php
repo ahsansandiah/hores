@@ -107,6 +107,57 @@
         </div>
         <!--/.box -->
     </div>
+    <div class="col-md-3">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Kamar yang terpakai</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+                <ul class="nav nav-pills nav-stacked">
+                    @foreach ($rooms as $room)
+                        @if ($room->is_booking == 1)
+                            <li><a href="{{ url('reservation/detail/'.$room->reservations['reservation_number'] ) }}">{{ $room->room_number }}</a></li>
+                        @endif
+                    @endforeach
+                </ul>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+            </div>
+            <!-- /.footer -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <div class="col-md-6">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Pelanggan Terakhir</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+                <ul class="nav nav-pills nav-stacked">
+                    @foreach ($rooms as $room)
+                        @if ($room->is_booking == 1)
+                            <li><a href="{{ url('reservation/detail/'.$room->reservations['name'] ) }}">{{ $room->reservations['name'] }}</a></li>
+                        @endif
+                    @endforeach
+                </ul>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+            </div>
+            <!-- /.footer -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.row -->
     <div class="col-md-12">
         <div class="row">
             <div class="col-md-3 col-sm-6 col-xs-12">
@@ -165,8 +216,8 @@
                 <!-- /.info-box -->
             </div>
             <!-- /.col -->
-            </div>
-            <!-- /.row -->
+        </div>
+        <!-- /.row -->
     </div>
     <!-- /.row -->
 

@@ -15,4 +15,16 @@ class Aula extends Model
     {
         return $this->hasOne('App\Entities\ReservationAula', 'aula_id', 'id');
     }
+
+    public static function listAula()
+    {
+        $query = self::with('reservationAula');
+        $countAvailable = $query->where('is_booking', 0)->count();
+        $aulas = $query->paginate(16);
+
+        return [
+            "aulas" => $aulas,
+            "countAvailable" => $countAvailable
+        ];
+    }
 }

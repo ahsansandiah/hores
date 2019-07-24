@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
+use App\Entities\Room\Aula;
 use App\Entities\Room;
 use App\Entities\Room\RoomBedType;
 use App\Entities\Room\RoomCondition;
@@ -38,7 +39,7 @@ class HomeController extends Controller
                         $query->where('status', Reservation::STATUS_CHECKIN);
                     }
                 ]);
-        
+                
         if (Input::has('search')) {
             $query->where('room_number', Input::get('search'))
                 ->orWhere('price_day', Input::get('search'))
@@ -62,6 +63,8 @@ class HomeController extends Controller
         $countReservation = Reservation::count();
         // End Box Information
 
+        $aulas = Aula::listAula();
+
         return view('contents.home.index', compact(
             'rooms', 
             'countAvailableRooms',
@@ -70,7 +73,8 @@ class HomeController extends Controller
             'roomTypes',
             'checkinToday',
             'checkoutToday',
-            'countReservation'
+            'countReservation',
+            'aulas'
         ));
     }
 }
