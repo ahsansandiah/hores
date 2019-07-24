@@ -116,8 +116,10 @@ class ReservationController extends Controller
             $additionalServiceCache = Session::get('additional-services-'.$roomNumber);
         }
 
+        $reservationNumber = Reservation::generateRandom();
+
         // Session::forget('additional-services-'.$roomNumber);
-        return view('contents.reservation.checkin', compact('room', 'additionalServices', 'additionalServiceCache'));
+        return view('contents.reservation.checkin', compact('room', 'additionalServices', 'additionalServiceCache', 'reservationNumber'));
     }
 
     public function addAdditonalService($roomNumber)
@@ -252,13 +254,19 @@ class ReservationController extends Controller
 
     public function update(Request $request, $id)
     {
-        $reservation =  Reservation::findOrFail($id);
+        $reservation =  Reservation::with('reservationCost')->findOrFail($id);
+
+        $priceDay             = $reservation->price_day;
+        $totalAdditionalCost  = 0;
+        $totalPaidRoom        = ($request->total_price + $request->tax + $request->service_tip + $totalAdditionalCost) - $request->discount;
+
         $reservation->checkin_date       = $request->checkin_date;
         $reservation->checkout_date      = $request->checkout_date;
         $reservation->duration           = $request->duration;
         $reservation->type_identity_card = $request->type_identity_card;
         $reservation->identity_card      = $request->identity_number;
         $reservation->name               = $request->name;
+        $reservation->city               = $request->city;
         $reservation->address            = $request->address;
         $reservation->phone_number       = $request->phone_number;
         $reservation->adult_guest        = $request->adult;
@@ -267,14 +275,21 @@ class ReservationController extends Controller
         $reservation->update();
 
         if ($reservation) {
+            $totalPaid = $totalPaidRoom + $totalAdditionalCost;
+            $underPayment  = $totalPaid - $request->deposit;
+
             // Create Reservation Cost
-            $reservationCost = ReservationCost::findOrFail($request->reservation_cost_id);
-            $reservationCost->base_price  = $room->price_day;
-            $reservationCost->total_price = $totalPriceDuration;
-            $reservationCost->service_tip = $request->service_tip;
-            $reservationCost->tax         = $request->tax;
-            $reservationCost->discount    = $request->discount;
-            $reservationCost->deposit     = $request->deposit;
+            $reservationCost = ReservationCost::findOrFail($reservation->reservationCost->id);
+            $reservationCost->base_price            = $reservation->price_day;
+            $reservationCost->total_price           = $totalPaid;
+            $reservationCost->underpayment          = $underPayment;
+            $reservationCost->service_tip           = $request->service_tip;
+            $reservationCost->tax_percent           = $request->tax_percent;
+            $reservationCost->tax                   = $request->tax;
+            $reservationCost->discount_percent      = $request->discount_percent;
+            $reservationCost->discount              = $request->discount;
+            $reservationCost->deposit               = $request->deposit;
+
             $reservationCost->update();
 
             return redirect('/reservation/detail/'.$reservation->reservation_number)->with('message', 'Ubah data checkin berhasil');

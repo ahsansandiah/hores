@@ -62,19 +62,19 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label>Nomor Indentitas</label>
-                                    <input type="text" class="form-control" name="identity_number" value="" id="inputIdentityNumber">
+                                    <input type="text" class="form-control" name="identity_number" value="{{ $reservation->identity_card }}" id="inputIdentityNumber">
                                 </div>
                                 <div class="form-group">
                                     <label>Nama</label>
-                                    <input type="text" class="form-control" name="name" id="inputName">
+                                    <input type="text" class="form-control" name="name" value="{{ $reservation->name }}" id="inputName">
                                 </div>
                                 <div class="form-group">
                                     <label>Alamat</label>
-                                    <textarea name="address" id="inputAddress" class="form-control"></textarea>
+                                    <textarea name="address" id="inputAddress" value="" class="form-control">{{ $reservation->address }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>No Telepon</label>
-                                    <input type="text" class="form-control" name="phone_number" value="" id="inputPhoneNumber" placeholder="08*******">
+                                    <input type="text" class="form-control" name="phone_number" value="{{ $reservation->phone_number }}" id="inputPhoneNumber" placeholder="08*******">
                                 </div>
                                 <div class="form-group">
                                     <label>Tanggal Checkout</label>
@@ -82,7 +82,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" name="checkout_date" class="form-control pull-right " id="checkout_date">
+                                        <input type="text" name="checkout_date" value="{{ $reservation->checkout_date }}" class="form-control pull-right " id="checkout_date">
                                     </div>
                                 </div>
                                 <div class="form-group">

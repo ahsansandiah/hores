@@ -18,7 +18,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>No Reservasi</label>
-                                    <input type="text" class="form-control" name="reservation_number" id="input_reservation_numper" placeholder="No Reservasi">
+                                    <input type="text" class="form-control" name="reservation_number" value="{{ $reservationNumber }}" id="input_reservation_numper" placeholder="No Reservasi">
                                 </div>
                                 <div class="form-group">
                                     <label>Tipe Ruangan</label>

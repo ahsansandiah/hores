@@ -54,10 +54,10 @@
                                         <a class="btn btn-app" href="{{ url('reservation/check-out/'. $reservation->reservation_number ) }}">
                                             <i class="fa fa-sign-out"></i> Check Out
                                         </a>
-                                        <a class="btn btn-app" href="{{ url('reservation/edit'. $reservation->id) }}">
+                                        <a class="btn btn-app" href="{{ url('reservation/edit/'. $reservation->id) }}">
                                             <i class="fa fa-edit"></i> Edit
                                         </a>
-                                        <a class="btn btn-app" href="{{ url('reservation/delete'. $reservation->id) }}">
+                                        <a class="btn btn-app" href="{{ url('reservation/delete/'. $reservation->id) }}">
                                             <i class="fa fa-trash"></i> Delete
                                         </a>
                                     @endif
