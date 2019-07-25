@@ -125,3 +125,8 @@ Route::group(['prefix' => 'report', 'middleware' => 'web'], function() {
     Route::get('/income/print/{type}', 'ReportController@incomeReport')->name('income.report');
 });
 
+Route::group(['prefix' => 'backup-db', 'middleware' => 'web'], function() {
+    Route::get('/', 'BackupDBController@index')->name('backup-db.index');
+    Route::get('/process', 'BackupDBController@backup')->name('backup-db.backup');
+});
+

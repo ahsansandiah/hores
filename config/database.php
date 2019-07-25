@@ -54,6 +54,14 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
+            // 'dump' => ['dump_command_path' => '/Applications/XAMPP/xamppfiles/bin/mysqldump'],
+            'dump' => [
+                'dump_command_path' => '/Applications/XAMPP/xamppfiles/bin/mysqldump',
+                'use_single_transaction',
+                'timeout' => 60 * 5, // 5 minute timeout
+                // 'exclude_tables' => ['table1', 'table2'],
+                // 'add_extra_option' => '--optionname=optionvalue', 
+            ] 
         ],
 
         'pgsql' => [

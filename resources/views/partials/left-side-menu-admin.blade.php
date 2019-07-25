@@ -70,11 +70,12 @@
                 <i class="fa fa-cog"></i>
                 <span>Pengaturan</span>
                 <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
+                    <i class="fa fa-angle-left pull-right"></i>
                 </span>
             </a>
             <ul class="treeview-menu" style="">
                 <li><a href="{{ url('admin/roles') }}"><i class="fa fa-users"></i> Hak Akses</a></li>
+                <li><a href="{{ url('backup-db') }}"><i class="fa fa-users"></i> Backup Database</a></li>
             </ul>
         </li>
         <li style="treeview">
