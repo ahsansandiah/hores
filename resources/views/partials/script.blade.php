@@ -19,53 +19,33 @@
 <script src='{{ url('adminLTE/bower_components/moment/min/moment.min.js') }}'></script>
 <script src='{{ url('adminLTE/bower_components/bootstrap-daterangepicker/daterangepicker.js') }}'></script>
 <!-- bootstrap datepicker -->
-<script src='{{ url('adminLTE/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}'></script>
+<script src='{{ url('bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"') }}'></script>
 <script src='{{ url('adminLTE/dist/js/bootstrap-datetimepicker.js') }}'></script>
 
 <!-- bootstrap time picker -->
 <script src='{{ url('adminLTE/plugins/timepicker/bootstrap-timepicker.min.js') }}'></script>
 <script>
     $(function () {
-      
-      //Date range picker
-      $('#reservation').daterangepicker()
-      //Date range picker with time picker
-      $('#reservationtime').daterangepicker({ timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A' })
-      //Date range as a button
-      $('#daterange-btn').daterangepicker(
-        {
-          ranges   : {
-            'Today'       : [moment(), moment()],
-            'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'This Month'  : [moment().startOf('month'), moment().endOf('month')],
-            'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-          },
-          startDate: moment().subtract(29, 'days'),
-          endDate  : moment()
-        },
-        function (start, end) {
-          $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
-        }
-      )
-      
       //Date picker
-      $('#checkout_date').datetimepicker({
-        format: 'YYYY-MM-DD HH:mm:ss'
-      })
+      	$('#checkout_date').datetimepicker({
+        	format: 'YYYY-MM-DD HH:mm:ss'
+      	})
 
-      $('#checkin_date').datetimepicker({
-        format: 'YYYY-MM-DD HH:mm:ss'
-      })
+      	$('#checkin_date').datetimepicker({
+        	format: 'YYYY-MM-DD HH:mm:ss'
+      	})
 
-      $('#payment_date').datepicker({
-        format: 'yyyy-mm-dd'
-      })
+	  	$('#datetimepicker1').datetimepicker({
+        	format: 'YYYY-MM-DD HH:mm:ss'
+      	})
 
-      //Timepicker
-      $('.timepicker').timepicker({
-      })
+      	$('#payment_date').datepicker({
+        	format: 'yyyy-mm-dd'
+      	})
+
+      	//Timepicker
+      		$('.timepicker').timepicker({
+      	})
     })
 </script>
 {{-- <script src='{{ url('adminLTE/src/bootstrap-input-spinner.js') }}'></script> --}}
