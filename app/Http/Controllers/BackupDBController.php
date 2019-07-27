@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Artisan;
+use Exception;
 
 class BackupDBController extends Controller
 {
@@ -18,7 +19,8 @@ class BackupDBController extends Controller
         if ($exitCode) {
             return redirect()->back()->with('message', 'Backup Database berhasil!');
         } else {
-            return redirect()->back()->with('error_message', 'Backup Database berhasil!');
+            // return redirect()->back()->with('error_message', 'Backup Database berhasil!');
+            throw new Exception("Backup Database berhasil!");
         }
     }
 }
