@@ -257,9 +257,11 @@
                                             <i class="fa fa-sign-in"></i> Check In
                                         </a>
                                     @else
-                                        <a class="btn btn-app-table" href="{{ url('reservation/check-out/'. $room->room_number) }}">
-                                            <i class="fa fa-sign-out"></i> Check Out
-                                        </a>
+                                        @if ($room->reservations)
+                                            <a class="btn btn-app-table" href="{{ url('reservation/check-out/'. $room->reservations->reservation_number) }}">
+                                                <i class="fa fa-sign-out"></i> Check Out
+                                            </a>
+                                        @endif
                                     @endif
                                     
                                 </td>

@@ -34,7 +34,11 @@ class RoomController extends Controller
 
     public function index()
     {
-        $query = Room::with('roomType', 'roomCondition');
+        $query = Room::with(['roomType', 'roomCondition', 
+                            'reservations' => function ($query) {
+                                $query->where('status', 'checkin')->first();
+                            }
+                        ]);
         
         if (Input::has('search')) {
             $query->where('room_number', 'like', '%'.Input::get('search').'%')

@@ -76,7 +76,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" name="checkin_date" class="form-control pull-right" id="checkin_date">
+                                        <input type="text" name="checkin_date" class="form-control pull-right inputCheckin" id="checkin_date">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -85,7 +85,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" name="checkout_date" class="form-control pull-right" id="checkout_date">
+                                        <input type="text" name="checkout_date" class="form-control pull-right inputCheckout" id="checkout_date">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -348,38 +348,17 @@
                     });
                 });
             });
-            // Find and remove selected table rows
-            // $('#form-additional-service').on('submit', function(e) {
-            //     e.preventDefault();
 
-            //     var service = $('#inputService option:selected').text();
-            //     var quantity = $('#inputQuantity').val();
-            //     var price = $('#inputServicePrice').val();
-            //     var discount = $('#inputserviceDiscountPercent').val();
-            //     var description = $('#inputServiceDescription').val();
+            // Duration
+            $('#checkin_date').on('change', function(){
+                var start = $("#checkin_date").val()
+                console.log(start);
+    	        var end = $("#checkout_date").val();
+                days = (end- start) / (1000 * 60 * 60 * 24);
+                $('#inputDuration').val(duration);
+            })
+            $('#checkin_date').change();
 
-            //     $.ajaxSetup({
-            //         headers: {
-            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //         }
-            //     });
-            //     $.ajax({
-            //         type: "post",
-            //         url: '{{ url("reservation/add-additional-services/".$room->room_number) }}',
-            //         data: {
-            //             service:service,
-            //             quantity:quantity, 
-            //             price:price, 
-            //             discount:discount,
-            //             description:description
-            //         },
-            //         success: function( response ) {
-            //             $("#showdata").html(
-            //                 response
-            //             );
-            //         }
-            //     });
-            // });
         </script>
     @endsection
 @stop

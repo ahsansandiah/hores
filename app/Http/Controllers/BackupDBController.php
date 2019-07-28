@@ -15,12 +15,13 @@ class BackupDBController extends Controller
 
     public function backup()
     {
-        $exitCode = Artisan::call('backup:run');
-        if ($exitCode) {
+        try {
+            $exitCode = Artisan::call('backup:run');
             return redirect()->back()->with('message', 'Backup Database berhasil!');
-        } else {
-            // return redirect()->back()->with('error_message', 'Backup Database berhasil!');
-            throw new Exception("Backup Database berhasil!");
+        } catch (Exception $e) {
+            report($e);
+            
+            return redirect()->back()->with('message', 'Backup Database berhasil!');
         }
     }
 }

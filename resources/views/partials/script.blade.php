@@ -19,7 +19,7 @@
 <script src='{{ url('adminLTE/bower_components/moment/min/moment.min.js') }}'></script>
 <script src='{{ url('adminLTE/bower_components/bootstrap-daterangepicker/daterangepicker.js') }}'></script>
 <!-- bootstrap datepicker -->
-<script src='{{ url('bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"') }}'></script>
+<script src='{{ url("bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js") }}'></script>
 <script src='{{ url('adminLTE/dist/js/bootstrap-datetimepicker.js') }}'></script>
 
 <!-- bootstrap time picker -->
@@ -39,12 +39,12 @@
         	format: 'YYYY-MM-DD HH:mm:ss'
       	})
 
-      	$('#payment_date').datepicker({
-        	format: 'yyyy-mm-dd'
-      	})
+      	// $('#payment_date').datepicker({
+        // 	format: 'yyyy-mm-dd'
+      	// })
 
       	//Timepicker
-      		$('.timepicker').timepicker({
+      	$('.timepicker').timepicker({
       	})
     })
 </script>

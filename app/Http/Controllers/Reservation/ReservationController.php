@@ -330,7 +330,6 @@ class ReservationController extends Controller
                 $reservationCost->payment_type  = $request->input('payment_type');
                 $reservationCost->underpayment  = 0;
                 $reservationCost->update();
-                
             }
 
             $room = Room::where('room_number', $request->input('room_number'))->first();
@@ -338,8 +337,6 @@ class ReservationController extends Controller
                 $room->is_booking = 0;
                 $room->update();
             }
-
-            // additional cost
 
             return redirect('/reservation/detail/'.$reservation->reservation_number)->with('message', 'Checkout berhasil');
         }
@@ -350,7 +347,11 @@ class ReservationController extends Controller
     public function exchangeRoom(Request $request, $reservationNumber)
     {
         $reservation = Reservation::with('reservationCost')->where('reservation_number', $reservationNumber)->first();
-        $rooms = Room::all();
+        $lastReservationRoomNumber = $reservation->room_number;
+        $rooms = Room::whereNotIn('room_number', [$lastReservationRoomNumber])
+                        ->whereNotIn('is_booking', [1])
+                        ->whereNotIn('condition', [2])
+                        ->get();
 
         if ($request->all()) {
             $query = new ReservationCost();
@@ -381,7 +382,11 @@ class ReservationController extends Controller
             $reservationCost->discount_percent = $request->discount;
             $reservationCost->deposit      = $request->deposit;
             $reservationCost->underpayment = $totalWithDeposit;
-            $reservationCost->update();
+            // $reservationCost->update();
+
+            // Update Status Room
+            $newRoom = Room::updateStatusCanBooking($request->room, false);
+            $lastRoom = Room::updateStatusCanBooking($lastReservationRoomNumber, true);
 
             return redirect('/reservation/detail/'.$reservation->reservation_number)->with('message', 'Pindah kamar berhasil');            
         }

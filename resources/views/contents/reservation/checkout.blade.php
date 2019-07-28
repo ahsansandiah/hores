@@ -42,7 +42,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                            <input type="text" class="form-control pull-right" name="payment_date" id="datetimepicker1">
+                                            <input type="text" class="form-control pull-right" name="payment_date" id="datetimepicker1" required>
                                     </div>
                                 </div>
                                 <div class="form-group">

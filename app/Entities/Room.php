@@ -33,4 +33,18 @@ class Room extends Model
     {
         return $this->belongsTo('App\Entities\Reservation', 'room_number', 'room_number');
     }
+
+    public static function updateStatusCanBooking($roomNumber, $can)
+    {
+        $model = self::where('room_number', $roomNumber)->first();
+        if ($can == true) {
+            $model->is_booking = 0;
+            $model->save();
+        } else {
+            $model->is_booking = 1;
+            $model->save();
+        }
+
+        return true;
+    }
 }
