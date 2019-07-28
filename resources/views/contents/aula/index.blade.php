@@ -12,6 +12,7 @@
                         <div class="col-sm-3 pull-left">
                             <div class="input-group margin">
                                 <a href="{{ url('aula/create') }}" class="btn btn-block btn-success btn-flat" >Tambah</a>
+                                <a href="{{ url('aula/reservation') }}" class="btn btn-block btn-primary btn-flat" >Data Reservasi</a>
                             </div>
                         </div>
                         <div class="col-sm-3 pull-right">
@@ -39,14 +40,18 @@
                             <td>{{ $aula->price_day }}</td>
                             <td>{{ $aula->guest_total }}</td>
                             <td>
-                                @if ($aula->status == "confirmed")
+                                @if ($aula->is_booking == 0)
                                     <a class="btn btn-app" href="{{ url('aula/reservation/'. $aula->id) }}">
                                         <i class="fa fa-sign-in"></i> Reservasi
                                     </a>
+                                    <a class="btn btn-app" href="{{ url('aula/detail/'. $aula->id) }}">
+                                        <i class="fa fa-edit"></i> Detail
+                                    </a>
+                                @else
+                                    <a class="btn btn-app" href="{{ url('aula/reservation/detail/'. $aula->reservationAula->id) }}">
+                                        <i class="fa fa-edit"></i> Detail
+                                    </a>
                                 @endif
-                                <a class="btn btn-app" href="{{ url('aula/detail/'. $aula->id) }}">
-                                    <i class="fa fa-edit"></i> Detail
-                                </a>
                                 <a class="btn btn-app" href="{{ url('aula/edit/'. $aula->id) }}">
                                     <i class="fa fa-edit"></i> Ubah
                                 </a>

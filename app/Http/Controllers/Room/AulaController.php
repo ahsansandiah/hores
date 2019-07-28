@@ -78,7 +78,9 @@ class AulaController extends Controller
 
     public function show($id)
     {
-        $aula = Aula::with('reservationAula')->findOrFail($id);
+        $aula = Aula::with(['reservationAula' => function ($query) {
+                        $query->where('status', 'booked')->first();
+                    }])->findOrFail($id);
 
         return view('contents.aula.detail', compact('aula'));
     }
@@ -129,6 +131,13 @@ class AulaController extends Controller
         return redirect('aula')->with('message', 'Hapus Aula berhasil');
     }
 
+    public function listReservation()
+    {
+        $reservationAula = ReservationAula::with('aula')->paginate(20);
+        
+        return view('contents.aula.list-reservation', compact('reservationAula'));
+    }
+
     public function reservation($id)
     {
         $aula = Aula::findOrFail($id);
@@ -156,7 +165,7 @@ class AulaController extends Controller
         $reservationAula->save();
 
         if ($reservationAula) {
-            $aula = Aulah::findOrFail($id);
+            $aula = Aula::findOrFail($id);
             $aula->is_booking = 1;
             $aula->update();
 
@@ -166,21 +175,35 @@ class AulaController extends Controller
         return Redirect::back()->with('error_message', 'Reservasi Aula gagal');
     }
 
+    public function detailReservation($reservationId)
+    {
+        $reservationAula = ReservationAula::with('aula')->findOrFail($reservationId);
+
+        return view('contents.aula.detail-reservation', compact('reservationAula'));
+    }
+
     public function payment(Request $request, $reservationAulaId)
     {
         $reservationAula = ReservationAula::findOrFail($reservationAulaId);
+        $reservationAula->status = "done";
         $reservationAula->update($request->all());
 
         if ($reservationAula) {
+            // Update Status Aula
+            $aula = Aula::find($request->aula_id);
+            $aula->is_booking = 0;
+            $aula->update();
+
             return redirect('aula')->with('message', 'Pembayaran Aula berhasil');
         }
 
         return Redirect::back()->with('error_message', 'Pembayaran Aula gagal');
     }
 
-    public function print($id)
+    public function print($reservationId)
     {
-        $aula = Aula::with('reservationAula')->findOrFail($id);
+        $reservation = ReservationAula::find($reservationId);
+        $aula = Aula::with('reservationAula')->findOrFail($reservation->aula_id);
 
         // return view('contents.aula.print', compact('aula'));
         $pdf = PDF::loadView('contents.aula.print', compact('aula'));
