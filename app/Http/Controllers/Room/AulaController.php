@@ -141,8 +141,9 @@ class AulaController extends Controller
     public function reservation($id)
     {
         $aula = Aula::findOrFail($id);
-        
-        return view('contents.aula.reservation', compact('aula'));
+        $generateReservationNumber = ReservationAula::generateRandom();
+
+        return view('contents.aula.reservation', compact('aula', 'generateReservationNumber'));
     }
 
     public function reservationProcess(Request $request, $id)

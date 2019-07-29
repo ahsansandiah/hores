@@ -5,6 +5,7 @@ namespace App\Entities\Room;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\User;
+use Carbon\Carbon;
 
 class Aula extends Model
 {

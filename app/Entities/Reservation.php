@@ -69,9 +69,11 @@ class Reservation extends Model
         return $reservation;
     }
 
-    public static function generateRandom($length = 7)
+    public static function generateRandom($length = 3)
     {
-        $randomNumber = "TRX-".substr(str_shuffle('0123456789'),1,$length)."".Carbon::now()->format('dmy');
+        $lastId = self::select('id')->first();
+        $nextId = $lastId->id + 1;
+        $randomNumber = "TRX-".Carbon::now()->format('ymd').substr(str_shuffle('0123456789'), 1, $length).$nextId;
 
         return $randomNumber;
     }

@@ -17,4 +17,13 @@ class ReservationAula extends Model
     {
         return $this->belongsTo('App\Entities\Room\Aula', 'aula_id', 'id');
     }
+
+    public static function generateRandom($length = 3)
+    {
+        $lastId = self::select('id')->first();
+        $nextId = $lastId->id + 1;
+        $randomNumber = "TRXA-".Carbon::now()->format('ymd').substr(str_shuffle('0123456789'), 1, $length).$nextId;
+
+        return $randomNumber;
+    }
 }
