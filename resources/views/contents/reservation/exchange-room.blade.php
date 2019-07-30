@@ -67,11 +67,12 @@
                                         <td>{{ 'Rp. ' . number_format($reservation->total_price, 0, ',', '.') }}</td>
                                     </tr>
                                     <tr>
-                                        <th style="width:50%">Total terbayar :</th>
                                         @if ($reservation->reservationCost->status == "paid")
+                                            <th style="width:50%">Total Terbayar :</th>
                                             <td>{{ 'Rp. ' . number_format($reservation->reservationCost->total_price, 0, ',', '.') . " (Lunas)" }}</td>
                                         @else
-                                            <td>{{ 'Rp. ' . number_format($reservation->reservationCost->underpayment, 0, ',', '.') . " (DP)" }}</td>
+                                            <th style="width:50%">Total Kekurangan :</th>
+                                            <td>{{ 'Rp. ' . number_format($reservation->reservationCost->underpayment, 0, ',', '.') }}</td>
                                         @endif
                                     </tr>
                                 </table>

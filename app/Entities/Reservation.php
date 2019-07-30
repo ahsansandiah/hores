@@ -72,7 +72,7 @@ class Reservation extends Model
     public static function generateRandom($length = 3)
     {
         $lastId = self::select('id')->first();
-        $nextId = $lastId->id + 1;
+        $nextId = (is_null($lastId) ? 0 : $lastId->id) + 1;
         $randomNumber = "TRX-".Carbon::now()->format('ymd').substr(str_shuffle('0123456789'), 1, $length).$nextId;
 
         return $randomNumber;

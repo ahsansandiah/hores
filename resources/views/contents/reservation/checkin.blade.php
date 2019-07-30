@@ -57,10 +57,6 @@
                                     <input type="text" class="form-control" name="address" id="input_contact_name" placeholder="Address">
                                 </div>
                                 <div class="form-group">
-                                    <label>Kota</label>
-                                    <input type="text" class="form-control" name="city" id="input_contact_name" placeholder="City">
-                                </div>
-                                <div class="form-group">
                                     <label>No Telepon</label>
                                     <input type="text" class="form-control" name="phone_number" id="input_contact_name" placeholder="Phone Number">
                                 </div>
@@ -113,7 +109,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Total Harga Sewa</label>
-                                    <input type="text" class="form-control" name="total_price" id="inputTotalPrice" value="">
+                                    <input type="text" class="form-control" name="total_price_view" id="inputTotalPriceView" value="">
+                                    <input type="hidden" class="form-control" name="total_price" id="inputTotalPrice" value="">
                                 </div>
                                 <div class="form-group">
                                     <label>Jasa Service</label>
@@ -126,7 +123,8 @@
                                             <input type="text" class="form-control" name="tax_percent" id="inputTaxPercent" placeholder="%">
                                         </div>
                                         <div class="col-md-8">
-                                            <input type="text" class="form-control" name="tax" id="inputTax">
+                                            <input type="text" class="form-control" name="tax_view" id="inputTaxView">
+                                            <input type="hidden" class="form-control" name="tax" id="inputTax" value="">
                                         </div>
                                     </div>
                                 </div>
@@ -137,26 +135,19 @@
                                             <input type="text" class="form-control" name="discount_percent" id="inputDiscountPercent" placeholder="%">
                                         </div>
                                         <div class="col-md-8">
-                                            <input type="text" class="form-control" name="discount" id="inputDiscount" value="">
+                                            <input type="text" class="form-control" name="discount_view" id="inputDiscountView" value="">
+                                            <input type="hidden" class="form-control" name="discount" id="inputDiscount" value="">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Deposit</label>
-                                    <input type="text" class="form-control" name="deposit" id="input_contact_name" placeholder="Deposit">
+                                    <label>Total</label>
+                                    <input type="text" class="form-control" name="total" id="totalPrice" placeholder="Total" disabled>
                                 </div>
-                                {{-- <div class="form-group">
-                                    <div class="small-box bg-green">
-                                        <div class="inner">
-                                            <h3 id="totalPrice"></h3>
-                            
-                                            <p>Total</p>
-                                        </div>
-                                        <div class="icon">
-                                            <i class="ion ion-stats-bars"></i>
-                                        </div>
-                                    </div>
-                                </div> --}}
+                                <div class="form-group">
+                                    <label>Deposit</label>
+                                    <input type="text" class="form-control" name="deposit" id="inputDeposit" placeholder="Deposit">
+                                </div>
                             </div>
                         </div>
                         <hr>
@@ -266,6 +257,7 @@
             $('#inputDuration').on('change', function(){
                 total_price = $(this).val() * {{ $room->price_day }}
                 $('#inputTotalPrice').val(total_price);
+                $('#inputTotalPriceView').val(total_price).formatCurrency({ region: 'id-ID' });
             })
 
             $('#inputDuration').change();
@@ -274,6 +266,7 @@
             $('#inputDiscountPercent').on('change', function(){
                 total_discount = ($(this).val() / 100) * {{ $room->price_day }}
                 $('#inputDiscount').val(total_discount);
+                $('#inputDiscountView').val(total_discount).formatCurrency({ region: 'id-ID' });
             })
 
             $('#inputDiscountPercent').change();
@@ -282,15 +275,22 @@
             $('#inputTaxPercent').on('change', function(){
                 total_tax = ($(this).val() / 100) * {{ $room->price_day }}
                 $('#inputTax').val(total_tax);
+                $('#inputTaxView').val(total_tax).formatCurrency({ region: 'id-ID' });
             })
 
             $('#inputTaxPercent').change();
 
             // Total Price
-            total_price = ($('#inputTotalPrice').val() + $('#inputTax').val()) - $('#inputDiscount').val()
-            console.log(total_price)
-            $('#totalPrice').text(total_price);
+            $('#inputDiscountPercent').on('change', function(){
+                var totalSewa = $('#inputTotalPrice').val()
+                var totalTax = $('#inputTax').val()
+                var totalDiscount = $('#inputDiscount').val()
+                var total = (parseInt(totalSewa) + parseInt(totalTax)) - parseInt(totalDiscount)
+                console.log(total)
+                $('#totalPrice').val(total).formatCurrency({ region: 'id-ID' });;
+            })
 
+            $('#totalPrice').change();
 
             // Service Discount
             $('#inputServiceDiscountPercent').on('change', function(){
@@ -355,7 +355,7 @@
                 console.log(start);
     	        var end = $("#checkout_date").val();
                 days = (end- start) / (1000 * 60 * 60 * 24);
-                $('#inputDuration').val(duration);
+                $('#inputDuration').val(days);
             })
             $('#checkin_date').change();
 

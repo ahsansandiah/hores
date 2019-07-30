@@ -29,10 +29,6 @@
                                     <input type="text" class="form-control" name="address" id="input_contact_name" placeholder="Alamat">
                                 </div>
                                 <div class="form-group">
-                                    <label>Kota</label>
-                                    <input type="text" class="form-control" name="city" id="input_contact_name" placeholder="Kota">
-                                </div>
-                                <div class="form-group">
                                     <label>No Telepon</label>
                                     <input type="text" class="form-control" name="phone_number" id="input_contact_name" placeholder="No Telepon">
                                 </div>

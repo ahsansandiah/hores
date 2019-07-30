@@ -266,7 +266,7 @@ class ReservationController extends Controller
         $reservation->type_identity_card = $request->type_identity_card;
         $reservation->identity_card      = $request->identity_number;
         $reservation->name               = $request->name;
-        $reservation->city               = $request->city;
+        $reservation->job                = $request->job;
         $reservation->address            = $request->address;
         $reservation->phone_number       = $request->phone_number;
         $reservation->adult_guest        = $request->adult;
@@ -347,6 +347,10 @@ class ReservationController extends Controller
     public function exchangeRoom(Request $request, $reservationNumber)
     {
         $reservation = Reservation::with('reservationCost')->where('reservation_number', $reservationNumber)->first();
+        if (!$reservation) {
+            return redirect('/reservation');
+        }
+
         $lastReservationRoomNumber = $reservation->room_number;
         $rooms = Room::whereNotIn('room_number', [$lastReservationRoomNumber])
                         ->whereNotIn('is_booking', [1])
@@ -364,6 +368,7 @@ class ReservationController extends Controller
                             $reservation->reservationCost->service_tip, 
                             $reservation->reservationCost->total_additional_cost
                         );
+            
             $totalWithDeposit = $total - $request->deposit;
 
             // Update Reservation
@@ -382,7 +387,7 @@ class ReservationController extends Controller
             $reservationCost->discount_percent = $request->discount;
             $reservationCost->deposit      = $request->deposit;
             $reservationCost->underpayment = $totalWithDeposit;
-            // $reservationCost->update();
+            $reservationCost->update();
 
             // Update Status Room
             $newRoom = Room::updateStatusCanBooking($request->room, false);
