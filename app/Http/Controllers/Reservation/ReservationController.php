@@ -18,7 +18,7 @@ use App\User;
 use App\Entities\Reservation;
 use App\Entities\ReservationCost;
 use App\Entities\ReservationAdditionalCost;
-use App\Entities\Room;
+use App\Entities\Room\Room;
 use App\Entities\Service;
 use App\Entities\Room\RoomBedType;
 use App\Entities\Room\RoomCondition;

@@ -38,9 +38,13 @@
                     @foreach ($rooms as $room)
                         <li>
                             <a href="" data-toggle="modal" data-target="#modal-default{{ $room->id }}">
-                                <span class="info-box-icon {{ ($room->is_booking == '1') ? "bg-red" : "bg-blue" }}" style="font-size: 19px;">
-                                    {{ $room->room_number }}
-                                </span>
+                                <div class="small-box {{ ($room->is_booking == '1') ? 'bg-red' : 'bg-blue' }}">
+                                    <div class="inner">
+                                        <p>{{ $room->roomType->name }}</p>
+                                        <h3>{{ $room->room_number }}</h3>
+                                        <p>{{ $room->roomBedType->name }}</p>
+                                    </div>
+                                </div>
                             </a>
                         </li>
                         <div class="modal fade" id="modal-default{{ $room->id }}">

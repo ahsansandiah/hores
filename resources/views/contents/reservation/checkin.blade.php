@@ -141,8 +141,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Total</label>
-                                    <input type="text" class="form-control" name="total" id="totalPrice" placeholder="Total" disabled>
+                                    <label>Jumlah</label>
+                                    <input type="text" class="form-control" name="total" id="totalPrice" placeholder="Jumlah" disabled>
                                 </div>
                                 <div class="form-group">
                                     <label>Deposit</label>

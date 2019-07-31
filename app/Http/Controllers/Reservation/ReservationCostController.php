@@ -13,7 +13,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use App\Entities\Reservation;
 use App\Entities\ReservationCost;
-use App\Entities\Room;
+use App\Entities\Room\Room;
 
 class ReservationCostController extends Controller
 {

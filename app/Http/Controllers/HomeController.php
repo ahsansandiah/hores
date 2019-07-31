@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
+use App\Entities\Room\Room;
 use App\Entities\Room\Aula;
-use App\Entities\Room;
 use App\Entities\Room\RoomBedType;
 use App\Entities\Room\RoomCondition;
 use App\Entities\Room\RoomType;
@@ -34,7 +34,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $query = Room::with(['roomType', 'roomCondition', 
+        $query = Room::with(['roomType', 'roomCondition', 'roomBedType', 
                     'reservations' => function ($query) {
                         $query->where('status', Reservation::STATUS_CHECKIN);
                     }

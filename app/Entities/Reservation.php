@@ -5,7 +5,7 @@ namespace App\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\User;
-use App\Entities\Room;
+use App\Entities\Room\Room;
 use Carbon\Carbon;
 
 class Reservation extends Model
@@ -25,7 +25,7 @@ class Reservation extends Model
 
     public function roomByRoomNumber()
     {
-        return $this->hasOne('App\Entities\Room', 'room_number', 'room_number');
+        return $this->hasOne('App\Entities\Room\Room', 'room_number', 'room_number');
     }
 
     public function reservationAdditionalCosts()

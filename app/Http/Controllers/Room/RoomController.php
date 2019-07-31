@@ -9,7 +9,7 @@ use Redirect;
 use Validator;
 
 use App\Http\Controllers\Controller;
-use App\Entities\Room;
+use App\Entities\Room\Room;
 use App\Entities\Room\RoomBedType;
 use App\Entities\Room\RoomCondition;
 use App\Entities\Room\RoomType;
