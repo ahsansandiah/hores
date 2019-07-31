@@ -350,14 +350,14 @@
             });
 
             // Duration
-            $('#checkin_date').on('change', function(){
-                var start = $("#checkin_date").val()
-                console.log(start);
-    	        var end = $("#checkout_date").val();
-                days = (end- start) / (1000 * 60 * 60 * 24);
-                $('#inputDuration').val(days);
+            $('#inputDuration').on('click', function(){
+                var start = new Date(document.getElementById("checkin_date").value);
+    	        var end = new Date(document.getElementById("checkout_date").value);
+                days = (end.getTime() - start) / (1000 * 60 * 60 * 24);
+                console.log(days)
+                $('#inputDuration').val(parseInt(days));
             })
-            $('#checkin_date').change();
+            $('#inputDuration').change();
 
         </script>
     @endsection

@@ -29,14 +29,22 @@
 
 <script>
     $(function () {
-      //Date picker
-      	$('#checkout_date').datetimepicker({
-        	format: 'YYYY-MM-DD HH:mm:ss'
+      	//Date picker
+      	$('#checkin_date').datetimepicker({
+        	format: 'YYYY-MM-DD HH:mm:ss',
       	})
 
-      	$('#checkin_date').datetimepicker({
-        	format: 'YYYY-MM-DD HH:mm:ss'
+      	$('#checkout_date').datetimepicker({
+        	format: 'YYYY-MM-DD HH:mm:ss',
+			useCurrent: false //Important! See issue #1075
       	})
+
+		$("#checkin_date").on("dp.change", function (e) {
+			$('#checkout_date').data("DateTimePicker").minDate(e.date);
+		});
+		$("#checkout_date").on("dp.change", function (e) {
+			$('#checkin_date').data("DateTimePicker").maxDate(e.date);
+		});
 
 	  	$('#datetimepicker1').datetimepicker({
         	format: 'YYYY-MM-DD HH:mm:ss'
