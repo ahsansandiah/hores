@@ -203,13 +203,12 @@ class AulaController extends Controller
 
     public function print($reservationId)
     {
-        $reservation = ReservationAula::find($reservationId);
-        $aula = Aula::with('reservationAula')->findOrFail($reservation->aula_id);
+        $reservationAula = ReservationAula::with('aula')->find($reservationId);
 
-        // return view('contents.aula.print', compact('aula'));
-        $pdf = PDF::loadView('contents.aula.print', compact('aula'));
+        // return view('contents.aula.print', compact('reservationAula'));
+        $pdf = PDF::loadView('contents.aula.print', compact('reservationAula'));
         $pdf->setPaper('A4', 'landscape');
-        $filename = "invoice-aula-".$aula->reservationAula->reservation_aula_number;
+        $filename = "invoice-aula-".$reservationAula->reservation_aula_number;
         return $pdf->download($filename.".pdf");
     }
     

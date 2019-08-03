@@ -37,6 +37,7 @@ Route::group(['prefix' => 'reservation', 'middleware' => 'web'], function() {
     Route::post('/store','Reservation\ReservationController@store');
     Route::get('/edit/{id}','Reservation\ReservationController@edit');
     Route::post('/update/{id}','Reservation\ReservationController@update');
+    Route::get('/delete/{id}','Reservation\ReservationController@destroy');
 });
 
 // Room

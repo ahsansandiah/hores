@@ -416,11 +416,23 @@ class ReservationController extends Controller
         // Additional Cost
         $reservationAdditionalCosts = ReservationAdditionalCost::where('reservation_id', $reservation->id)->get();
 
-        // return view('contents.reservation.invoice', compact('reservation', 'room', 'reservationAdditionalCosts'));
-        $pdf = PDF::loadView('contents.reservation.invoice-2', compact('reservation', 'room', 'reservationAdditionalCosts'));
+        // return view('contents.reservation.invoice-other-format', compact('reservation', 'room', 'reservationAdditionalCosts'));
+        $pdf = PDF::loadView('contents.reservation.invoice-other-format', compact('reservation', 'room', 'reservationAdditionalCosts'));
         // $pdf = PDF::loadView('contents.reservation.invoice', compact('reservation', 'room', 'reservationAdditionalCosts'));
         $pdf->setPaper('A4', 'landscape');
         $filename = "invoice-".$reservation->reservation_number;
         return $pdf->download($filename.".pdf");
+    }
+
+    public function destroy($id)
+    {
+        $reservation = Reservation::find($id);
+        if ($reservation->status == "checkin") {
+            return redirect('/reservation/detail/'.$reservation->reservation_number)->with('error_message', 'Maaf hapus gagal!, status reservasi masih aktif');
+        }
+
+        $reservation->delete();
+
+        return redirect('/reservation')->with('message', 'Reservasi berhasil dihapus');
     }
 }
