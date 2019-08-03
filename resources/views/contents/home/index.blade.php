@@ -70,7 +70,7 @@
                                                 <i class="fa fa-exchange"></i> Pindah Kamar
                                             </a>
                                         @else
-                                            @if ($room->condition == '1')
+                                            @if ($room->roomCondition->name != 'Renovation')
                                                 <a href="{{ url('reservation/check-in/'.$room->room_number) }}" class="btn btn-app">
                                                     <i class="fa fa-sign-in"></i> Check In
                                                 </a>

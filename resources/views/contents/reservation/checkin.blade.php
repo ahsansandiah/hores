@@ -31,12 +31,12 @@
                                 <div class="form-group">
                                     <label>Identitas</label>
                                     <div class="form-inline">
-                                        <select class="form-control" name="type_identity_card">
+                                        <select class="form-control" name="type_identity_card" required>
                                             <option>KTP</option>
                                             <option>SIM</option>
                                             <option>PASSPOR</option>
                                         </select>
-                                        <select class="form-control">
+                                        <select class="form-control" required>
                                             <option>MR.</option>
                                             <option>MRS.</option>
                                         </select>
@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>No Indentitas</label>
-                                    <input type="text" class="form-control" name="identity_number" id="input_contact_name" placeholder="No Identitas">
+                                    <input type="text" class="form-control" name="identity_number" id="input_contact_name" placeholder="No Identitas" required>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -257,9 +257,6 @@
     @section('script')
         <script>
             $('#inputDuration').on('change', function(){
-                total_price = $(this).val() * {{ $room->price_day }}
-                $('#inputTotalPrice').val(total_price);
-                $('#inputTotalPriceView').val(total_price).formatCurrency({ region: 'id-ID' });
             })
 
             $('#inputDuration').change();
@@ -379,6 +376,11 @@
     	        var end = new Date(document.getElementById("checkout_date").value);
                 days = (end.getTime() - start) / (1000 * 60 * 60 * 24);
                 $('#inputDuration').val(parseInt(days));
+
+
+                total_price = $(this).val() * {{ $room->price_day }}
+                $('#inputTotalPrice').val(total_price);
+                $('#inputTotalPriceView').val(total_price).formatCurrency({ region: 'id-ID' });
             })
             $('#inputDuration').change();
 

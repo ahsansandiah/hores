@@ -32,18 +32,18 @@ class ReportController extends Controller
     {
         
         $query = Reservation::with(['reservationCost', 'roomByRoomNumber', 'reservationAdditionalCosts']);
-        if ($request->has('start_date')) {
+
+        if (!is_null($request->start_date)) {
             $startDate = Carbon::parse($request->start_date)->format("Y-m-d H:i:s");
             $endDate = Carbon::parse($request->end_date)->format("Y-m-d H:i:s");
-
             $query->whereBetween('checkin_date', [$startDate, $endDate]);
         }
 
-        if ($request->has('customer')) {
-            $query->where('name', '%'. $request->customer .'%');
+        if (!is_null($request->name)) {
+            $query->where('name', 'like', '%'. $request->name .'%');
         }
 
-        if ($request->has('reservation_number')) {
+        if (!is_null($request->reservation_number)) {
             $query->where('reservation_number', 'like', '%'. $request->reservation_number .'%');
         }
 
