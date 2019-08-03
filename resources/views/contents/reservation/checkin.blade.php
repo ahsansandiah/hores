@@ -114,7 +114,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Jasa Service</label>
-                                    <input type="text" class="form-control" name="service_tip" id="input_contact_name" placeholder="Service Tip">
+                                    <input type="text" class="form-control" name="service_tip" id="inputServiceTipView" placeholder="Service Tip">
+                                    <input type="hidden" class="form-control" name="service_tip" id="inputServiceTip" value="">
                                 </div>
                                 <div class="form-group">
                                     <label>Pajak</label>
@@ -146,7 +147,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Deposit</label>
-                                    <input type="text" class="form-control" name="deposit" id="inputDeposit" placeholder="Deposit">
+                                    <input type="text" class="form-control" name="deposit_view" id="inputDepositView" placeholder="Deposit">
+                                    <input type="hidden" class="form-control" name="deposit" id="inputDeposit" value="">
                                 </div>
                             </div>
                         </div>
@@ -287,7 +289,7 @@
                 var totalDiscount = $('#inputDiscount').val()
                 var total = (parseInt(totalSewa) + parseInt(totalTax)) - parseInt(totalDiscount)
                 console.log(total)
-                $('#totalPrice').val(total).formatCurrency({ region: 'id-ID' });;
+                $('#totalPrice').val(total).formatCurrency({ region: 'id-ID' });
             })
 
             $('#totalPrice').change();
@@ -299,6 +301,28 @@
             })
 
             $('#inputServiceDiscountPercent').change();
+
+            // Deposit
+            $('#inputDepositView').on('change', function(){
+                var deposit = this.value;
+                $('#inputDepositView').val(deposit).formatCurrency({ region: 'id-ID' });
+                $('#inputDeposit').val(deposit);
+
+            })
+
+            $('#inputDepositView').change();
+            $('#inputDeposit').change();
+
+            // Tip
+            $('#inputServiceTipView').on('change', function(){
+                var deposit = this.value;
+                $('#inputServiceTipView').val(deposit).formatCurrency({ region: 'id-ID' });
+                $('#inputServiceTip').val(deposit);
+
+            })
+
+            $('#inputServiceTipView').change();
+            $('#inputServiceTip').change();
 
             // Add Additional Service
             $(document).ready(function(){

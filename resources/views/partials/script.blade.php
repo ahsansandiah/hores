@@ -16,14 +16,15 @@
   })
 </script>
 <!-- date-range-picker -->
-<script src='{{ url('adminLTE/bower_components/moment/min/moment.min.js') }}'></script>
-<script src='{{ url('adminLTE/bower_components/bootstrap-daterangepicker/daterangepicker.js') }}'></script>
+<script src='{{ url("adminLTE/bower_components/moment/min/moment.min.js") }}'></script>
 <!-- bootstrap datepicker -->
 <script src='{{ url("bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js") }}'></script>
-<script src='{{ url('adminLTE/dist/js/bootstrap-datetimepicker.js') }}'></script>
+<script src='{{ url("adminLTE/dist/js/bootstrap-datetimepicker.js") }}'></script>
+<script src='{{ url("adminLTE/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js") }}'></script>
+<script src='{{ url("adminLTE/bower_components/bootstrap-daterangepicker/daterangepicker.js") }}'></script>
 
 <!-- bootstrap time picker -->
-<script src='{{ url('adminLTE/plugins/timepicker/bootstrap-timepicker.min.js') }}'></script>
+<script src='{{ url("adminLTE/plugins/timepicker/bootstrap-timepicker.min.js") }}'></script>
 <script src='{{ url("bower_components/formatCurrency/jquery.formatCurrency-1.4.0.js") }}'></script>
 <script src='{{ url("bower_components/formatCurrency/i18n/jquery.formatCurrency.id-ID.js") }}'></script>
 
