@@ -105,7 +105,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Harga Sewa / Hari</label>
-                                    <input type="text" class="form-control" name="price_day" id="inputPriceDay" value="{{ number_format($room->price_day, 0, ',', '.') }}" disabled>
+                                    <input type="text" class="form-control" name="price_day" id="inputPriceDay" value="{{ 'Rp'.number_format($room->price_day, 0, ',', '.') }}" disabled>
                                 </div>
                                 <div class="form-group">
                                     <label>Total Harga Sewa</label>
