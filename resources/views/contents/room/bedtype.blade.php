@@ -21,7 +21,7 @@
                                                 <h4 class="modal-title">Form tambah tipe ranjang</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="{{ url('room/bed_type/store') }}" method="POST" class="form-horizontal">
+                                                <form action="{{ url('room/bed-type/store') }}" method="POST" class="form-horizontal">
                                                     @csrf
                                                     <div class="box-body">
                                                         <div class="form-group">

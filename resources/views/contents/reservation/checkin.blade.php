@@ -378,7 +378,6 @@
                 var start = new Date(document.getElementById("checkin_date").value);
     	        var end = new Date(document.getElementById("checkout_date").value);
                 days = (end.getTime() - start) / (1000 * 60 * 60 * 24);
-                console.log(days)
                 $('#inputDuration').val(parseInt(days));
             })
             $('#inputDuration').change();
