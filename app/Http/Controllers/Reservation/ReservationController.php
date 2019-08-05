@@ -435,4 +435,98 @@ class ReservationController extends Controller
 
         return redirect('/reservation')->with('message', 'Reservasi berhasil dihapus');
     }
+
+    public function otherService($reservationNumber)
+    {
+        $reservation = Reservation::with('reservationCost', 'reservationAdditionalCosts')
+                    ->where('reservation_number', $reservationNumber)
+                    ->first();
+
+        if (empty($reservation)) {
+            return redirect('/reservation');
+        }
+
+        $additionalServices = Service::all();
+
+        return view('contents.reservation.other-service', compact('reservation', 'additionalServices'));
+    }
+
+    public function storeAdditonalService(Request $request, $reservationId)
+    {
+        // Rumus Discount
+        $discount = ($request->service_discount_percent / 100) * $request->service_price;
+        $cost = $request->service_price - $discount;
+        if (is_null($discount) || $discount == 0)  {
+            $cost = $request->service_price;
+        }
+
+        $additionalCost = new ReservationAdditionalCost();
+        $additionalCost->reservation_id = $reservationId;
+        $additionalCost->name = $request->additional_service;
+        $additionalCost->quantity = $request->quantity;
+        $additionalCost->base_price = $request->service_price;
+        $additionalCost->discount = $discount;
+        $additionalCost->discount_percent = $request->service_discount_percent;
+        $additionalCost->price = $cost;
+        $additionalCost->description = $request->description;
+        $additionalCost->save();
+
+        // Calculate price
+        $reservation = Reservation::findOrFail($reservationId);
+        $totalPrice = $cost + $reservation->total_price;
+        $reservation->total_price = $totalPrice;
+        $reservation->update();
+
+        $reservationCost = ReservationCost::where('reservation_number', $reservation->reservation_number)->first();
+        $totalUnderpayment = $cost+ $reservationCost->underpayment;
+        $reservationCost->total_price = $totalPrice;
+        $reservationCost->underpayment = $totalUnderpayment;
+        $reservationCost->update();
+
+        return redirect('/reservation/other-service/'. $reservation->reservation_number);
+    }
+
+    public function updateAdditonalService($additionalServiceId)
+    {
+        // Rumus Discount
+        $additionalCost = ReservationAdditionalCost::findOrFail($additionalServiceId);
+        $price = $additionalCost->price;
+        $reservationId = $additionalCost->reservation_id;
+        $additionalCost->delete();
+
+        $reservation = Reservation::find($reservationId);
+        $totalPrice = $reservation->total_price + $price;
+        $reservation->total_price = $totalPrice;
+        $reservation->update();
+
+        $reservationCost = ReservationCost::where('reservation_number', $reservation->reservation_number)->first();
+        $totalUnderpayment = $request->price - $reservationCost->underpayment;
+        $reservationCost->total_price = $totalPrice;
+        $reservationCost->underpayment = $totalUnderpayment;
+        $reservationCost->update();
+
+        return redirect('/reservation/other-service/'. $reservation->reservation_number);
+    }
+
+    public function deleteAdditonalService($additionalServiceId)
+    {
+        // Rumus Discount
+        $additionalCost = ReservationAdditionalCost::findOrFail($additionalServiceId);
+        $price = $additionalCost->price;
+        $reservationId = $additionalCost->reservation_id;
+        $additionalCost->delete();
+
+        $reservation = Reservation::find($reservationId);
+        $totalPrice = $reservation->total_price - $price;
+        $reservation->total_price = $totalPrice;
+        $reservation->update();
+
+        $reservationCost = ReservationCost::where('reservation_number', $reservation->reservation_number)->first();
+        $totalUnderpayment = $reservationCost->underpayment - $price;
+        $reservationCost->total_price = $totalPrice;
+        $reservationCost->underpayment = $totalUnderpayment;
+        $reservationCost->update();
+
+        return redirect('/reservation/other-service/'. $reservation->reservation_number);
+    }
 }

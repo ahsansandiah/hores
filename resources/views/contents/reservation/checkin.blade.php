@@ -239,7 +239,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Keterangan</label>
-                                    <input type="text" class="form-control" name="service_price" id="inputServiceDescription">
+                                    <input type="text" class="form-control" name="description" id="inputServiceDescription">
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -304,7 +304,6 @@
                 var deposit = this.value;
                 $('#inputDepositView').val(deposit).formatCurrency({ region: 'id-ID' });
                 $('#inputDeposit').val(deposit);
-
             })
 
             $('#inputDepositView').change();

@@ -51,14 +51,17 @@
                                         <i class="fa fa-address-card"></i> Detail
                                     </a>
                                     @if ($reservation->status == "checkin")
+                                        <a class="btn btn-app" href="{{ url('reservation/other-service/'. $reservation->reservation_number ) }}">
+                                            <i class="fa fa-sign-out"></i> Tambah Servis
+                                        </a>
                                         <a class="btn btn-app" href="{{ url('reservation/check-out/'. $reservation->reservation_number ) }}">
                                             <i class="fa fa-sign-out"></i> Check Out
                                         </a>
                                         <a class="btn btn-app" href="{{ url('reservation/edit/'. $reservation->id) }}">
-                                            <i class="fa fa-edit"></i> Edit
+                                            <i class="fa fa-edit"></i> Ubah
                                         </a>
                                         <a class="btn btn-app" href="{{ url('reservation/delete/'. $reservation->id) }}">
-                                            <i class="fa fa-trash"></i> Delete
+                                            <i class="fa fa-trash"></i> Hapus
                                         </a>
                                     @endif
                                 </td>
