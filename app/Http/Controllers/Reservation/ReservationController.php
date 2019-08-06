@@ -142,16 +142,6 @@ class ReservationController extends Controller
 
     public function checkinProcess(Request $request, $roomNumber)
     {
-        // Validate request
-        // $validator = Validator::make($request->all(), 
-        //     [
-        //         'checkin'       => 'required|date_format:Y-m-d|after:yesterday',
-        //     ], $this->validationMessages);
-
-        // if($validator->fails()) {
-        //     $validator->messages()->all();
-        // }
-
         $room = Room::with('roomType', 'roomBedType')
                     ->where('room_number', $roomNumber)
                     ->first();
@@ -185,8 +175,10 @@ class ReservationController extends Controller
                 $totalAdditionalCost = $total;
             }
 
+            $removeLastComma = str_replace(",00", "", $request->deposit);
+            $depositReplace = preg_replace("/[^0-9]/", "", $removeLastComma);
             $totalPaid = $totalPaidRoom + $totalAdditionalCost;
-            $underPayment  = $totalPaid - $request->deposit;
+            $underPayment  = $totalPaid - $depositReplace;
 
             // Create Reservation Cost
             $reservationCost = new ReservationCost;
@@ -203,9 +195,9 @@ class ReservationController extends Controller
             $reservationCost->discount_percent      = $request->discount_percent;
             $reservationCost->discount              = $request->discount;
 
-            $reservationCost->deposit               = $request->deposit;
+            $reservationCost->deposit               = $depositReplace;
             $reservationCost->status                = $reservationCost::status_unpaid;
-            if ($request->deposit) $reservationCost->status = $reservationCost::status_down_payment;
+            if ($depositReplace) $reservationCost->status = $reservationCost::status_down_payment;
 
             $reservationCost->save();
     

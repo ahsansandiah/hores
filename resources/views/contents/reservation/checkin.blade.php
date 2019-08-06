@@ -20,14 +20,14 @@
                                     <label>No Reservasi</label>
                                     <input type="text" class="form-control" name="reservation_number" value="{{ $reservationNumber }}" id="input_reservation_numper" placeholder="No Reservasi">
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label>Tipe Ruangan</label>
                                     <input type="text" class="form-control" name="contact_name" id="input_contact_name" value="{{ $room->roomType->name }}" disabled>
                                 </div>
                                 <div class="form-group">
                                     <label>Jenis Ranjang</label>
                                     <input type="text" class="form-control" name="contact_name" value="{{ $room->roomBedType->name }}" id="input_contact_name" disabled>
-                                </div>
+                                </div> -->
                                 <div class="form-group">
                                     <label>Identitas</label>
                                     <div class="form-inline">
@@ -283,9 +283,9 @@
             $('#inputDiscountPercent').on('change', function(){
                 var totalSewa = $('#inputTotalPrice').val()
                 var totalTax = $('#inputTax').val()
+                var totalService = $('#inputServiceTip').val()
                 var totalDiscount = $('#inputDiscount').val()
-                var total = (parseInt(totalSewa) + parseInt(totalTax)) - parseInt(totalDiscount)
-                console.log(total)
+                var total = (parseInt(totalSewa) + parseInt(totalTax) + parseInt(totalService)) - parseInt(totalDiscount)
                 $('#totalPrice').val(total).formatCurrency({ region: 'id-ID' });
             })
 
@@ -369,19 +369,16 @@
                 });
             });
 
-            // Duration
-            $('#inputDuration').on('click', function(){
+            $("#checkout_date").on("dp.change", function (e) {
                 var start = new Date(document.getElementById("checkin_date").value);
     	        var end = new Date(document.getElementById("checkout_date").value);
                 days = (end.getTime() - start) / (1000 * 60 * 60 * 24);
                 $('#inputDuration').val(parseInt(days));
 
-
-                total_price = $(this).val() * {{ $room->price_day }}
+                total_price = parseInt(days) * {{ $room->price_day }}
                 $('#inputTotalPrice').val(total_price);
                 $('#inputTotalPriceView').val(total_price).formatCurrency({ region: 'id-ID' });
-            })
-            $('#inputDuration').change();
+            });
 
         </script>
     @endsection
