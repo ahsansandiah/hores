@@ -19,29 +19,52 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div class="col-md-6">
-                        <form method="GET" action="{{ url('report/transaction') }}" class="form-horizontal">
+                        <form method="GET" action="{{ url('report/transaction') }}">
                             <div class="box-body">
-                                <div class="input-group input-daterange">
-                                    <input id="startDate" name="start_date" type="text"
-                                        class="form-control" readonly="readonly" value="{{ old('start_date') }}"> <span
-                                        class="input-group-addon"> <span
-                                        class="glyphicon glyphicon-calendar"></span>
-                                    </span> <span class="input-group-addon">S/D</span> <input id="end_date"
-                                        name="endDate" type="text" class="form-control" readonly="readonly" value="{{ old('end_date') }}">
-                                    <span class="input-group-addon"> <span
-                                        class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                </div>
                                 <div class="form-group">
-                                    <label for="inputNameCustomer" class="col-sm-3 control-label">Pelanggan</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" name="name" class="form-control" id="inputNameCustomer" value="{{ old('customer') }}">
+                                    <div class="col-sm-12">
+                                        <div class="input-group input-daterange">
+                                            <input id="startDate" name="start_date" type="text"
+                                                class="form-control" readonly="readonly" value="{{ old('start_date') }}"> <span
+                                                class="input-group-addon"> <span
+                                                class="glyphicon glyphicon-calendar"></span>
+                                            </span> <span class="input-group-addon">S/D</span> <input id="end_date"
+                                                name="endDate" type="text" class="form-control" readonly="readonly" value="{{ old('end_date') }}">
+                                            <span class="input-group-addon"> <span
+                                                class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label for="inputNameCustomer" class="col-sm-12 control-label">Pelanggan</label>
+                                        <div class="col-sm-12">
+                                            <input type="text" name="name" class="form-control" id="inputNameCustomer" value="{{ old('customer') }}">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputReservationNumber" class="col-sm-3 control-label">No Reservasi</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" name="reservation_number" class="form-control" id="inputReservationNumber" value="{{ old('reservation_number') }}">
+                                    <div class="input-group">
+                                        <label for="inputNameCustomer" class="col-sm-12 control-label">Operator</label>
+                                        <div class="col-sm-12">
+                                            <select name="operator" id="" class="form-control">
+                                                <option value="">--- Pilih Operator ---</option>
+                                                @foreach ($users as $user)
+                                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label for="inputReservationNumber" class="col-sm-12 control-label">No Reservasi</label>
+                                        <div class="col-sm-12">
+                                            <input type="text" name="reservation_number" class="form-control" id="inputReservationNumber" value="{{ old('reservation_number') }}">
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -135,7 +135,7 @@
             footer {
                 color: #5D6975;
                 width: 100%;
-                height: 30px;
+                height: 10px;
                 position: absolute;
                 bottom: 0;
                 border-top: 1px solid #C1CED9;
@@ -159,7 +159,7 @@
                 <div>Jl. Budi Utomo - Pekkabata, Polewali Mandar<br /></div>
                 <div>081290868876</div>
                 <div><a href="mailto:company@example.com"></a></div>
-                <div><a href="mailto:company@example.com">{{ \Carbon\Carbon::today() }}</a></div>
+                <div><a href="mailto:company@example.com">{{ \Carbon\Carbon::now()->format('d-m-y H:i:s') }}</a></div>
             </div>
         </header>
         <main>
@@ -198,13 +198,33 @@
                     </tr>
                 </tbody>
             </table>
+            <table style="width: 100%;">
+                <tbody>
+                    <tr>
+                        <td style="width: 262px;"><center>Mengetahui</center></td>
+                        <td style="width: 261px;">&nbsp;</td>
+                        <td style="width: 259px;"><center>Operator</center></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 262px;">&nbsp;</td>
+                        <td style="width: 261px;">&nbsp;</td>
+                        <td style="width: 259px;">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 262px;"><center>Nama Pemilik</center></td>
+                        <td style="width: 261px;">&nbsp;</td>
+                        <td style="width: 259px;"><center>{{ $operator->name }}</center></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- DivTable.com -->
             <div id="notices">
                 <div>NOTICE:</div>
                 <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
             </div>
         </main>
-        <footer>
+        <!-- <footer>
         Invoice was created on a computer and is valid without the signature and seal.
-        </footer>
+        </footer> -->
     </body>
 </html>

@@ -52,6 +52,7 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
+            'username' => 'required',
             'email' => 'required',
             'password' => 'required|confirmed',
             'role_id' => 'required'
@@ -69,6 +70,7 @@ class UserController extends Controller
         $params = [
             'name' => $request->input('name'),
             'email' => $request->input('email'),
+            'username' => $request->input('username'),
             'password' => bcrypt($request->input('password')),
         ];
 
@@ -118,6 +120,7 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
+            'username' => 'required',
             'email' => 'required',
             'role_id' => 'required'
         ]);
@@ -142,6 +145,7 @@ class UserController extends Controller
 
         $user->name = $request->input('name');
         $user->email = $request->input('email');
+        $user->username = $request->input('username');
         if ($user->save()) {
             $user->attachRole($role);
 

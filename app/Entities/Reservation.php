@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\User;
 use App\Entities\Room\Room;
 use Carbon\Carbon;
+use Auth;
 
 class Reservation extends Model
 {
@@ -33,6 +34,11 @@ class Reservation extends Model
         return $this->hasMany('App\Entities\ReservationAdditionalCost', 'reservation_id');
     }
 
+    public function operator()
+    {
+        return $this->hasOne('App\user', 'id', 'operator');
+    }
+
     public function createReservation($request, $roomNumber)
     {
         $room = Room::with('roomType', 'roomBedType')
@@ -42,7 +48,9 @@ class Reservation extends Model
         // Price
         $priceDay             = $room->price_day;
         $totalAdditionalCost  = 0;
-        $totalPaidRoom        = ($request->total_price + $request->tax + $request->service_tip + $totalAdditionalCost) - $request->discount;
+        $removeLastCommaTip   = str_replace(",00", "", $request->service_tip);
+        $tipReplace           = preg_replace("/[^0-9]/", "", $removeLastCommaTip);
+        $totalPaidRoom        = ($request->total_price + $request->tax + $tipReplace + $totalAdditionalCost) - $request->discount;
 
         // Create Reservation
         $reservation = new Reservation;
@@ -58,6 +66,7 @@ class Reservation extends Model
         $reservation->adult_guest           = $request->adult;
         $reservation->child_guest           = $request->child;
         $reservation->description           = $request->description;
+        $reservation->operator              = Auth::user()->id;
         $reservation->date                  = Carbon::today();
 
         $reservation->room_number   = $room->room_number;

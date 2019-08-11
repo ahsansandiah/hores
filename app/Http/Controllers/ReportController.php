@@ -43,21 +43,28 @@ class ReportController extends Controller
             $query->where('name', 'like', '%'. $request->name .'%');
         }
 
+        $operator = null;
+        if (!is_null($request->operator)) {
+            $query->where('operator', $request->operator);
+            $operator = User::find($request->operator);
+        }
+
         if (!is_null($request->reservation_number)) {
             $query->where('reservation_number', 'like', '%'. $request->reservation_number .'%');
         }
 
         $reservations = $query->paginate(30);
+        $users = User::all();
 
         if ($request->has('print')){
-            // return view('contents.report.report', compact('reservations'));
+            return view('contents.report.report', compact('reservations', 'operator'));
             $pdf = PDF::loadView('contents.report.report', compact('reservations'));
             $pdf->setPaper('A4', 'landscape');
             $filename = "repert-". Carbon::now()->format("Y-m-d");
             return $pdf->download($filename.".pdf");
         }
 
-        return view('contents.report.transaction', compact('reservations'));
+        return view('contents.report.transaction', compact('reservations', 'users'));
     }
     
     public function income()

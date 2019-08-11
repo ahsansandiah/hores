@@ -149,7 +149,9 @@ class ReservationController extends Controller
         // Price
         $priceDay             = $room->price_day;
         $totalAdditionalCost  = 0;
-        $totalPaidRoom        = ($request->total_price + $request->tax + $request->service_tip + $totalAdditionalCost) - $request->discount;
+        $removeLastCommaTip = str_replace(",00", "", $request->service_tip);
+        $tipReplace = preg_replace("/[^0-9]/", "", $removeLastCommaTip);
+        $totalPaidRoom        = ($request->total_price + $request->tax + $tipReplace + $totalAdditionalCost) - $request->discount;
 
         // Create Reservation
         $createReservation = new Reservation;
@@ -187,7 +189,7 @@ class ReservationController extends Controller
             $reservationCost->total_price           = $totalPaid;
             $reservationCost->underpayment          = $underPayment;
             $reservationCost->total_additional_cost = $totalAdditionalCost;
-            $reservationCost->service_tip           = $request->service_tip;
+            $reservationCost->service_tip           = $tipReplace;
 
             $reservationCost->tax_percent           = $request->tax_percent;
             $reservationCost->tax                   = $request->tax;

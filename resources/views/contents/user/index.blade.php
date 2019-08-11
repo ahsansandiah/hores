@@ -25,6 +25,12 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                            <label>Username</label>
+                                            <input type="text" name="username" id="user-name" class="form-control" placeholder="Username" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
                                             <label>Email</label>
                                             <input type="email" class="form-control" id="user-email" name="email" placeholder="Email">
                                         </div>
@@ -69,6 +75,7 @@
                 	<thead>
                 		<tr>
                 			<th>Nama</th>
+                			<th>Username</th>
                 			<th>Email</th>
                 			<th>Hak akses</th>
                 			<th>Aksi</th>
@@ -79,6 +86,7 @@
                 			@foreach ($users as $user)
                 				<tr>
                 					<td>{{ $user->name }}</td>
+                					<td>{{ $user->username }}</td>
                 					<td>{{ $user->email }}</td>
                 					<td>{{ $user->getRoles()[0]->name }}</td>
                 					<td>
