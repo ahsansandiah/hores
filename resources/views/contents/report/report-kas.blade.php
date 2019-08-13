@@ -149,7 +149,7 @@
             <div id="logo">
                 {{-- <img src="logo.png"> --}}
             </div>
-            <h1>Laporan Transaksi</h1>
+            <h1>Laporan KAS</h1>
             <div id="company" class="clearfix">
                 
 
@@ -166,35 +166,46 @@
             <table>
                 <thead>
                     <tr>
-                        <th class="service">No Faktur</th>
-                        <th class="desc">Nama Pelanggan</th>
-                        <th>No Telepon</th>
-                        <th>Durasi</th>
-                        <th>No Kamar</th>
-                        <th>Checkin</th>
-                        <th>Checkout</th>
-                        <th>Total Sewa</th>
+                        <th class="service">No</th>
+                        <th class="desc">Tanggal</th>
+                        <th>No Faktur</th>
+                        <th>Keterangan</th>
+                        <th>Debet</th>
+                        <th>Kredit</th>
+                        <th>Saldo</th>
                     </tr>
                 </thead>
                 <tbody>
                     @php($totalPrice = null)
+                    @php($no = 1)
                     @foreach ($reservations as $item)
                         <tr>
-                            <td class="service">{{ $item->reservation_number }}</td>
-                            <td class="desc">{{ $item->name }}</td>
-                            <td class="service">{{ $item->phone_number }}</td>
-                            <td class="service">{{ $item->duration }}</td>
-                            <td class="desc">{{ $item->room_number }}</td>
+                            <td class="service">{{ $no++ }}</td>
                             <td class="desc">{{ \Carbon\Carbon::parse($item->checkin_date)->format("d-m-Y") }}</td>
-                            <td class="desc">{{ \Carbon\Carbon::parse($item->checkout_date)->format("d-m-Y") }}</td>
-                            <td class="desc">{{ $item->total_price }}</td>
+                            <td class="service">{{ $item->reservation_number }}</td>
+                            <td class="service">{{ $item->description }}</td>
+                            <td class="desc">
+                                @if (!is_null($item->reservationCost))
+                                    @if ($item->reservationCost->payment_type == "Tunai")
+                                        {{ $item->total_price }}
+                                    @endif
+                                @endif
+                            </td>
+                            <td class="desc">
+                                @if (!is_null($item->reservationCost))
+                                    @if ($item->reservationCost->payment_type == "Kredit")
+                                        {{ $item->total_price }}
+                                    @endif
+                                @endif
+                            </td>
+                            <td class="desc"></td>
                         </tr>
                         @php($totalPrice += $item->total_price)
                     @endforeach
                     <tr>
-                        <td class="service" colspan="5"></td>
+                        <!-- <td class="service" colspan="5"></td>
                         <td class="service" colspan="2"><b>Total : </b></td>
-                        <td class="desc"><b>{{ $totalPrice }}</b></td>
+                        <td class="desc"><b></b></td> -->
                     </tr>
                 </tbody>
             </table>
@@ -214,11 +225,6 @@
                         <td style="width: 262px;"><center>Nama Pemilik</center></td>
                         <td style="width: 261px;">&nbsp;</td>
                         <td style="width: 259px;">
-                            @if ($operator)
-                            <center>{{ $operator->name }}</center>
-                            @else
-                            <center>....................</center>
-                            @endif
                         </td>
                     </tr>
                 </tbody>

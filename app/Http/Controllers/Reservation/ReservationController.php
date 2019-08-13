@@ -410,8 +410,8 @@ class ReservationController extends Controller
         // Additional Cost
         $reservationAdditionalCosts = ReservationAdditionalCost::where('reservation_id', $reservation->id)->get();
 
-        // return view('contents.reservation.invoice-other-format', compact('reservation', 'room', 'reservationAdditionalCosts'));
-        $pdf = PDF::loadView('contents.reservation.invoice-other-format', compact('reservation', 'room', 'reservationAdditionalCosts'));
+        return view('contents.reservation.invoice-other-format', compact('reservation', 'room', 'reservationAdditionalCosts'));
+        // $pdf = PDF::loadView('contents.reservation.invoice-other-format', compact('reservation', 'room', 'reservationAdditionalCosts'));
         // $pdf = PDF::loadView('contents.reservation.invoice', compact('reservation', 'room', 'reservationAdditionalCosts'));
         $pdf->setPaper('A4', 'landscape');
         $filename = "invoice-".$reservation->reservation_number;

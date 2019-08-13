@@ -8,9 +8,10 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
+                    <center><img src="http://localhost:8000/logo.png" alt="" class="user-image" style="width: 153px;"></center>
+                    <br>
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
-
                         <div class="form-group row">
                             <label for="login" class="col-sm-4 col-form-label text-md-right">
                                 {{ __('Username or Email') }}

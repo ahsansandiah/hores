@@ -209,7 +209,7 @@
         function clearForm() {
             $('#role-name').val('');
             $('#role-description').val('');
-            var url = window.location.origin + '/admin/role';
+            var url = "{{ url('/admin/role') }}";
             $('#role-form').attr('action', url);
             if ($('#form-create').is(':visible')) {
                 $('#form-create').collapse('hide');
@@ -219,7 +219,7 @@
         }
 
         function editRole(id, name, description){
-            var url = window.location.origin + '/admin/role/update/' + id;
+            var url = "{{ url('/admin/role/update/') }}" + "/" + id;
             $('#role-form').attr('href', url);
             $('#role-name').val(name);
             $('#role-description').val(description);
@@ -228,7 +228,7 @@
         }
 
         function setDeleteUrl(id) {
-            var url = window.location.origin + '/admin/role/delete/'+id;
+            var url = "{{ url('/admin/role/delete/') }}" + "/" +id;
             $('#delete-link').attr('href', url);
         }
 
@@ -238,7 +238,7 @@
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 },
                 type: "GET",
-                url: window.location.origin + '/admin/menu/get-role-menu/' + id,
+                url: "{{ url('/admin/menu/get-role-menu/') }}" + "/" + id,
                 success: function(response) {
                     var menus = response.data;
                     var list_menu = '';
@@ -270,7 +270,7 @@
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 },
                 type: "POST",
-                url: window.location.origin + '/api/role/set-menu',
+                url: "{{ url('/api/role/set-menu') }}",
                 data: {
                     role_id: role_id,
                     menu_id: role_menu,

@@ -1,6 +1,5 @@
 <ul class="sidebar-menu" data-widget="tree">
     <li class="header"></li>
-
     @if (isset($menu_sidebar) && $menu_sidebar)
         @foreach ($menu_sidebar as $ms)
             @if (count($ms->children) > 0)
@@ -98,6 +97,7 @@
             <ul class="treeview-menu" style="">
                 <li><a href="{{ url('report/transaction') }}"><i class="fa fa-file"></i> Transaksi</a></li>
                 <li><a href="{{ url('report/income') }}"><i class="fa fa-money"></i> Pendapatan</a></li>
+                <li><a href="{{ url('report/kas') }}"><i class="fa fa-file"></i> Laporan Kas</a></li>
             </ul>
         </li>
     @endif

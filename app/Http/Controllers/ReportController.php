@@ -30,7 +30,6 @@ class ReportController extends Controller
 {
     public function transaction(Request $request)
     {
-        
         $query = Reservation::with(['reservationCost', 'roomByRoomNumber', 'reservationAdditionalCosts']);
 
         if (!is_null($request->start_date)) {
@@ -115,5 +114,29 @@ class ReportController extends Controller
 
             return $pdf->download($filename.".pdf");
         }        
+    }
+
+    public function kas(Request $request)
+    {
+        $query = Reservation::with(['reservationCost', 'roomByRoomNumber', 'reservationAdditionalCosts']);
+
+        if (!is_null($request->start_date)) {
+            $startDate = Carbon::parse($request->start_date)->format("Y-m-d H:i:s");
+            $endDate = Carbon::parse($request->end_date)->format("Y-m-d H:i:s");
+            $query->whereBetween('checkin_date', [$startDate, $endDate]);
+        }
+
+        $reservations = $query->paginate(30);
+        $users = User::all();
+
+        if ($request->has('print')){
+            return view('contents.report.report-kas', compact('reservations'));
+            $pdf = PDF::loadView('contents.report.report', compact('reservations'));
+            $pdf->setPaper('A4', 'landscape');
+            $filename = "repert-". Carbon::now()->format("Y-m-d");
+            return $pdf->download($filename.".pdf");
+        }
+
+        return view('contents.report.transaction-kas', compact('reservations', 'users'));
     }
 }
