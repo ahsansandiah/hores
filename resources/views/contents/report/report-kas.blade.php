@@ -187,14 +187,14 @@
                             <td class="desc">
                                 @if (!is_null($item->reservationCost))
                                     @if ($item->reservationCost->payment_type == "Tunai")
-                                        {{ $item->total_price }}
+                                        {{ 'Rp. ' . number_format($item->total_price, 0, ',', '.') }}
                                     @endif
                                 @endif
                             </td>
                             <td class="desc">
                                 @if (!is_null($item->reservationCost))
                                     @if ($item->reservationCost->payment_type == "Kredit")
-                                        {{ $item->total_price }}
+                                        {{ 'Rp. ' . number_format($item->total_price, 0, ',', '.') }}
                                     @endif
                                 @endif
                             </td>
@@ -203,9 +203,9 @@
                         @php($totalPrice += $item->total_price)
                     @endforeach
                     <tr>
-                        <!-- <td class="service" colspan="5"></td>
+                        <td class="service" colspan="4"></td>
                         <td class="service" colspan="2"><b>Total : </b></td>
-                        <td class="desc"><b></b></td> -->
+                        <td class="desc"><b>{{ 'Rp. ' . number_format($totalPrice, 0, ',', '.') }}</b></td>
                     </tr>
                 </tbody>
             </table>

@@ -67,14 +67,14 @@
                                         <td>
                                             @if (!is_null($reservation->reservationCost))
                                                 @if ($reservation->reservationCost->payment_type == "Tunai")
-                                                    {{ $reservation->total_price }}
+                                                    {{ 'Rp. ' . number_format($reservation->total_price, 0, ',', '.') }}
                                                 @endif
                                             @endif
                                         </td>
                                         <td>
                                             @if (!is_null($reservation->reservationCost))
                                                 @if ($reservation->reservationCost->payment_type == "Kredit")
-                                                    {{ $reservation->total_price }}
+                                                    {{ 'Rp. ' . number_format($reservation->total_price, 0, ',', '.') }}
                                                 @endif
                                             @endif
                                         </td>
@@ -87,6 +87,17 @@
                                     </tr>
                                 @endforeach
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th class="service"></th>
+                                    <th class="desc"></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th>Total</th>
+                                    <th>{{ 'Rp. ' . number_format($totalPrice, 0, ',', '.') }}</th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                     

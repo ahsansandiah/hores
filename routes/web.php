@@ -98,6 +98,11 @@ Route::group(['prefix' => 'service', 'middleware' => 'web'], function() {
     Route::get('/destroy/{id}', 'Service\ServiceController@destroy')->name('service.destroy');
 });
 
+Route::group(['prefix' => 'tenant', 'middleware' => 'web'], function() {
+    Route::get('/', 'Tenant\TenantController@index')->name('tenant');
+    Route::get('/get-by-name/{name}', 'Tenant\TenantController@getByName')->name('tenant.get-by-name');
+});
+
 Route::group(['prefix' => 'admin', 'middleware' => ['auth','role:admin']], function() {
     // users route
     Route::get('users', 'UserManagement\UserController@index');

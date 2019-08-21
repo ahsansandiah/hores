@@ -28,6 +28,25 @@
                                     <label>Jenis Ranjang</label>
                                     <input type="text" class="form-control" name="contact_name" value="{{ $room->roomBedType->name }}" id="input_contact_name" disabled>
                                 </div> -->
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="the-basics">
+                                    <label>Nama</label>
+                                    <input type="text" class="form-control" name="name" id="input_contact_name" placeholder="Name">
+                                    <input type="hidden" class="form-control" name="contact_id" id="input_contact_id">
+                                </div>
+                                <div class="form-group">
+                                    <label>Alamat</label>
+                                    <input type="text" class="form-control" name="address" id="input_contact_address" placeholder="Address">
+                                </div>
+                                <div class="form-group">
+                                    <label>No Telepon</label>
+                                    <input type="text" class="form-control" name="phone_number" id="input_contact_phone" placeholder="Phone Number">
+                                </div>
+                                <div class="form-group">
+                                    <label>Pekerjaan</label>
+                                    <input type="text" class="form-control" name="job" id="input_contact_job" placeholder="Job">
+                                </div>
                                 <div class="form-group">
                                     <label>Identitas</label>
                                     <div class="form-inline">
@@ -44,25 +63,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>No Indentitas</label>
-                                    <input type="text" class="form-control" name="identity_number" id="input_contact_name" placeholder="No Identitas" required>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Nama</label>
-                                    <input type="text" class="form-control" name="name" id="input_contact_name" placeholder="Name">
-                                </div>
-                                <div class="form-group">
-                                    <label>Alamat</label>
-                                    <input type="text" class="form-control" name="address" id="input_contact_name" placeholder="Address">
-                                </div>
-                                <div class="form-group">
-                                    <label>No Telepon</label>
-                                    <input type="text" class="form-control" name="phone_number" id="input_contact_name" placeholder="Phone Number">
-                                </div>
-                                <div class="form-group">
-                                    <label>Pekerjaan</label>
-                                    <input type="text" class="form-control" name="job" id="input_contact_name" placeholder="Job">
+                                    <input type="text" class="form-control" name="identity_number" id="input_contact_identity" placeholder="No Identitas" required>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -380,6 +381,61 @@
                 $('#inputTotalPriceView').val(total_price).formatCurrency({ region: 'id-ID' });
             });
 
+            var substringMatcher = function(strs) {
+            return function findMatches(q, cb) {
+                var matches, substringRegex;
+                    // an array that will be populated with substring matches
+                    matches = [];
+                    // regex used to determine if a string contains the substring `q`
+                    substrRegex = new RegExp(q, 'i');
+                    // iterate through the pool of strings and for any string that
+                    // contains the substring `q`, add it to the `matches` array
+                    $.each(strs, function(i, str) {
+                        if (substrRegex.test(str)) {
+                            matches.push(str);
+                        }
+                    });
+
+                    cb(matches);
+                };
+            };
+
+            var states = [
+                @foreach ($tenants as $tenant)
+                    '{{ $tenant->name }}',
+                @endforeach
+            ];
+
+            $('#the-basics #input_contact_name').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+            },
+            {
+                name: 'states',
+                source: substringMatcher(states)
+            });
+
+            $('#input_contact_name').on("change", function (){
+                var name = $(this).val()
+                $.ajax({
+                    type: 'GET', 
+                    url: '{{ url("tenant/get-by-name/") }}' + '/' +name,
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#input_contact_phone').val(data.phone_number);
+                        $('#input_contact_address').val(data.address);
+                        $('#input_contact_job').val(data.job);
+                        $('#input_contact_id').val(data.id);
+                        $('#input_contact_identity').val(data.identity_card_number);
+                    }
+                });
+            });
+            $('#input_contact_phone').change();
+            $('#input_contact_address').change();
+            $('#input_contact_job').change();
+            $('#input_contact_id').change();
+            $('#input_contact_identity').change();
         </script>
     @endsection
 @stop

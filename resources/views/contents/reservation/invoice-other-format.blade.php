@@ -16,7 +16,7 @@
                             <div> JL. BUDI UTOMO - PEKKABATA</div>
                             <div>
                                 <div>POLEWALI MANDAR</div>
-                                <div>No Hp. 082190868876, POLEWALI</div>
+                                <div>No Hp. 082190868876</div>
                             </div>
                         </div>
                     </td>
@@ -145,12 +145,12 @@
         <table style="width: 545px;">
             <tbody>
                 <tr style="height: 23px;">
-                    <td style="height: 23px; width: 263px;"> Tanggal : {{ \Carbon\Carbon::now()->format('d-m-Y') }}</td>
+                    <td style="height: 23px; width: 263px;"> </td>
                     <td style="height: 23px; width: 281px;"> </td>
                 </tr>
                 <tr style="height: 23px;">
-                    <td style="height: 23px; width: 263px;"><center>Guest</center></td>
-                    <td style="height: 23px; width: 281px;"><center>Guest</center></td>
+                    <td style="height: 23px; width: 263px;"><center>Tamu</center></td>
+                    <td style="height: 23px; width: 281px;"><center>Kasir</center></td>
                 </tr>
                 <tr style="height: 23px;">
                     <td style="height: 23px; width: 263px;"> </td>
@@ -165,8 +165,8 @@
                     <td style="height: 23px; width: 281px;"> </td>
                 </tr>
                 <tr style="height: 23px;">
-                    <td style="height: 23px; width: 263px;"><center>( {{ Auth::user()->name }} )</center></td>
-                    <td style="height: 23px; width: 281px;"><center>( {{ $reservation->name }} )</center></td>
+                    <td style="height: 23px; width: 263px;"><center>( {{ $reservation->name }} )</center></td>
+                    <td style="height: 23px; width: 281px;"><center>( {{ Auth::user()->name }} )</center></td>
                 </tr>
             </tbody>
         </table>

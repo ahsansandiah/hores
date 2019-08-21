@@ -23,7 +23,7 @@ use App\Entities\Service;
 use App\Entities\Room\RoomBedType;
 use App\Entities\Room\RoomCondition;
 use App\Entities\Room\RoomType;
-
+use App\Entities\Tenant;
 
 class ReservationController extends Controller
 {
@@ -117,9 +117,10 @@ class ReservationController extends Controller
         }
 
         $reservationNumber = Reservation::generateRandom();
+        $tenants = Tenant::all();
 
         // Session::forget('additional-services-'.$roomNumber);
-        return view('contents.reservation.checkin', compact('room', 'additionalServices', 'additionalServiceCache', 'reservationNumber'));
+        return view('contents.reservation.checkin', compact('room', 'tenants','additionalServices', 'additionalServiceCache', 'reservationNumber'));
     }
 
     public function addAdditonalService($roomNumber)
@@ -156,6 +157,7 @@ class ReservationController extends Controller
         // Create Reservation
         $createReservation = new Reservation;
         $reservation = $createReservation->createReservation($request, $roomNumber);
+        $tenant = Tenant::createNewTenant($request);  
 
         if ($reservation) {
             // Additional Cost

@@ -27,6 +27,7 @@
 <script src='{{ url("adminLTE/plugins/timepicker/bootstrap-timepicker.min.js") }}'></script>
 <script src='{{ url("bower_components/formatCurrency/jquery.formatCurrency-1.4.0.js") }}'></script>
 <script src='{{ url("bower_components/formatCurrency/i18n/jquery.formatCurrency.id-ID.js") }}'></script>
+<script src='{{ url("js/typeahead.bundle.js") }}'></script>
 
 <script>
     $(function () {

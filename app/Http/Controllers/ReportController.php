@@ -55,6 +55,11 @@ class ReportController extends Controller
         $reservations = $query->paginate(30);
         $users = User::all();
 
+        $totalPrice = 0;
+        foreach ($reservations as $reservation) {
+            $totalPrice += $reservation->total_price;
+        }
+
         if ($request->has('print')){
             return view('contents.report.report', compact('reservations', 'operator'));
             $pdf = PDF::loadView('contents.report.report', compact('reservations'));
@@ -63,7 +68,7 @@ class ReportController extends Controller
             return $pdf->download($filename.".pdf");
         }
 
-        return view('contents.report.transaction', compact('reservations', 'users'));
+        return view('contents.report.transaction', compact('reservations', 'users', 'totalPrice'));
     }
     
     public function income()
@@ -128,6 +133,11 @@ class ReportController extends Controller
 
         $reservations = $query->paginate(30);
         $users = User::all();
+        
+        $totalPrice = 0;
+        foreach ($reservations as $reservation) {
+            $totalPrice += $reservation->total_price;
+        }
 
         if ($request->has('print')){
             return view('contents.report.report-kas', compact('reservations'));
@@ -137,6 +147,6 @@ class ReportController extends Controller
             return $pdf->download($filename.".pdf");
         }
 
-        return view('contents.report.transaction-kas', compact('reservations', 'users'));
+        return view('contents.report.transaction-kas', compact('reservations', 'users', 'totalPrice'));
     }
 }

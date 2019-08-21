@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\User;
 use App\Entities\Room\Room;
+use App\Entities\Tenant;
 use Carbon\Carbon;
 use Auth;
 
@@ -63,6 +64,7 @@ class Reservation extends Model
         $reservation->name                  = $request->name;
         $reservation->address               = $request->address;
         $reservation->phone_number          = $request->phone_number;
+        $reservation->job                   = $request->job;
         $reservation->adult_guest           = $request->adult;
         $reservation->child_guest           = $request->child;
         $reservation->description           = $request->description;
