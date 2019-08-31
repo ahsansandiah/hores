@@ -107,7 +107,7 @@
                     <table>
                         <tr>
                             <td class="title">
-                                <img src="https://www.sparksuite.com/images/logo.png" style="width:100%; max-width:300px;">
+                                <img src="{{ url('/logo.png') }}" style="width:200px;">
                             </td>
                             <td>
                                 No. Reservasi #: {{ $reservation->reservation_number }}<br>
@@ -119,7 +119,6 @@
                     </table>
                 </td>
             </tr>
-            
             <tr class="information">
                 <td colspan="2">
                     <table>
@@ -141,12 +140,10 @@
                     </table>
                 </td>
             </tr>
-            
             <tr class="heading">
                 <td colspan="4">Biaya Sewa</td>
                 <td>Harga</td>
             </tr>
-            
             <tr class="details" colspan="5">
                 <td>
                     Harga Sewa @ {{ 'Rp. ' . number_format($reservation->reservationCost->base_price, 0, ',', '.') }}
@@ -155,7 +152,30 @@
                     {{ 'Rp. ' . number_format(($reservation->reservationCost->base_price * $reservation->duration), 0, ',', '.') }}
                 </td>
             </tr>
-            
+            <tr class="details" colspan="5">
+                <td>
+                    Pajak {{ $reservation->reservationCost->tax_percent."%" }}
+                </td>
+                <td colspan="4">
+                    {{ 'Rp. ' . number_format(($reservation->reservationCost->tax), 0, ',', '.') }}
+                </td>
+            </tr>
+            <tr class="details" colspan="5">
+                <td>
+                    Diskon {{ $reservation->reservationCost->discount_percent."%" }}
+                </td>
+                <td colspan="4">
+                    {{ 'Rp. ' . number_format(($reservation->reservationCost->discount), 0, ',', '.') }}
+                </td>
+            </tr>
+            <tr class="details" colspan="5">
+                <td>
+                    Tip
+                </td>
+                <td colspan="4">
+                    {{ 'Rp. ' . number_format(($reservation->reservationCost->service_tip), 0, ',', '.') }}
+                </td>
+            </tr>
             <tr class="heading">
                 <td>
                     Biaya Lainnya
@@ -164,18 +184,44 @@
                     Total
                 </td>
             </tr>
-            
             @foreach ($reservationAdditionalCosts as $additionalCost)
             <tr class="item">
                 <td>{{ $additionalCost->name }} </td>
                 <td colspan="5">{{ 'Rp. ' . number_format($additionalCost->price, 0, ',', '.') }}</td>
             </tr>
             @endforeach
-            
             <tr class="total">
                 <td></td>              
                 <td colspan="4">
                    Total: {{ 'Rp. ' . number_format($reservation->reservationCost->total_price, 0, ',', '.') }}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <center style="margin-top: 50px;">Tamu</center>
+                </td>
+                <td colspan="2">
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <center style="margin-top: 50px;">Kasir</center>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <p></p>
+                    <p></p>
+                    <center style="margin-top: 50px;">( {{ $reservation->name }} )</center>
+                </td>
+                <td colspan="2">
+                    <p></p>
+                    <p></p>
+                    <center style="margin-top: 50px;">( {{ Auth::user()->name }} )</center>
                 </td>
             </tr>
         </table>

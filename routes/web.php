@@ -101,6 +101,7 @@ Route::group(['prefix' => 'service', 'middleware' => 'web'], function() {
 Route::group(['prefix' => 'tenant', 'middleware' => 'web'], function() {
     Route::get('/', 'Tenant\TenantController@index')->name('tenant');
     Route::get('/get-by-name/{name}', 'Tenant\TenantController@getByName')->name('tenant.get-by-name');
+    Route::get('/get-by-identity-card/{identityCardNumber}', 'Tenant\TenantController@getByIdentityCardNumber')->name('tenant.get-by-identity');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth','role:admin']], function() {

@@ -26,11 +26,6 @@ class ReservationCost extends Model
         return self::whereMonth('created_at', Carbon::now()->month)->sum('total_price');
     }
 
-    public static function incomeMonthly()
-    {
-        return self::with(['reservationCost', 'roomByRoomNumber', 'reservationAdditionalCosts'])->whereMonth('created_at', Carbon::now()->month)->get();
-    }
-
     public static function firstData()
     {
         return self::orderBy('created_at', 'asc')->first();
@@ -48,6 +43,6 @@ class ReservationCost extends Model
 
     public static function formulaTotalPaid($price, $discount, $tax, $service, $additionalCost)
     {
-        return ($price + $tax + $service + $additionalCost) - $discount;
+        return ($price + $service + $additionalCost + $tax) - $discount;
     }
 }

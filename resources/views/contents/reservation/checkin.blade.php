@@ -31,21 +31,14 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group" id="the-basics">
+                                    <label>No Indentitas</label>
+                                    <input type="text" class="form-control" name="identity_number" id="input_contact_identity" placeholder="No Identitas" style="width: 227px;" required>
+                                </div>
+                                <div class="form-group">
                                     <label>Nama</label>
+                                    <p></p>
                                     <input type="text" class="form-control" name="name" id="input_contact_name" placeholder="Name">
                                     <input type="hidden" class="form-control" name="contact_id" id="input_contact_id">
-                                </div>
-                                <div class="form-group">
-                                    <label>Alamat</label>
-                                    <input type="text" class="form-control" name="address" id="input_contact_address" placeholder="Address">
-                                </div>
-                                <div class="form-group">
-                                    <label>No Telepon</label>
-                                    <input type="text" class="form-control" name="phone_number" id="input_contact_phone" placeholder="Phone Number">
-                                </div>
-                                <div class="form-group">
-                                    <label>Pekerjaan</label>
-                                    <input type="text" class="form-control" name="job" id="input_contact_job" placeholder="Job">
                                 </div>
                                 <div class="form-group">
                                     <label>Identitas</label>
@@ -62,8 +55,16 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>No Indentitas</label>
-                                    <input type="text" class="form-control" name="identity_number" id="input_contact_identity" placeholder="No Identitas" required>
+                                    <label>Alamat</label>
+                                    <input type="text" class="form-control" name="address" id="input_contact_address" placeholder="Address">
+                                </div>
+                                <div class="form-group">
+                                    <label>No Telepon</label>
+                                    <input type="text" class="form-control" name="phone_number" id="input_contact_phone" placeholder="Phone Number">
+                                </div>
+                                <div class="form-group">
+                                    <label>Pekerjaan</label>
+                                    <input type="text" class="form-control" name="job" id="input_contact_job" placeholder="Job">
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -255,6 +256,57 @@
         </div>
     </div>
 
+    @section('style')
+        <style>
+            .tt-query, /* UPDATE: newer versions use tt-input instead of tt-query */
+            .tt-hint {
+                width: 396px;
+                height: 30px;
+                padding: 8px 12px;
+                font-size: 24px;
+                line-height: 30px;
+                border: 2px solid #ccc;
+                border-radius: 8px;
+                outline: none;
+            }
+
+            .tt-query { /* UPDATE: newer versions use tt-input instead of tt-query */
+                box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            }
+
+            .tt-hint {
+                color: #999;
+            }
+
+            .tt-menu { /* UPDATE: newer versions use tt-menu instead of tt-dropdown-menu */
+                width: 222px;
+                margin-top: 12px;
+                padding: 8px 0;
+                background-color: #fff;
+                border: 1px solid #ccc;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                border-radius: 8px;
+                box-shadow: 0 5px 10px rgba(0,0,0,.2);
+            }
+
+            .tt-suggestion {
+                padding: 3px 20px;
+                font-size: 14px;
+                line-height: 24px;
+            }
+
+            .tt-suggestion.tt-is-under-cursor { /* UPDATE: newer versions use .tt-suggestion.tt-cursor */
+                color: #fff;
+                background-color: #0097cf;
+
+            }
+
+            .tt-suggestion p {
+                margin: 0;
+            }
+        </style>
+    @endsection
+
     @section('script')
         <script>
             $('#inputDuration').on('change', function(){
@@ -264,18 +316,24 @@
 
             // Discount
             $('#inputDiscountPercent').on('change', function(){
-                total_discount = ($(this).val() / 100) * {{ $room->price_day }}
-                $('#inputDiscount').val(total_discount);
-                $('#inputDiscountView').val(total_discount).formatCurrency({ region: 'id-ID' });
+                var totalSewa = $('#inputTotalPrice').val()
+                var totalDiscount = $('#inputDiscountPercent').val()
+                var totalService = $('#inputServiceTip').val()
+                total = ((parseInt(totalSewa) + parseInt(totalService)) * totalDiscount) / 100
+                $('#inputDiscount').val(total);
+                $('#inputDiscountView').val(total).formatCurrency({ region: 'id-ID' });
             })
 
             $('#inputDiscountPercent').change();
 
             // Tax
             $('#inputTaxPercent').on('change', function(){
-                total_tax = ($(this).val() / 100) * {{ $room->price_day }}
-                $('#inputTax').val(total_tax);
-                $('#inputTaxView').val(total_tax).formatCurrency({ region: 'id-ID' });
+                var totalSewa = $('#inputTotalPrice').val()
+                var totalTax = $('#inputTaxPercent').val()
+                var totalService = $('#inputServiceTip').val()
+                total = ((parseInt(totalSewa) + parseInt(totalService)) * totalTax) / 100
+                $('#inputTax').val(total);
+                $('#inputTaxView').val(total).formatCurrency({ region: 'id-ID' });
             })
 
             $('#inputTaxPercent').change();
@@ -285,8 +343,8 @@
                 var totalSewa = $('#inputTotalPrice').val()
                 var totalTax = $('#inputTax').val()
                 var totalService = $('#inputServiceTip').val()
-                var totalDiscount = $('#inputDiscount').val()
-                var total = (parseInt(totalSewa) + parseInt(totalTax) + parseInt(totalService)) - parseInt(totalDiscount)
+                var totalDiskon = $('#inputDiscount').val()
+                var total = (parseInt(totalSewa) + parseInt(totalService) + parseInt(totalTax)) - parseInt(totalDiskon)
                 $('#totalPrice').val(total).formatCurrency({ region: 'id-ID' });
             })
 
@@ -402,11 +460,11 @@
 
             var states = [
                 @foreach ($tenants as $tenant)
-                    '{{ $tenant->name }}',
+                    '{{ $tenant->identity_card_number }}',
                 @endforeach
             ];
 
-            $('#the-basics #input_contact_name').typeahead({
+            $('#the-basics #input_contact_identity').typeahead({
                 hint: true,
                 highlight: true,
                 minLength: 1
@@ -416,18 +474,18 @@
                 source: substringMatcher(states)
             });
 
-            $('#input_contact_name').on("change", function (){
-                var name = $(this).val()
+            $('#input_contact_identity').on("change", function (){
+                var identity = $(this).val()
                 $.ajax({
                     type: 'GET', 
-                    url: '{{ url("tenant/get-by-name/") }}' + '/' +name,
+                    url: '{{ url("tenant/get-by-identity-card/") }}' + '/' + identity,
                     dataType: 'json',
                     success: function (data) {
                         $('#input_contact_phone').val(data.phone_number);
                         $('#input_contact_address').val(data.address);
                         $('#input_contact_job').val(data.job);
                         $('#input_contact_id').val(data.id);
-                        $('#input_contact_identity').val(data.identity_card_number);
+                        $('#input_contact_name').val(data.name);
                     }
                 });
             });
@@ -435,7 +493,7 @@
             $('#input_contact_address').change();
             $('#input_contact_job').change();
             $('#input_contact_id').change();
-            $('#input_contact_identity').change();
+            $('#input_contact_name').change();
         </script>
     @endsection
 @stop

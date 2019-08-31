@@ -147,12 +147,20 @@ class ReservationController extends Controller
                     ->where('room_number', $roomNumber)
                     ->first();
 
+        if (is_null($request->reservation_number)) {
+            return redirect('/reservation')->with('error_message', 'Checkin gagal, periksa kembali no reserfasi');
+        }
+
+        if (is_null($room)) {
+            return redirect('/reservation')->with('error_message', 'Checkin gagal, periksa kembali ruangan yang dipilih');
+        }
+
         // Price
         $priceDay             = $room->price_day;
         $totalAdditionalCost  = 0;
         $removeLastCommaTip = str_replace(",00", "", $request->service_tip);
         $tipReplace = preg_replace("/[^0-9]/", "", $removeLastCommaTip);
-        $totalPaidRoom        = ($request->total_price + $request->tax + $tipReplace + $totalAdditionalCost) - $request->discount;
+        $totalPaidRoom        = ReservationCost::formulaTotalPaid($request->total_price, $request->discount, $request->tax, $tipReplace, $totalAdditionalCost);
 
         // Create Reservation
         $createReservation = new Reservation;
@@ -254,7 +262,7 @@ class ReservationController extends Controller
 
         $priceDay             = $reservation->price_day;
         $totalAdditionalCost  = 0;
-        $totalPaidRoom        = ($request->total_price + $request->tax + $request->service_tip + $totalAdditionalCost) - $request->discount;
+        $totalPaidRoom        = ReservationCost::formulaTotalPaid($request->total_price, $request->discount, $request->tax, $request->service_tip, $totalAdditionalCost);
 
         $reservation->checkin_date       = $request->checkin_date;
         $reservation->checkout_date      = $request->checkout_date;
@@ -412,21 +420,19 @@ class ReservationController extends Controller
         // Additional Cost
         $reservationAdditionalCosts = ReservationAdditionalCost::where('reservation_id', $reservation->id)->get();
 
-        return view('contents.reservation.invoice-other-format', compact('reservation', 'room', 'reservationAdditionalCosts'));
+        return view('contents.reservation.invoice', compact('reservation', 'room', 'reservationAdditionalCosts'));
         // $pdf = PDF::loadView('contents.reservation.invoice-other-format', compact('reservation', 'room', 'reservationAdditionalCosts'));
         // $pdf = PDF::loadView('contents.reservation.invoice', compact('reservation', 'room', 'reservationAdditionalCosts'));
-        $pdf->setPaper('A4', 'landscape');
-        $filename = "invoice-".$reservation->reservation_number;
-        return $pdf->download($filename.".pdf");
+        // $pdf->setPaper('A4', 'landscape');
+        // $filename = "invoice-".$reservation->reservation_number;
+        // return $pdf->download($filename.".pdf");
     }
 
     public function destroy($id)
     {
         $reservation = Reservation::find($id);
-        if ($reservation->status == "checkin") {
-            return redirect('/reservation/detail/'.$reservation->reservation_number)->with('error_message', 'Maaf hapus gagal!, status reservasi masih aktif');
-        }
-
+        $reservationAdditionalCosts = ReservationAdditionalCost::where('reservation_id', $reservation->id)->delete();
+        $reservationCosts = ReservationCost::where('reservation_number', $reservation->reservation_number)->delete();
         $reservation->delete();
 
         return redirect('/reservation')->with('message', 'Reservasi berhasil dihapus');
@@ -506,7 +512,6 @@ class ReservationController extends Controller
 
     public function deleteAdditonalService($additionalServiceId)
     {
-        // Rumus Discount
         $additionalCost = ReservationAdditionalCost::findOrFail($additionalServiceId);
         $price = $additionalCost->price;
         $reservationId = $additionalCost->reservation_id;

@@ -32,7 +32,7 @@ class TenantController extends Controller
      */
     public function index()
     {
-        $tenants = Tenant::all();
+        $tenants = Tenant::paginate(20);
 
         return view('contents.tenant.index', compact('tenants'));
     }
@@ -47,6 +47,13 @@ class TenantController extends Controller
     public function getByName($name)
     {
         $tenant = Tenant::where('name', 'like', '%'.$name.'%')->first();
+
+        return response()->json($tenant);
+    }
+
+    public function getByIdentityCardNumber($identityCardNumber)
+    {
+        $tenant = Tenant::where('identity_card_number', 'like', '%'.$identityCardNumber.'%')->first();
 
         return response()->json($tenant);
     }

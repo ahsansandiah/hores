@@ -63,6 +63,12 @@
             <span>Service Tambahan</span>
         </a>
     </li>
+    <li style="treeview">
+        <a href="{{ Url::to('tenant') }}">
+            <i class="fa fa-users"></i>
+            <span>Penghuni</span>
+        </a>
+    </li>
     @if (Auth::user()->hasRole(['admin']))
         <li class="treeview">
             <a href="#">

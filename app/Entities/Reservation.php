@@ -88,4 +88,9 @@ class Reservation extends Model
 
         return $randomNumber;
     }
+
+    public static function incomeMonthly()
+    {
+        return self::with(['reservationCost', 'roomByRoomNumber', 'reservationAdditionalCosts'])->whereMonth('created_at', Carbon::now()->month)->get();
+    }
 }

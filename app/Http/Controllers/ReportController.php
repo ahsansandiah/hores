@@ -100,7 +100,7 @@ class ReportController extends Controller
     {
         if ($type == "monthly") {
             $totalIncomes = ReservationCost::totalIncomeMonthly();
-            $incomes = ReservationCost::incomeMonthly();
+            $incomes = Reservation::incomeMonthly();
 
             $pdf = PDF::loadView('contents.report.report-income', compact('incomes', 'totalIncomes'));
             $pdf->setPaper('A4', 'landscape');

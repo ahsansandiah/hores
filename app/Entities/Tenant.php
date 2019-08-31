@@ -12,9 +12,9 @@ class Tenant extends Model
 
     protected $table = "tenant";
 
-    public static function createNewTenant($tenant)
+    public static function createNewTenant($request)
     {
-        $tenantModel = self::find($tenant->contact_id);
+        $tenantModel = self::find($request->contact_id);
         if (is_null($tenantModel)) {
             $tenant = new self;
             $tenant->identity_card_type    = $request->type_identity_card;
